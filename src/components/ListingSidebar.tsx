@@ -1,0 +1,207 @@
+"use client";
+
+import { useState } from "react";
+import { useApp } from "@/context/AppContext";
+import { site } from "@/lib/site";
+import { formatPrice } from "@/lib/format";
+import { Phone, Mail, Star } from "@/components/icons";
+
+interface ListingSidebarProps {
+  listingSlug: string;
+  listingTitle: string;
+  listingPrice: number;
+  listingRef: string;
+}
+
+export function ListingSidebar({
+  listingSlug,
+  listingTitle,
+  listingPrice,
+  listingRef,
+}: ListingSidebarProps) {
+  const { userPhone, login, toggleFavorite, isFavorite, createAppointment } = useApp();
+  
+  // Appointment Form state
+  const [phoneInput, setPhoneInput] = useState("");
+  const [dateInput, setDateInput] = useState("");
+  const [timeInput, setTimeInput] = useState("10:00");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [lastAppointment, setLastAppointment] = useState<any>(null);
+
+  const fav = isFavorite(listingSlug);
+
+  const handleBookAppointment = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!userPhone && (!phoneInput || phoneInput.length < 10)) {
+      setError("Lütfen geçerli bir telefon numarası girin.");
+      return;
+    }
+
+    if (!dateInput) {
+      setError("Lütfen bir randevu tarihi seçin.");
+      return;
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      // Login if not already logged in
+      if (!userPhone) {
+        login(phoneInput);
+      }
+
+      const app = createAppointment(listingSlug, dateInput, timeInput);
+      setLastAppointment(app);
+      setSuccess(true);
+      setLoading(false);
+    }, 1000);
+  };
+
+  const handleWhatsAppShare = () => {
+    if (!lastAppointment) return;
+    const phone = userPhone || phoneInput;
+    const message = `Merhaba Özkan Bey, web siteniz üzerinden bir randevu oluşturmak istiyorum:\n\n🏡 *İlan:* ${listingTitle} (Ref: ${listingRef})\n📅 *Tarih:* ${dateInput}\n⏰ *Saat:* ${timeInput}\n📞 *Telefon:* ${phone}\n\nRandevuyu teyit etmenizi rica ederim.`;
+    const whatsappUrl = `https://wa.me/905323994291?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  return (
+    <div className="space-y-6 sticky top-24">
+      {/* Action Buttons */}
+      <div className="bg-white border border-cream-line rounded-2xl p-6 shadow-sm">
+        <h3 className="text-base font-semibold text-ink mb-4">Bu İlanla İlgileniyor musunuz?</h3>
+        
+        <div className="flex flex-col gap-3">
+          {/* Favorite Toggle Button */}
+          <button
+            onClick={() => toggleFavorite(listingSlug)}
+            className={`w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
+              fav
+                ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
+                : "bg-cream-soft text-fg-muted border-cream-line hover:border-gold hover:text-gold-deep"
+            }`}
+          >
+            <span>{fav ? "❤️ Favorilerden Kaldır" : "🤍 Beğendiklerime Ekle"}</span>
+          </button>
+
+          {/* Quick Call */}
+          <a href={site.phoneHref} className="btn btn-gold w-full justify-center text-xs uppercase font-bold tracking-wider py-3">
+            <Phone className="w-3.5 h-3.5" />
+            Hemen Arayın
+          </a>
+        </div>
+      </div>
+
+      {/* Appointment Booking Form */}
+      <div className="bg-white border border-cream-line rounded-2xl p-6 shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gold to-gold-deep" />
+        
+        {!success ? (
+          <>
+            <h3 className="text-base font-semibold text-ink mb-2">Hızlı Randevu Al</h3>
+            <p className="text-xs text-fg-muted mb-5 leading-relaxed">
+              Temsilcimiz Özkan Bilge ile bu mülkü yerinde gezmek için hızlıca randevu talebi oluşturun.
+            </p>
+
+            <form onSubmit={handleBookAppointment} className="space-y-4">
+              {/* Phone Input if not logged in */}
+              {!userPhone && (
+                <div>
+                  <label className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
+                    Telefon Numaranız
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-fg-muted font-bold">
+                      +90
+                    </span>
+                    <input
+                      type="tel"
+                      placeholder="5XX XXX XX XX"
+                      value={phoneInput}
+                      onChange={(e) => setPhoneInput(e.target.value)}
+                      className="w-full bg-cream-soft border border-cream-line rounded-xl pl-12 pr-3 py-2.5 text-xs text-ink placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Date Input */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
+                    Randevu Tarihi
+                  </label>
+                  <input
+                    type="date"
+                    value={dateInput}
+                    min={new Date().toISOString().split("T")[0]}
+                    onChange={(e) => setDateInput(e.target.value)}
+                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-ink focus:border-gold focus:outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
+                    Saat
+                  </label>
+                  <select
+                    value={timeInput}
+                    onChange={(e) => setTimeInput(e.target.value)}
+                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-ink focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
+                  >
+                    {["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"].map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {error && <p className="text-red-500 text-xs font-medium">{error}</p>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full btn btn-gold justify-center text-xs uppercase font-bold tracking-wider py-3"
+              >
+                {loading ? "Talep Gönderiliyor..." : "Randevu Talebi Oluştur"}
+              </button>
+            </form>
+          </>
+        ) : (
+          <div className="text-center py-4 space-y-4 animate-fade-up">
+            <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center justify-center mx-auto text-xl">
+              ✓
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-ink">Randevu Talebiniz Alındı</h4>
+              <p className="text-xs text-fg-muted mt-1 leading-relaxed">
+                Talebiniz sisteme iletildi. Randevu detaylarınızı "Hesabım" panelinden takip edebilirsiniz.
+              </p>
+            </div>
+
+            <div className="pt-2 flex flex-col gap-2">
+              <button
+                onClick={handleWhatsAppShare}
+                className="w-full btn btn-gold justify-center text-xs uppercase font-bold tracking-wider py-2.5"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                WhatsApp ile İlet
+              </button>
+              <button
+                onClick={() => setSuccess(false)}
+                className="text-xs text-fg-muted hover:text-ink transition-colors font-medium underline decoration-dotted"
+              >
+                Yeni Randevu İste
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

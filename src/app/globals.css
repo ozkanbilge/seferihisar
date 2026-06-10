@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
+/* ----------------------------------------------------------------------------
+   Seferihisar Emlak — Design System
+   Premium koyu (antrasit/ink) + altın (gold) palet, zarif serif + temiz sans
+---------------------------------------------------------------------------- */
+
+@theme {
+  /* Renkler */
+  --color-ink: #0e0f12;
+  --color-ink-soft: #14161b;
+  --color-ink-card: #1a1d24;
+  --color-ink-line: #2a2e37;
+
+  --color-cream: #f6f2ea;
+  --color-cream-soft: #fbf8f2;
+  --color-cream-line: #e6ddcd;
+
+  --color-gold: #c0a062;
+  --color-gold-bright: #d8b978;
+  --color-gold-deep: #9c7f45;
+
+  --color-fg: #16181d;
+  --color-fg-muted: #6b6f76;
+  --color-fg-invert: #ece8df;
+  --color-fg-invert-muted: #a7a499;
+
+  --color-emerald-accent: #3f7d5f;
+
+  /* Fontlar (layout.tsx'te next/font ile bağlanıyor) */
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Yarıçap */
+  --radius-card: 1rem;
+
+  /* Container */
+  --breakpoint-3xl: 96rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--color-cream);
+  --foreground: var(--color-fg);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  border-color: var(--color-cream-line);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* ---- Yardımcı bileşen sınıfları ---- */
+@layer components {
+  .container-x {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.85rem 1.6rem;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .btn-gold {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  .btn-gold:hover {
+    background: var(--color-gold-bright);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    border: 1px solid var(--color-ink-line);
+    color: var(--color-fg-invert);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-gold);
+    color: var(--color-gold-bright);
+  }
+  .btn-outline {
+    border: 1px solid var(--color-cream-line);
+    color: var(--color-fg);
+  }
+  .btn-outline:hover {
+    border-color: var(--color-gold);
+    color: var(--color-gold-deep);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Markdown / makale içeriği */
+.prose-article p {
+  margin-bottom: 1.15rem;
+  line-height: 1.85;
+  color: #34373d;
+}
+.prose-article h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 2.5rem 0 1rem;
+  color: var(--color-ink);
+}
+.prose-article h3 {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 1.75rem 0 0.75rem;
+  color: var(--color-ink);
+}
+.prose-article ul {
+  margin: 0 0 1.25rem 1.25rem;
+  list-style: disc;
+}
+.prose-article li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
 }

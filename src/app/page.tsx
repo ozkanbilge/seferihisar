@@ -12,6 +12,7 @@ import { TypeIcon, ArrowRight, ArrowUpRight, Check, Phone } from "@/components/i
 import { site } from "@/lib/site";
 import { ArsaSorgula } from "@/components/ArsaSorgula";
 import { HeroSearch } from "@/components/HeroSearch";
+import { MiniBanner } from "@/components/MiniBanner";
 
 export default function Home() {
   return (
@@ -84,6 +85,10 @@ export default function Home() {
           {featuredListings.slice(0, 6).map((listing) => (
             <ListingCard key={listing.slug} listing={listing} />
           ))}
+        </div>
+
+        <div className="mt-12">
+          <MiniBanner type="sell" />
         </div>
       </section>
 
@@ -205,6 +210,14 @@ export default function Home() {
               districtSlug={primaryDistrict.slug}
             />
           ))}
+        </div>
+
+        <div className="mt-12 hidden md:block">
+           {/* Masaüstünde gizle istersen ama kalsın */}
+           <MiniBanner type="land" />
+        </div>
+        <div className="mt-8 md:hidden">
+           <MiniBanner type="land" />
         </div>
       </section>
 

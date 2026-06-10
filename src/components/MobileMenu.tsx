@@ -14,11 +14,11 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[100] bg-ink/98 backdrop-blur-xl flex flex-col animate-fade-up" id="mobile-menu">
+    <div className="fixed inset-y-0 right-0 z-[100] w-full max-w-sm bg-ink/98 backdrop-blur-2xl flex flex-col animate-slide-left shadow-2xl border-l border-ink-line" id="mobile-menu">
       <div className="flex items-center justify-between px-5 h-16">
         <Link href="/" onClick={onClose} className="flex items-center gap-2.5">
-          <Logo className="w-7 h-7 text-gold" />
-          <span className="text-fg-invert font-semibold text-base">{site.shortName}</span>
+          <Logo className="w-8 h-8 text-gold" />
+          <span className="text-fg-invert font-bold text-xl laser-text">{site.shortName}</span>
         </Link>
         <button
           onClick={onClose}

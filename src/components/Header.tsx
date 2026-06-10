@@ -10,10 +10,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-ink/95 backdrop-blur-md border-b border-ink-line">
       <div className="container-x flex items-center justify-between h-16 md:h-[72px]">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group" id="header-logo">
-          <Logo className="w-12 h-12 md:w-16 md:h-16 text-gold transition-transform duration-300 group-hover:scale-105" />
-          <span className="text-fg-invert font-semibold text-base md:text-lg tracking-tight font-[family-name:var(--font-display)] group-hover:text-gold-bright transition-colors">
+          <Logo className="w-14 h-14 md:w-20 md:h-20 text-gold transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3" />
+          <span className="text-fg-invert font-bold text-2xl md:text-3xl tracking-tight font-[family-name:var(--font-display)] laser-text">
             {site.shortName}
           </span>
         </Link>

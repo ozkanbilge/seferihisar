@@ -92,7 +92,10 @@ export function HeroSearch() {
             type="submit"
             className="w-full btn btn-gold justify-center h-[52px] text-xs font-bold uppercase tracking-wider rounded-2xl shadow-[0_0_20px_rgba(192,160,98,0.25)] hover:shadow-[0_0_30px_rgba(192,160,98,0.4)]"
           >
-            🔍 İlanları Bul
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            İlanları Bul
           </button>
         </div>
       </form>

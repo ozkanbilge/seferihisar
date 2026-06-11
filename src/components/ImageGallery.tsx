@@ -186,8 +186,11 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
               </button>
             </div>
 
-            {/* Görsel */}
-            <div className="relative z-10 flex-1 mx-3 mb-3 md:mx-12">
+            {/* Görsel — herhangi bir yerine tıklayınca kapanır */}
+            <div
+              className="relative z-10 flex-1 mx-3 mb-3 md:mx-12 cursor-zoom-out"
+              onClick={() => setLightbox(false)}
+            >
               <Image
                 src={images[activeIndex]}
                 alt={`${alt} — Fotoğraf ${activeIndex + 1}`}

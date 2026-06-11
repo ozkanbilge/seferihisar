@@ -378,11 +378,6 @@ function ListingHeader({
             <span className="text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.18em]">
               {listing.transaction === "kiralik" ? "Aylık Kira Bedeli" : "Satış Bedeli"}
             </span>
-            {listing.area > 0 && (
-              <span className="text-[0.6rem] font-semibold text-fg-muted px-2 py-0.5 rounded-full border border-gold/20 whitespace-nowrap">
-                {formatPrice(Math.round(listing.price / listing.area))} / m²
-              </span>
-            )}
           </div>
 
           {/* Bedel + WhatsApp */}

@@ -73,7 +73,7 @@ export function ListingSidebar({
       {/* Action Buttons */}
       {/* İlan Danışmanı */}
       <div className="card-luxe rounded-2xl p-5">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 min-[380px]:gap-4">
           {/* Varak monogram avatarı */}
           <div className="relative shrink-0">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright p-[2px]">
@@ -103,17 +103,17 @@ export function ListingSidebar({
         </div>
 
         {/* Telefon + tüm ilanları */}
-        <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-cream-line/60">
+        <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-2 mt-4 pt-4 border-t border-cream-line/60">
           <a
             href={site.phoneHref}
-            className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.68rem] font-bold tracking-wide hover:shadow-[0_4px_16px_rgba(192,160,98,0.4)] transition-shadow"
+            className="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.65rem] min-[420px]:text-[0.68rem] font-bold tracking-wide whitespace-nowrap hover:shadow-[0_4px_16px_rgba(192,160,98,0.4)] transition-shadow"
           >
             <Phone className="w-3.5 h-3.5" />
             {site.phone.replace("+90 ", "0")}
           </a>
           <Link
             href="/satilik"
-            className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-gold/30 text-[0.68rem] font-bold text-fg hover:border-gold hover:text-gold-bright transition-colors"
+            className="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl border border-gold/30 text-[0.65rem] min-[420px]:text-[0.68rem] font-bold text-fg whitespace-nowrap hover:border-gold hover:text-gold-bright transition-colors"
           >
             <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
               <path d="M3 11 12 4l9 7M5 10v10h14V10" />

@@ -4,10 +4,40 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { WhatsApp } from "@/components/icons";
+import { formatPrice } from "@/lib/format";
+import { getClientLang, getDict } from "@/lib/i18n";
+
+interface LastParsel {
+  il: string;
+  ilce: string;
+  mahalle: string;
+  ada: string;
+  parsel: string;
+  tahminiDeger: number | null;
+  ts: number;
+}
 
 export function MobileBottomBar() {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("");
+  const [lastParsel, setLastParsel] = useState<LastParsel | null>(null);
+  const [lastLabel, setLastLabel] = useState("Son sorguladığınız parsel");
+
+  // Son sorgulanan parseli oku; ArsaSorgula yeni sorgu yaptığında güncelle
+  useEffect(() => {
+    const read = () => {
+      try {
+        const raw = localStorage.getItem("lastParsel");
+        setLastParsel(raw ? (JSON.parse(raw) as LastParsel) : null);
+      } catch {
+        setLastParsel(null);
+      }
+    };
+    read();
+    setLastLabel(getDict(getClientLang()).arsa.lastQueried);
+    window.addEventListener("lastparsel-updated", read);
+    return () => window.removeEventListener("lastparsel-updated", read);
+  }, []);
 
   useEffect(() => {
     if (pathname === "/") {
@@ -34,6 +64,25 @@ export function MobileBottomBar() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-ink/85 backdrop-blur-xl border-t border-ink-line px-4 pb-safe-bottom">
+      {/* Son sorgulanan parsel şeridi */}
+      {lastParsel && (
+        <Link
+          href="/#arsa-sorgulama"
+          onClick={handleArsaScroll}
+          className="flex items-center justify-between gap-2 -mx-4 px-4 py-1.5 bg-gold/10 border-b border-gold/20 text-[0.62rem]"
+        >
+          <span className="flex items-center gap-1.5 min-w-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse shrink-0" />
+            <span className="text-fg-invert-muted shrink-0">{lastLabel}:</span>
+            <span className="font-bold text-gold-bright truncate">
+              {lastParsel.mahalle} {lastParsel.ada}/{lastParsel.parsel}
+            </span>
+          </span>
+          {lastParsel.tahminiDeger ? (
+            <span className="font-bold text-gold shrink-0">{formatPrice(lastParsel.tahminiDeger)}</span>
+          ) : null}
+        </Link>
+      )}
       <div className="flex items-center justify-between h-16 max-w-lg mx-auto">
         {/* Ana Sayfa */}
         <Link

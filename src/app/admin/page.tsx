@@ -6,6 +6,18 @@ import { useApp, type Appointment } from "@/context/AppContext";
 import { listings } from "@/data/listings";
 import { formatPrice } from "@/lib/format";
 import { Phone, Check, Close, Logo } from "@/components/icons";
+import { HomepageEditor } from "@/components/admin/HomepageEditor";
+import { ParselLogs } from "@/components/admin/ParselLogs";
+import { EmsalEditor } from "@/components/admin/EmsalEditor";
+
+type Panel = "randevular" | "anasayfa" | "emsal" | "loglar";
+
+const PANELS: { id: Panel; label: string }[] = [
+  { id: "randevular", label: "Randevular" },
+  { id: "anasayfa", label: "Anasayfa İçeriği" },
+  { id: "emsal", label: "Emsal Fiyatları" },
+  { id: "loglar", label: "Parsel Sorguları" },
+];
 
 export default function AdminPage() {
   const {
@@ -20,6 +32,7 @@ export default function AdminPage() {
   const [passwordInput, setPasswordInput] = useState("");
   const [error, setError] = useState("");
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "cancelled">("all");
+  const [panel, setPanel] = useState<Panel>("randevular");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,14 +64,14 @@ export default function AdminPage() {
   if (!adminLoggedIn) {
     return (
       <div className="container-x py-16 md:py-24 min-h-[80vh] flex items-center justify-center">
-        <div className="bg-white border border-cream-line rounded-2xl p-8 max-w-md w-full shadow-lg relative overflow-hidden">
+        <div className="bg-surface border border-cream-line rounded-2xl p-8 max-w-md w-full shadow-lg relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-gold via-gold-bright to-gold-deep" />
 
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
               <Logo className="w-12 h-12 text-gold" />
             </div>
-            <h1 className="display text-2xl text-ink mb-1">Yönetim Paneli</h1>
+            <h1 className="display text-2xl text-fg mb-1">Yönetim Paneli</h1>
             <p className="text-xs text-fg-muted">
               Lütfen yönetici giriş bilgilerini yazın.
             </p>
@@ -74,7 +87,7 @@ export default function AdminPage() {
                 placeholder="root@ozkanbilge.com"
                 value={emailInput}
                 onChange={(e) => setEmailInput(e.target.value)}
-                className="w-full bg-cream-soft border border-cream-line rounded-xl px-4 py-3 text-xs text-ink placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
+                className="w-full bg-cream-soft border border-cream-line rounded-xl px-4 py-3 text-xs text-fg placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
               />
             </div>
 
@@ -87,7 +100,7 @@ export default function AdminPage() {
                 placeholder="••••••••"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full bg-cream-soft border border-cream-line rounded-xl px-4 py-3 text-xs text-ink placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
+                className="w-full bg-cream-soft border border-cream-line rounded-xl px-4 py-3 text-xs text-fg placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
               />
             </div>
 
@@ -109,11 +122,11 @@ export default function AdminPage() {
     <div className="container-x py-10 md:py-16 min-h-[85vh]">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-white border border-cream-line rounded-2xl p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-surface border border-cream-line rounded-2xl p-6 shadow-sm">
           <div className="flex items-center gap-3">
             <Logo className="w-10 h-10 text-gold" />
             <div>
-              <h1 className="text-lg font-bold text-ink leading-tight">Seferihisar Emlak</h1>
+              <h1 className="text-lg font-bold text-fg leading-tight">Seferihisar Emlak</h1>
               <span className="text-xs text-gold-deep font-semibold">Yönetim & Randevu Paneli</span>
             </div>
           </div>
@@ -125,15 +138,38 @@ export default function AdminPage() {
           </button>
         </div>
 
+        {/* Panel Sekmeleri */}
+        <div className="flex flex-wrap gap-1.5 bg-surface border border-cream-line p-1.5 rounded-2xl">
+          {PANELS.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setPanel(p.id)}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                panel === p.id
+                  ? "bg-gold/15 text-gold-deep border border-gold/30"
+                  : "text-fg-muted hover:text-fg border border-transparent"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+
+        {panel === "anasayfa" && <HomepageEditor />}
+        {panel === "emsal" && <EmsalEditor />}
+        {panel === "loglar" && <ParselLogs />}
+
+        {panel === "randevular" && (
+        <>
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {[
-            { label: "Toplam Randevu", val: totalApps, color: "text-ink bg-cream-soft" },
+            { label: "Toplam Randevu", val: totalApps, color: "text-fg bg-cream-soft" },
             { label: "Onay Bekleyenler", val: pendingApps, color: "text-amber-600 bg-amber-500/5" },
             { label: "Onaylananlar", val: approvedApps, color: "text-emerald-600 bg-emerald-500/5" },
             { label: "Toplam Portföy", val: listings.length, color: "text-gold-deep bg-gold/5" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white border border-cream-line rounded-2xl p-5 shadow-sm space-y-1">
+            <div key={stat.label} className="bg-surface border border-cream-line rounded-2xl p-5 shadow-sm space-y-1">
               <span className="text-[0.65rem] text-fg-muted uppercase tracking-wider font-semibold block">
                 {stat.label}
               </span>
@@ -145,10 +181,10 @@ export default function AdminPage() {
         </div>
 
         {/* Appointments Section */}
-        <div className="bg-white border border-cream-line rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-surface border border-cream-line rounded-2xl shadow-sm overflow-hidden">
           {/* Table Toolbar */}
           <div className="p-6 border-b border-cream-line flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <h2 className="display text-xl text-ink">Randevu İstekleri</h2>
+            <h2 className="display text-xl text-fg">Randevu İstekleri</h2>
 
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-1.5 bg-cream-soft border border-cream-line p-1 rounded-xl">
@@ -163,8 +199,8 @@ export default function AdminPage() {
                   onClick={() => setFilter(tab.id as any)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     filter === tab.id
-                      ? "bg-white text-gold-deep shadow-sm"
-                      : "text-fg-muted hover:text-ink"
+                      ? "bg-surface text-gold-deep shadow-sm"
+                      : "text-fg-muted hover:text-fg"
                   }`}
                 >
                   {tab.label}
@@ -210,14 +246,14 @@ export default function AdminPage() {
                       </span>
                     </div>
 
-                    <h3 className="font-semibold text-sm md:text-base text-ink line-clamp-1">
+                    <h3 className="font-semibold text-sm md:text-base text-fg line-clamp-1">
                       {app.listingTitle}
                     </h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-1.5 gap-x-4 text-xs text-fg-muted">
-                      <div>👤 Müşteri: <span className="font-semibold text-ink">{app.userPhone}</span></div>
-                      <div>📅 Tarih: <span className="font-semibold text-ink">{app.date}</span></div>
-                      <div>⏰ Saat: <span className="font-semibold text-ink">{app.time}</span></div>
+                      <div>Müşteri: <span className="font-semibold text-fg">{app.userPhone}</span></div>
+                      <div>Tarih: <span className="font-semibold text-fg">{app.date}</span></div>
+                      <div>Saat: <span className="font-semibold text-fg">{app.time}</span></div>
                     </div>
                   </div>
 
@@ -229,7 +265,7 @@ export default function AdminPage() {
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn btn-outline text-xs px-4 py-2 border-cream-line hover:border-gold hover:text-gold-deep gap-1.5"
+                      className="btn btn-outline text-xs px-4 py-2 border-cream-line hover:border-gold hover:text-gold-bright gap-1.5"
                     >
                       <Phone className="w-3.5 h-3.5" />
                       Müşteri ile İletişim
@@ -275,6 +311,8 @@ export default function AdminPage() {
             </div>
           )}
         </div>
+        </>
+        )}
       </div>
     </div>
   );

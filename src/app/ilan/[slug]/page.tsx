@@ -109,7 +109,7 @@ export default async function ListingDetailPage(
 
           {/* Description */}
           <section className="mt-8">
-            <h2 className="text-lg font-semibold text-ink mb-3">Açıklama</h2>
+            <h2 className="text-lg font-semibold text-fg mb-3">Açıklama</h2>
             <p className="text-sm text-fg-muted leading-relaxed">
               {listing.description}
             </p>
@@ -117,19 +117,19 @@ export default async function ListingDetailPage(
 
           {/* Details Table */}
           <section className="mt-8">
-            <h2 className="text-lg font-semibold text-ink mb-4">
+            <h2 className="text-lg font-semibold text-fg mb-4">
               İlan Detayları
             </h2>
             <div className="grid grid-cols-2 gap-px bg-cream-line rounded-xl overflow-hidden">
               {details.map((d) => (
                 <div
                   key={d.label}
-                  className="bg-white p-4 flex flex-col gap-0.5"
+                  className="bg-surface p-4 flex flex-col gap-0.5"
                 >
                   <span className="text-[0.65rem] text-fg-muted uppercase tracking-wider">
                     {d.label}
                   </span>
-                  <span className="text-sm font-medium text-ink">
+                  <span className="text-sm font-medium text-fg">
                     {d.value}
                   </span>
                 </div>
@@ -140,7 +140,7 @@ export default async function ListingDetailPage(
           {/* Features */}
           {listing.features.length > 0 && (
             <section className="mt-8">
-              <h2 className="text-lg font-semibold text-ink mb-4">
+              <h2 className="text-lg font-semibold text-fg mb-4">
                 Özellikler
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -212,7 +212,7 @@ function ListingHeader({
           Premium İlan
         </span>
       )}
-      <h1 className="text-xl md:text-2xl font-bold text-ink leading-snug mb-3">
+      <h1 className="text-xl md:text-2xl font-bold text-fg leading-snug mb-3">
         {listing.title}
       </h1>
       <div className="flex items-center gap-1.5 text-fg-muted mb-4">

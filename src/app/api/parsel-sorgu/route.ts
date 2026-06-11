@@ -1,64 +1,116 @@
 import { NextResponse } from "next/server";
-import { primaryDistrict } from "@/data/locations";
+import { fetchParsel, TkgmLimitError } from "@/lib/tkgm";
+import { estimateUnitPrice, VALUATION } from "@/lib/valuation";
+import { appendParselLog } from "@/lib/cms";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const adaStr = searchParams.get("ada") || "";
-  const parselStr = searchParams.get("parsel") || "";
-  const mahalleSlug = searchParams.get("mahalle") || "";
+  const mahalleId = parseInt(searchParams.get("mahalleId") || "", 10);
+  const ada = parseInt(searchParams.get("ada") || "", 10);
+  const parsel = parseInt(searchParams.get("parsel") || "", 10);
+  // Yalnızca loglama için: seçilen idari birim adları
+  const logIl = searchParams.get("il") || "";
+  const logIlce = searchParams.get("ilce") || "";
+  const logMahalle = searchParams.get("mah") || "";
 
-  const ada = parseInt(adaStr, 10);
-  const parsel = parseInt(parselStr, 10);
-
-  if (isNaN(ada) || isNaN(parsel) || !mahalleSlug) {
+  if (isNaN(mahalleId) || isNaN(ada) || ada < 0 || isNaN(parsel) || parsel < 1) {
     return NextResponse.json(
-      { error: "Geçersiz ada, parsel veya mahalle bilgisi." },
+      { error: "Geçersiz mahalle, ada veya parsel bilgisi." },
       { status: 400 }
     );
   }
 
-  // Mahalle bulma ve ortalama fiyat bilgisi alma
-  const mahalle = primaryDistrict.neighborhoods.find((n) => n.slug === mahalleSlug) || primaryDistrict.neighborhoods[0];
+  const log = (
+    durum: "bulundu" | "bulunamadi" | "limit" | "hata",
+    extra: { il?: string; ilce?: string; mahalle?: string; alan?: number; nitelik?: string; tahminiDeger?: number | null } = {}
+  ) =>
+    appendParselLog({
+      ts: new Date().toISOString(),
+      il: extra.il || logIl,
+      ilce: extra.ilce || logIlce,
+      mahalle: extra.mahalle || logMahalle,
+      ada,
+      parsel,
+      durum,
+      alan: extra.alan,
+      nitelik: extra.nitelik,
+      tahminiDeger: extra.tahminiDeger,
+    }).catch(() => {});
 
-  // Deterministik alan (m²) hesaplama (250m² - 1000m² arası)
-  const alan = ((ada * parsel * 7 + 120) % 750) + 250;
+  let data;
+  try {
+    data = await fetchParsel(mahalleId, ada, parsel);
+  } catch (err) {
+    if (err instanceof TkgmLimitError) {
+      await log("limit");
+      return NextResponse.json(
+        { error: "TKGM günlük sorgu limiti aşıldı. Lütfen yarın tekrar deneyin veya bizimle iletişime geçin." },
+        { status: 429 }
+      );
+    }
+    await log("hata");
+    return NextResponse.json(
+      { error: "TKGM parsel servisine ulaşılamadı. Lütfen daha sonra tekrar deneyin." },
+      { status: 502 }
+    );
+  }
 
-  // Deterministik İmar Durumu belirleme
-  const imarDurumlari = [
-    "Konut İmarlı (%30 / 2 Kat İmarlı)",
-    "Tarım İmarlı (Zeytinlik / Bağ Bahçe)",
-    "Konut İmarlı (%25 / 2 Kat Villa İmarlı)",
-    "Ticari + Konut İmarlı (%40 / 3 Kat)",
-    "İmarsız (Doğal Sit Alanı / Koruma Sınırında)",
-  ];
-  const imarIndeksi = (ada + parsel) % imarDurumlari.length;
-  const imarDurumu = imarDurumlari[imarIndeksi];
+  if (!data) {
+    await log("bulunamadi");
+    return NextResponse.json(
+      { error: `Parsel bulunamadı: ${ada} ada / ${parsel} parsel. Bilgileri kontrol edin.` },
+      { status: 404 }
+    );
+  }
 
-  // Ortalama m² fiyatına göre arsa m² fiyatı türetme
-  const mahalleAvgSale = mahalle.avgM2.sale * 0.4; // Arsa m² fiyatı konutun %40'ı kabul edilir
-  const birimFiyat = Math.round(mahalleAvgSale * (1 + (parsel % 5) / 10)); // Parsel numarasına göre küçük varyasyon
-  const tahminiDeger = alan * birimFiyat;
+  // "602,28" -> 602.28
+  const alan = parseFloat(data.alan.replace(/\./g, "").replace(",", ".")) || 0;
 
-  // Harita için simüle edilmiş lokal poligon koordinatları (Sığacık civarı merkezli)
-  const baseLat = 38.196;
-  const baseLng = 26.838;
-  const offsetLat = ((ada % 100) / 1000) - 0.05;
-  const offsetLng = ((parsel % 100) / 1000) - 0.05;
-  
-  const coordinates = {
-    lat: baseLat + offsetLat,
-    lng: baseLng + offsetLng,
-  };
+  const unit = await estimateUnitPrice(data.ilceAd, data.mahalleAd);
+  const birimFiyat = unit?.price ?? null;
+  const tahminiDeger =
+    birimFiyat && alan > 0 ? Math.round(alan * birimFiyat) : null;
+  // Satış güvencesi: tahmini değerin %30 üzeri
+  const garantiDeger = tahminiDeger
+    ? Math.round(tahminiDeger * VALUATION.guaranteeMultiplier)
+    : null;
+
+  // Parsel poligonunun ağırlık merkezi
+  const coordinates =
+    data.ring.length > 0
+      ? {
+          lat: data.ring.reduce((s, p) => s + p[1], 0) / data.ring.length,
+          lng: data.ring.reduce((s, p) => s + p[0], 0) / data.ring.length,
+        }
+      : null;
+
+  await log("bulundu", {
+    il: data.ilAd,
+    ilce: data.ilceAd,
+    mahalle: data.mahalleAd,
+    alan,
+    nitelik: data.nitelik,
+    tahminiDeger,
+  });
 
   return NextResponse.json({
-    ada,
-    parsel,
-    mahalle: mahalle.name,
+    il: data.ilAd,
+    ilce: data.ilceAd,
+    mahalle: data.mahalleAd,
+    ada: data.adaNo,
+    parsel: data.parselNo,
     alan,
-    imarDurumu,
+    alanText: data.alan,
+    nitelik: data.nitelik,
+    pafta: data.pafta,
+    mevkii: data.mevkii,
+    zeminDurum: data.zeminKmdurum,
     birimFiyat,
+    fiyatKaynak: unit?.source ?? null,
     tahminiDeger,
+    garantiDeger,
     coordinates,
-    sorguNo: `CAD-${ada}-${parsel}-${Date.now().toString().slice(-4)}`,
+    ring: data.ring,
+    sorguNo: `TKGM-${data.adaNo}-${data.parselNo}-${Date.now().toString().slice(-4)}`,
   });
 }

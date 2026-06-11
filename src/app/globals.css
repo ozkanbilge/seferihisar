@@ -2,26 +2,33 @@
 
 /* ----------------------------------------------------------------------------
    Seferihisar Emlak — Design System
-   Premium koyu (antrasit/ink) + altın (gold) palet, zarif serif + temiz sans
+   Full-dark luxury: derin antrasit zemin + altın vurgular, zarif serif,
+   ışıltı/parlama efektleri ve yumuşak hareketler
 ---------------------------------------------------------------------------- */
 
 @theme {
-  /* Renkler */
+  /* Renkler — koyu lüks palet */
   --color-ink: #0e0f12;
   --color-ink-soft: #14161b;
   --color-ink-card: #1a1d24;
   --color-ink-line: #2a2e37;
 
-  --color-cream: #f6f2ea;
-  --color-cream-soft: #fbf8f2;
-  --color-cream-line: #e6ddcd;
+  /* Eski "cream" token'ları artık sayfanın koyu zeminini taşır:
+     bileşenlerdeki bg-cream / border-cream-line sınıfları otomatik koyulaşır */
+  --color-cream: #101218;
+  --color-cream-soft: #161922;
+  --color-cream-line: #272c37;
+
+  /* Kart yüzeyi: karanlıkta ink-card ile aynı, aydınlıkta beyaz */
+  --color-surface: #1a1d24;
 
   --color-gold: #c0a062;
   --color-gold-bright: #d8b978;
   --color-gold-deep: #9c7f45;
 
-  --color-fg: #16181d;
-  --color-fg-muted: #6b6f76;
+  /* Metin: koyu zemin üzerinde açık */
+  --color-fg: #ece8df;
+  --color-fg-muted: #a09d93;
   --color-fg-invert: #ece8df;
   --color-fg-invert-muted: #a7a499;
 
@@ -43,6 +50,32 @@
   --foreground: var(--color-fg);
 }
 
+/* ----------------------------------------------------------------------------
+   Aydınlık mod: koyu "ink" adaları (hero, header, footer, arsa sorgu) korunur;
+   sayfa zemini, kartlar ve metinler orijinal krem paletine döner
+---------------------------------------------------------------------------- */
+html.light {
+  --color-cream: #f6f2ea;
+  --color-cream-soft: #fbf8f2;
+  --color-cream-line: #e6ddcd;
+  --color-fg: #16181d;
+  --color-fg-muted: #6b6f76;
+  --color-surface: #ffffff;
+}
+
+html.light body {
+  background-image:
+    radial-gradient(1100px 520px at 85% -5%, rgba(192, 160, 98, 0.07), transparent 65%),
+    radial-gradient(900px 460px at -10% 30%, rgba(192, 160, 98, 0.04), transparent 60%);
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: var(--color-cream-soft);
+}
+html.light ::-webkit-scrollbar-thumb {
+  border-color: var(--color-cream-soft);
+}
+
 * {
   border-color: var(--color-cream-line);
 }
@@ -53,7 +86,13 @@ html {
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* Ambiyans: köşelerden süzülen altın ışık huzmeleri */
+  background-image:
+    radial-gradient(1100px 520px at 85% -5%, rgba(192, 160, 98, 0.08), transparent 65%),
+    radial-gradient(900px 460px at -10% 30%, rgba(192, 160, 98, 0.05), transparent 60%),
+    radial-gradient(1000px 500px at 50% 110%, rgba(63, 125, 95, 0.05), transparent 65%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -63,6 +102,22 @@ body {
 ::selection {
   background: var(--color-gold);
   color: var(--color-ink);
+}
+
+/* Lüks koyu kaydırma çubuğu */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-gold-deep), var(--color-gold));
+  border-radius: 8px;
+  border: 2px solid var(--color-ink);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-bright);
 }
 
 /* ---- Yardımcı bileşen sınıfları ---- */
@@ -85,7 +140,7 @@ body {
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-gold-deep);
+    color: var(--color-gold);
   }
 
   .display {
@@ -107,14 +162,33 @@ body {
     padding: 0.85rem 1.6rem;
     transition: all 0.25s ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
   }
   .btn-gold {
-    background: var(--color-gold);
+    background: linear-gradient(135deg, var(--color-gold-deep) 0%, var(--color-gold) 45%, var(--color-gold-bright) 100%);
     color: var(--color-ink);
+    box-shadow: 0 4px 18px rgba(192, 160, 98, 0.25);
+  }
+  .btn-gold::after {
+    /* Üzerinden geçen ışık süpürmesi */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+    pointer-events: none;
   }
   .btn-gold:hover {
-    background: var(--color-gold-bright);
-    transform: translateY(-1px);
+    box-shadow: 0 6px 26px rgba(192, 160, 98, 0.45);
+    transform: translateY(-2px);
+  }
+  .btn-gold:hover::after {
+    left: 130%;
   }
   .btn-ghost {
     border: 1px solid var(--color-ink-line);
@@ -123,6 +197,7 @@ body {
   .btn-ghost:hover {
     border-color: var(--color-gold);
     color: var(--color-gold-bright);
+    box-shadow: 0 0 18px rgba(192, 160, 98, 0.15);
   }
   .btn-outline {
     border: 1px solid var(--color-cream-line);
@@ -130,7 +205,47 @@ body {
   }
   .btn-outline:hover {
     border-color: var(--color-gold);
-    color: var(--color-gold-deep);
+    color: var(--color-gold-bright);
+    box-shadow: 0 0 18px rgba(192, 160, 98, 0.15);
+  }
+
+  /* Lüks kart: altın degrade çerçeve + hover'da yükselme ve parlamalı gölge */
+  .card-luxe {
+    position: relative;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      linear-gradient(160deg, rgba(192, 160, 98, 0.45), rgba(42, 46, 55, 0.6) 40%, rgba(192, 160, 98, 0.12)) border-box;
+    border: 1px solid transparent;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+  .card-luxe:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.45),
+      0 0 24px rgba(192, 160, 98, 0.12);
+  }
+
+  /* Hover'da hafif yükselen genel kart davranışı */
+  .hover-lift {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(192, 160, 98, 0.1);
+  }
+
+  /* Altın degrade başlık metni */
+  .gold-text {
+    background: linear-gradient(120deg, var(--color-gold-deep), var(--color-gold-bright) 45%, var(--color-gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Bölüm arası ince altın süs çizgisi */
+  .divider-gold {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(192, 160, 98, 0.55), transparent);
   }
 }
 
@@ -148,24 +263,51 @@ body {
   animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Markdown / makale içeriği */
+/* Yavaşça süzülen nesneler (rozet, ikon) */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Altın nefes alma efekti (vurgu noktaları) */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(192, 160, 98, 0.2); }
+  50% { box-shadow: 0 0 28px rgba(192, 160, 98, 0.45); }
+}
+.animate-glow {
+  animation: glow-pulse 3.2s ease-in-out infinite;
+}
+
+/* Hero arkasında dolaşan ambiyans ışığı */
+@keyframes ambient-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50% { transform: translate(-6%, 4%) scale(1.15); opacity: 1; }
+}
+.animate-ambient {
+  animation: ambient-drift 12s ease-in-out infinite;
+}
+
+/* Markdown / makale içeriği (koyu tema) */
 .prose-article p {
   margin-bottom: 1.15rem;
   line-height: 1.85;
-  color: #34373d;
+  color: var(--color-fg-muted);
 }
 .prose-article h2 {
   font-family: var(--font-display);
   font-size: 1.75rem;
   font-weight: 600;
   margin: 2.5rem 0 1rem;
-  color: var(--color-ink);
+  color: var(--color-fg);
 }
 .prose-article h3 {
   font-weight: 700;
   font-size: 1.2rem;
   margin: 1.75rem 0 0.75rem;
-  color: var(--color-ink);
+  color: var(--color-fg);
 }
 .prose-article ul {
   margin: 0 0 1.25rem 1.25rem;
@@ -174,6 +316,7 @@ body {
 .prose-article li {
   margin-bottom: 0.5rem;
   line-height: 1.7;
+  color: var(--color-fg-muted);
 }
 
 @keyframes shimmer {
@@ -222,4 +365,17 @@ body {
   35% { left: 130%; opacity: 1; }
   50% { left: 130%; opacity: 0; }
   100% { left: 130%; opacity: 0; }
+}
+
+/* Hareket azaltma tercihi olan kullanıcılar için animasyonları kapat */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-float,
+  .animate-glow,
+  .animate-ambient,
+  .animate-shimmer,
+  .animate-slide-left,
+  .laser-text::after {
+    animation: none;
+  }
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import { cookies } from "next/headers";
+import { isLang, langDir, LANG_COOKIE, type Lang } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -47,20 +49,34 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieLang = (await cookies()).get(LANG_COOKIE)?.value;
+  const lang: Lang = isLang(cookieLang) ? cookieLang : "tr";
+
   return (
     <html
-      lang="tr"
+      lang={lang}
+      dir={langDir(lang)}
       className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Tema tercihi ilk boyamadan önce uygulanır (parlama önleyici) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              `try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light")}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col pb-16 md:pb-0">
         <AppProvider>
           <TickerBanner />
-          <Header />
+          <Header lang={lang} />
           <main className="flex-1">{children}</main>
           <Footer />
           <MobileBottomBar />

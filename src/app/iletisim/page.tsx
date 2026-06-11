@@ -18,7 +18,7 @@ export default function IletisimPage() {
 
       <div className="mb-10">
         <p className="eyebrow mb-3">İletişim</p>
-        <h1 className="display text-3xl md:text-4xl text-ink mb-3">
+        <h1 className="display text-3xl md:text-4xl text-fg mb-3">
           Bize Ulaşın
         </h1>
         <p className="text-fg-muted text-sm max-w-2xl leading-relaxed">
@@ -30,8 +30,8 @@ export default function IletisimPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
         {/* Contact Info */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="rounded-2xl border border-cream-line bg-white p-6">
-            <h2 className="text-base font-semibold text-ink mb-5">
+          <div className="rounded-2xl border border-cream-line bg-surface p-6">
+            <h2 className="text-base font-semibold text-fg mb-5">
               İletişim Bilgileri
             </h2>
             <ul className="space-y-5">
@@ -45,7 +45,7 @@ export default function IletisimPage() {
                   </p>
                   <a
                     href={site.phoneHref}
-                    className="text-sm font-medium text-ink hover:text-gold-deep transition-colors"
+                    className="text-sm font-medium text-fg hover:text-gold-bright transition-colors"
                   >
                     {site.phone}
                   </a>
@@ -61,7 +61,7 @@ export default function IletisimPage() {
                   </p>
                   <a
                     href={`mailto:${site.email}`}
-                    className="text-sm font-medium text-ink hover:text-gold-deep transition-colors"
+                    className="text-sm font-medium text-fg hover:text-gold-bright transition-colors"
                   >
                     {site.email}
                   </a>
@@ -75,7 +75,7 @@ export default function IletisimPage() {
                   <p className="text-xs text-fg-muted uppercase tracking-wider mb-1">
                     Adres
                   </p>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-fg">
                     {site.address.street}
                     <br />
                     {site.address.locality}, {site.address.region}{" "}
@@ -103,8 +103,8 @@ export default function IletisimPage() {
 
         {/* Contact Form */}
         <div className="lg:col-span-3">
-          <div className="rounded-2xl border border-cream-line bg-white p-6 md:p-8">
-            <h2 className="text-base font-semibold text-ink mb-2">
+          <div className="rounded-2xl border border-cream-line bg-surface p-6 md:p-8">
+            <h2 className="text-base font-semibold text-fg mb-2">
               Mesaj Gönderin
             </h2>
             <p className="text-sm text-fg-muted mb-6">

@@ -6,6 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 import { articleSchema, breadcrumbSchema } from "@/lib/schema";
 import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { MiniBanner } from "@/components/MiniBanner";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -45,8 +46,8 @@ export default async function BlogPostPage(
       />
 
       {/* Header */}
-      <header className="max-w-3xl mx-auto mb-10">
-        <div className="flex items-center gap-3 text-xs text-fg-muted mb-4">
+      <header className="max-w-3xl mx-auto mb-8 md:mb-10">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-fg-muted mb-4">
           <span className="px-2.5 py-1 rounded-full bg-gold/10 text-gold-deep font-semibold uppercase tracking-wider">
             {post.category}
           </span>
@@ -55,17 +56,22 @@ export default async function BlogPostPage(
           <span>{post.readingMinutes} dk okuma</span>
         </div>
 
-        <h1 className="display text-3xl md:text-4xl text-ink mb-6 leading-snug">
+        <h1 className="display text-2xl sm:text-3xl md:text-4xl text-fg mb-4 md:mb-6 leading-snug">
           {post.title}
         </h1>
 
-        <p className="text-base text-fg-muted leading-relaxed">
+        <p className="text-sm md:text-base text-fg-muted leading-relaxed">
           {post.excerpt}
         </p>
       </header>
 
+      {/* Öncelikli araç: arsa değeri sorgulama */}
+      <div className="max-w-4xl mx-auto mb-8 md:mb-10">
+        <MiniBanner type="land" />
+      </div>
+
       {/* Cover Image */}
-      <div className="relative aspect-[21/9] rounded-2xl overflow-hidden mb-12 max-w-4xl mx-auto">
+      <div className="relative aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden mb-8 md:mb-12 max-w-4xl mx-auto">
         <Image
           src={post.cover}
           alt={post.title}
@@ -77,7 +83,7 @@ export default async function BlogPostPage(
       </div>
 
       {/* Body */}
-      <div className="prose-article max-w-3xl mx-auto">
+      <div className="prose-article max-w-3xl mx-auto text-[0.95rem] md:text-base">
         {post.body.map((block, i) => {
           switch (block.type) {
             case "h2":

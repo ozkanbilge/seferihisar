@@ -17,7 +17,7 @@ export function FaqSection({
 }) {
   return (
     <section className="py-12 md:py-16" id="faq">
-      <h2 className="display text-2xl md:text-3xl text-ink mb-8">{title}</h2>
+      <h2 className="display text-2xl md:text-3xl text-fg mb-8">{title}</h2>
       <div className="space-y-3 max-w-3xl">
         {faqs.map((faq, i) => (
           <FaqAccordion key={i} faq={faq} />
@@ -37,7 +37,7 @@ function FaqAccordion({ faq }: { faq: FaqItem }) {
         className="w-full flex items-center justify-between p-5 text-left"
         aria-expanded={open}
       >
-        <span className="text-sm font-semibold text-ink pr-4">{faq.q}</span>
+        <span className="text-sm font-semibold text-fg pr-4">{faq.q}</span>
         {open ? (
           <Close className="w-5 h-5 text-gold shrink-0" />
         ) : (

@@ -21,7 +21,7 @@ export default function SatilikPage() {
 
       <div className="mb-10">
         <p className="eyebrow mb-3">Satılık İlanlar</p>
-        <h1 className="display text-3xl md:text-4xl text-ink mb-3">
+        <h1 className="display text-3xl md:text-4xl text-fg mb-3">
           Satılık Gayrimenkul
         </h1>
         <p className="text-fg-muted text-sm max-w-2xl leading-relaxed">

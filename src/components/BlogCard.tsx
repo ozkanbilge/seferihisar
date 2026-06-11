@@ -8,7 +8,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group block rounded-2xl overflow-hidden bg-white border border-cream-line hover:shadow-lg hover:border-gold/30 transition-all duration-300"
+      className="group block rounded-2xl overflow-hidden bg-surface border border-cream-line hover:border-gold/30 hover-lift"
       id={`blog-${post.slug}`}
     >
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -32,7 +32,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
           <span>{post.readingMinutes} dk okuma</span>
         </div>
 
-        <h3 className="text-base font-semibold text-ink leading-snug line-clamp-2 mb-3 group-hover:text-gold-deep transition-colors">
+        <h3 className="text-base font-semibold text-fg leading-snug line-clamp-2 mb-3 group-hover:text-gold-bright transition-colors">
           {post.title}
         </h3>
 

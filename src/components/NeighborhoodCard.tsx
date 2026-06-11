@@ -13,7 +13,7 @@ export function NeighborhoodCard({
   return (
     <Link
       href={`/izmir/${districtSlug}/${neighborhood.slug}`}
-      className="group block rounded-2xl border border-cream-line bg-white p-5 hover:shadow-lg hover:border-gold/30 transition-all duration-300"
+      className="group block rounded-2xl border border-cream-line bg-surface p-5 hover:border-gold/30 hover-lift"
       id={`neighborhood-${neighborhood.slug}`}
     >
       <div className="flex items-start justify-between mb-3">
@@ -23,7 +23,7 @@ export function NeighborhoodCard({
         <ArrowUpRight className="w-4 h-4 text-fg-muted group-hover:text-gold transition-colors group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </div>
 
-      <h3 className="text-base font-semibold text-ink mb-1.5 group-hover:text-gold-deep transition-colors">
+      <h3 className="text-base font-semibold text-fg mb-1.5 group-hover:text-gold-bright transition-colors">
         {neighborhood.name}
       </h3>
 
@@ -31,23 +31,12 @@ export function NeighborhoodCard({
         {neighborhood.character}
       </p>
 
-      <div className="flex items-center gap-4 pt-3 border-t border-cream-line">
-        <div>
-          <div className="text-[0.65rem] text-fg-muted uppercase tracking-wider mb-0.5">
-            Ort. m² Satış
-          </div>
-          <div className="text-sm font-semibold text-ink">
-            {formatPrice(neighborhood.avgM2.sale)}
-          </div>
+      <div className="pt-3 border-t border-cream-line">
+        <div className="text-[0.65rem] text-fg-muted uppercase tracking-wider mb-0.5">
+          Ort. m² Satış
         </div>
-        <div className="w-px h-8 bg-cream-line" />
-        <div>
-          <div className="text-[0.65rem] text-fg-muted uppercase tracking-wider mb-0.5">
-            Ort. m² Kira
-          </div>
-          <div className="text-sm font-semibold text-ink">
-            {formatPrice(neighborhood.avgM2.rent)}
-          </div>
+        <div className="text-sm font-semibold text-fg">
+          {formatPrice(neighborhood.avgM2.sale)}
         </div>
       </div>
     </Link>

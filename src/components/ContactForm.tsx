@@ -12,7 +12,7 @@ export function ContactForm() {
         <div className="w-14 h-14 rounded-full bg-emerald-accent/10 flex items-center justify-center mx-auto mb-4">
           <Check className="w-7 h-7 text-emerald-accent" />
         </div>
-        <h3 className="text-lg font-semibold text-ink mb-2">
+        <h3 className="text-lg font-semibold text-fg mb-2">
           Mesajınız Alındı!
         </h3>
         <p className="text-sm text-fg-muted">
@@ -44,7 +44,7 @@ export function ContactForm() {
             type="text"
             required
             placeholder="Adınız Soyadınız"
-            className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-ink placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors"
+            className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-fg placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors"
           />
         </div>
         <div>
@@ -59,7 +59,7 @@ export function ContactForm() {
             type="tel"
             required
             placeholder="05XX XXX XX XX"
-            className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-ink placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors"
+            className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-fg placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors"
           />
         </div>
       </div>
@@ -75,7 +75,7 @@ export function ContactForm() {
           id="contact-email"
           type="email"
           placeholder="email@adresiniz.com"
-          className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-ink placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors"
+          className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-fg placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors"
         />
       </div>
 
@@ -88,7 +88,7 @@ export function ContactForm() {
         </label>
         <select
           id="contact-subject"
-          className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-ink focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors bg-white"
+          className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-fg focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors bg-surface"
         >
           <option>Satılık Gayrimenkul Bilgisi</option>
           <option>Kiralık Gayrimenkul Bilgisi</option>
@@ -110,7 +110,7 @@ export function ContactForm() {
           rows={5}
           required
           placeholder="Mesajınızı buraya yazın..."
-          className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-ink placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors resize-none"
+          className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-fg placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors resize-none"
         />
       </div>
 

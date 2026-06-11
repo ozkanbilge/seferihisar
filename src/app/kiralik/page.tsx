@@ -21,7 +21,7 @@ export default function KiralikPage() {
 
       <div className="mb-10">
         <p className="eyebrow mb-3">Kiralık İlanlar</p>
-        <h1 className="display text-3xl md:text-4xl text-ink mb-3">
+        <h1 className="display text-3xl md:text-4xl text-fg mb-3">
           Kiralık Gayrimenkul
         </h1>
         <p className="text-fg-muted text-sm max-w-2xl leading-relaxed">

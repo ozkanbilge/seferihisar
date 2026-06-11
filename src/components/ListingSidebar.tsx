@@ -72,8 +72,8 @@ export function ListingSidebar({
   return (
     <div className="space-y-6 sticky top-24">
       {/* Action Buttons */}
-      <div className="bg-white border border-cream-line rounded-2xl p-6 shadow-sm">
-        <h3 className="text-base font-semibold text-ink mb-4">Bu İlanla İlgileniyor musunuz?</h3>
+      <div className="bg-surface border border-cream-line rounded-2xl p-6 shadow-sm">
+        <h3 className="text-base font-semibold text-fg mb-4">Bu İlanla İlgileniyor musunuz?</h3>
         
         <div className="flex flex-col gap-3">
           {/* Favorite Toggle Button */}
@@ -82,7 +82,7 @@ export function ListingSidebar({
             className={`w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
               fav
                 ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
-                : "bg-cream-soft text-fg-muted border-cream-line hover:border-gold hover:text-gold-deep"
+                : "bg-cream-soft text-fg-muted border-cream-line hover:border-gold hover:text-gold-bright"
             }`}
           >
             <span>{fav ? "❤️ Favorilerden Kaldır" : "🤍 Beğendiklerime Ekle"}</span>
@@ -97,12 +97,12 @@ export function ListingSidebar({
       </div>
 
       {/* Appointment Booking Form */}
-      <div className="bg-white border border-cream-line rounded-2xl p-6 shadow-sm relative overflow-hidden">
+      <div className="bg-surface border border-cream-line rounded-2xl p-6 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gold to-gold-deep" />
         
         {!success ? (
           <>
-            <h3 className="text-base font-semibold text-ink mb-2">Hızlı Randevu Al</h3>
+            <h3 className="text-base font-semibold text-fg mb-2">Hızlı Randevu Al</h3>
             <p className="text-xs text-fg-muted mb-5 leading-relaxed">
               Temsilcimiz Özkan Bilge ile bu mülkü yerinde gezmek için hızlıca randevu talebi oluşturun.
             </p>
@@ -123,7 +123,7 @@ export function ListingSidebar({
                       placeholder="5XX XXX XX XX"
                       value={phoneInput}
                       onChange={(e) => setPhoneInput(e.target.value)}
-                      className="w-full bg-cream-soft border border-cream-line rounded-xl pl-12 pr-3 py-2.5 text-xs text-ink placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
+                      className="w-full bg-cream-soft border border-cream-line rounded-xl pl-12 pr-3 py-2.5 text-xs text-fg placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -140,7 +140,7 @@ export function ListingSidebar({
                     value={dateInput}
                     min={new Date().toISOString().split("T")[0]}
                     onChange={(e) => setDateInput(e.target.value)}
-                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-ink focus:border-gold focus:outline-none transition-colors"
+                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-fg focus:border-gold focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
@@ -150,7 +150,7 @@ export function ListingSidebar({
                   <select
                     value={timeInput}
                     onChange={(e) => setTimeInput(e.target.value)}
-                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-ink focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
+                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-fg focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
                   >
                     {["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"].map((t) => (
                       <option key={t} value={t}>
@@ -178,7 +178,7 @@ export function ListingSidebar({
               ✓
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-ink">Randevu Talebiniz Alındı</h4>
+              <h4 className="text-sm font-semibold text-fg">Randevu Talebiniz Alındı</h4>
               <p className="text-xs text-fg-muted mt-1 leading-relaxed">
                 Talebiniz sisteme iletildi. Randevu detaylarınızı "Hesabım" panelinden takip edebilirsiniz.
               </p>
@@ -194,7 +194,7 @@ export function ListingSidebar({
               </button>
               <button
                 onClick={() => setSuccess(false)}
-                className="text-xs text-fg-muted hover:text-ink transition-colors font-medium underline decoration-dotted"
+                className="text-xs text-fg-muted hover:text-fg transition-colors font-medium underline decoration-dotted"
               >
                 Yeni Randevu İste
               </button>

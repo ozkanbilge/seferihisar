@@ -32,11 +32,11 @@ export default function UserAccountPage() {
   if (!userPhone) {
     return (
       <div className="container-x py-16 md:py-24 min-h-[70vh] flex items-center justify-center">
-        <div className="bg-white border border-cream-line rounded-2xl p-8 max-w-md w-full shadow-lg relative overflow-hidden">
+        <div className="bg-surface border border-cream-line rounded-2xl p-8 max-w-md w-full shadow-lg relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-gold via-gold-bright to-gold-deep" />
           
           <div className="text-center mb-8">
-            <h1 className="display text-2xl md:text-3xl text-ink mb-3">Kullanıcı Girişi</h1>
+            <h1 className="display text-2xl md:text-3xl text-fg mb-3">Kullanıcı Girişi</h1>
             <p className="text-sm text-fg-muted">
               Beğendiğiniz gayrimenkulleri kaydetmek ve tek tuşla randevu oluşturmak için telefon numaranızla giriş yapın.
             </p>
@@ -56,7 +56,7 @@ export default function UserAccountPage() {
                   placeholder="5XX XXX XX XX"
                   value={phoneInput}
                   onChange={(e) => setPhoneInput(e.target.value)}
-                  className="w-full bg-cream-soft border border-cream-line rounded-xl pl-14 pr-4 py-3.5 text-sm text-ink placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors font-medium"
+                  className="w-full bg-cream-soft border border-cream-line rounded-xl pl-14 pr-4 py-3.5 text-sm text-fg placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors font-medium"
                 />
               </div>
               {error && <p className="text-red-500 text-xs mt-2 font-medium">{error}</p>}
@@ -82,7 +82,7 @@ export default function UserAccountPage() {
     <div className="container-x py-10 md:py-16 min-h-[80vh]">
       <div className="max-w-5xl mx-auto">
         {/* Profile Header */}
-        <div className="bg-white border border-cream-line rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+        <div className="bg-surface border border-cream-line rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-gold/10 flex items-center justify-center border border-gold/20 text-gold-deep text-xl font-bold">
               👤
@@ -91,7 +91,7 @@ export default function UserAccountPage() {
               <span className="text-xs text-fg-muted uppercase tracking-wider block font-semibold">
                 Hoş Geldiniz
               </span>
-              <h1 className="text-lg md:text-xl font-bold text-ink">{userPhone}</h1>
+              <h1 className="text-lg md:text-xl font-bold text-fg">{userPhone}</h1>
             </div>
           </div>
 
@@ -115,7 +115,7 @@ export default function UserAccountPage() {
             className={`pb-4 text-sm font-semibold tracking-wide uppercase transition-all relative ${
               activeTab === "randevu"
                 ? "text-gold-deep"
-                : "text-fg-muted hover:text-ink"
+                : "text-fg-muted hover:text-fg"
             }`}
           >
             Randevularım ({myAppointments.length})
@@ -128,7 +128,7 @@ export default function UserAccountPage() {
             className={`pb-4 text-sm font-semibold tracking-wide uppercase transition-all relative ${
               activeTab === "favori"
                 ? "text-gold-deep"
-                : "text-fg-muted hover:text-ink"
+                : "text-fg-muted hover:text-fg"
             }`}
           >
             Beğendiğim İlanlar ({myFavListings.length})
@@ -142,11 +142,11 @@ export default function UserAccountPage() {
         {activeTab === "randevu" && (
           <div className="space-y-4">
             {myAppointments.length === 0 ? (
-              <div className="text-center py-16 bg-white border border-cream-line rounded-2xl shadow-sm">
+              <div className="text-center py-16 bg-surface border border-cream-line rounded-2xl shadow-sm">
                 <div className="w-16 h-16 rounded-full bg-gold/5 flex items-center justify-center mx-auto mb-4 border border-gold/15 text-2xl">
                   📅
                 </div>
-                <h3 className="text-base font-semibold text-ink mb-1">Randevunuz Bulunmuyor</h3>
+                <h3 className="text-base font-semibold text-fg mb-1">Randevunuz Bulunmuyor</h3>
                 <p className="text-xs text-fg-muted max-w-xs mx-auto mb-5">
                   Herhangi bir gayrimenkul detay sayfasından tek tuşla hızlı randevu oluşturabilirsiniz.
                 </p>
@@ -159,7 +159,7 @@ export default function UserAccountPage() {
                 {myAppointments.map((app) => (
                   <div
                     key={app.id}
-                    className="bg-white border border-cream-line rounded-2xl p-5 md:p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-5"
+                    className="bg-surface border border-cream-line rounded-2xl p-5 md:p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-5"
                   >
                     <div className="space-y-1.5 flex-1">
                       <div className="flex flex-wrap items-center gap-2.5">
@@ -182,7 +182,7 @@ export default function UserAccountPage() {
                             : "Onay Bekliyor"}
                         </span>
                       </div>
-                      <h3 className="text-sm md:text-base font-semibold text-ink leading-snug line-clamp-1">
+                      <h3 className="text-sm md:text-base font-semibold text-fg leading-snug line-clamp-1">
                         {app.listingTitle}
                       </h3>
                       <div className="text-xs text-fg-muted flex items-center gap-3">
@@ -208,7 +208,7 @@ export default function UserAccountPage() {
                       </a>
                       <Link
                         href={`/ilan/${app.listingSlug}`}
-                        className="flex-1 md:flex-none btn btn-outline text-xs py-2 px-4 text-center border-cream-line hover:border-gold hover:text-gold-deep"
+                        className="flex-1 md:flex-none btn btn-outline text-xs py-2 px-4 text-center border-cream-line hover:border-gold hover:text-gold-bright"
                       >
                         İlan Detayı
                       </Link>
@@ -223,11 +223,11 @@ export default function UserAccountPage() {
         {activeTab === "favori" && (
           <div>
             {myFavListings.length === 0 ? (
-              <div className="text-center py-16 bg-white border border-cream-line rounded-2xl shadow-sm">
+              <div className="text-center py-16 bg-surface border border-cream-line rounded-2xl shadow-sm">
                 <div className="w-16 h-16 rounded-full bg-gold/5 flex items-center justify-center mx-auto mb-4 border border-gold/15 text-2xl">
                   ❤️
                 </div>
-                <h3 className="text-base font-semibold text-ink mb-1">Favori İlanınız Yok</h3>
+                <h3 className="text-base font-semibold text-fg mb-1">Favori İlanınız Yok</h3>
                 <p className="text-xs text-fg-muted max-w-xs mx-auto mb-5">
                   Beğendiğiniz portföyleri buraya ekleyerek daha sonra kolayca takip edebilirsiniz.
                 </p>
@@ -240,7 +240,7 @@ export default function UserAccountPage() {
                 {myFavListings.map((item) => (
                   <div
                     key={item.slug}
-                    className="bg-white border border-cream-line rounded-2xl overflow-hidden shadow-sm group hover:shadow-md transition-shadow flex flex-col h-full"
+                    className="bg-surface border border-cream-line rounded-2xl overflow-hidden shadow-sm group hover:shadow-md transition-shadow flex flex-col h-full"
                   >
                     <div className="relative aspect-[4/3] bg-cream-soft overflow-hidden">
                       <img
@@ -251,7 +251,7 @@ export default function UserAccountPage() {
                       />
                       <button
                         onClick={() => toggleFavorite(item.slug)}
-                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow-md text-red-500 hover:bg-white transition-colors"
+                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/85 backdrop-blur flex items-center justify-center shadow-md text-red-500 hover:bg-surface transition-colors"
                         title="Favorilerden Kaldır"
                       >
                         ❤️
@@ -266,7 +266,7 @@ export default function UserAccountPage() {
                           </span>
                           <span>İlan No: {item.ref}</span>
                         </div>
-                        <h3 className="font-semibold text-sm text-ink mb-2 line-clamp-2 min-h-[2.5rem]">
+                        <h3 className="font-semibold text-sm text-fg mb-2 line-clamp-2 min-h-[2.5rem]">
                           {item.title}
                         </h3>
                         <div className="flex items-center gap-4 text-xs text-fg-muted mb-4 pt-3 border-t border-cream-soft">
@@ -287,7 +287,7 @@ export default function UserAccountPage() {
                         </span>
                         <Link
                           href={`/ilan/${item.slug}`}
-                          className="text-xs font-semibold text-ink hover:text-gold-deep inline-flex items-center gap-1 transition-colors"
+                          className="text-xs font-semibold text-fg hover:text-gold-bright inline-flex items-center gap-1 transition-colors"
                         >
                           Detaylar
                           <span>→</span>

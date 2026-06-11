@@ -1,6 +1,7 @@
 import { blogPosts } from "@/data/blog";
 import { BlogCard } from "@/components/BlogCard";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { MiniBanner } from "@/components/MiniBanner";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -15,9 +16,9 @@ export default function BlogPage() {
     <div className="container-x py-8 md:py-12">
       <Breadcrumb items={[{ label: "Blog" }]} />
 
-      <div className="mb-10">
+      <div className="mb-8 md:mb-10">
         <p className="eyebrow mb-3">Blog & Rehber</p>
-        <h1 className="display text-3xl md:text-4xl text-ink mb-3">
+        <h1 className="display text-2xl sm:text-3xl md:text-4xl text-fg mb-3">
           Güncel Yazılar
         </h1>
         <p className="text-fg-muted text-sm max-w-2xl leading-relaxed">
@@ -26,7 +27,12 @@ export default function BlogPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Öncelikli araç: arsa değeri sorgulama */}
+      <div className="mb-8 md:mb-10">
+        <MiniBanner type="land" />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
         {blogPosts.map((post) => (
           <BlogCard key={post.slug} post={post} />
         ))}

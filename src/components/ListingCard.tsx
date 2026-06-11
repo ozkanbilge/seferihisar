@@ -11,7 +11,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
   return (
     <Link
       href={`/ilan/${listing.slug}`}
-      className="group block rounded-2xl overflow-hidden bg-white border border-cream-line shadow-sm hover:shadow-xl hover:border-gold/40 transition-all duration-300"
+      className="group block rounded-2xl overflow-hidden bg-surface border border-cream-line hover:border-gold/40 hover-lift"
       id={`listing-${listing.slug}`}
     >
       {/* Image */}
@@ -46,8 +46,8 @@ export function ListingCard({ listing }: { listing: Listing }) {
           <span
             className={`px-2.5 py-1 rounded-full text-[0.65rem] font-bold uppercase tracking-wider ${
               listing.transaction === "satilik"
-                ? "bg-ink/80 text-cream backdrop-blur-sm"
-                : "bg-white/90 text-ink backdrop-blur-sm"
+                ? "bg-ink/80 text-fg backdrop-blur-sm"
+                : "bg-ink/85 text-fg backdrop-blur-sm"
             }`}
           >
             {listing.transaction === "satilik" ? "Satılık" : "Kiralık"}
@@ -67,7 +67,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="text-sm font-semibold text-ink leading-snug line-clamp-2 mb-2 group-hover:text-gold-deep transition-colors">
+        <h3 className="text-sm font-semibold text-fg leading-snug line-clamp-2 mb-2 group-hover:text-gold-bright transition-colors">
           {listing.title}
         </h3>
 

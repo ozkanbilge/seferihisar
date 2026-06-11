@@ -55,7 +55,7 @@ export default async function DistrictPage(
       {/* Heading */}
       <div className="mb-10">
         <p className="eyebrow mb-3">{district.cityName}</p>
-        <h1 className="display text-3xl md:text-4xl text-ink mb-4">
+        <h1 className="display text-3xl md:text-4xl text-fg mb-4">
           {district.name} Emlak İlanları
         </h1>
         <div className="max-w-3xl space-y-3">
@@ -74,7 +74,7 @@ export default async function DistrictPage(
             <Link
               key={`${tx.slug}-${type.slug}`}
               href={`/izmir/${slug}/${comboSlug(tx.slug, type.slug)}`}
-              className="px-3.5 py-2 rounded-full text-xs font-medium border border-cream-line text-fg-muted hover:border-gold hover:text-gold-deep transition-colors"
+              className="px-3.5 py-2 rounded-full text-xs font-medium border border-cream-line text-fg-muted hover:border-gold hover:text-gold-bright transition-colors"
             >
               {tx.name} {type.name}
             </Link>
@@ -85,7 +85,7 @@ export default async function DistrictPage(
       {/* Neighborhoods */}
       {district.neighborhoods.length > 0 && (
         <section className="mb-14">
-          <h2 className="display text-2xl md:text-3xl text-ink mb-6">
+          <h2 className="display text-2xl md:text-3xl text-fg mb-6">
             {district.name} Mahalleleri
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -103,7 +103,7 @@ export default async function DistrictPage(
       {/* Listings */}
       <section className="mb-14">
         <div className="flex items-end justify-between mb-6">
-          <h2 className="display text-2xl md:text-3xl text-ink">
+          <h2 className="display text-2xl md:text-3xl text-fg">
             Tüm İlanlar
           </h2>
           <span className="text-sm text-fg-muted">{listings.length} ilan</span>

@@ -150,7 +150,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const adminLogin = (email: string, pass: string): boolean => {
-    if (email.trim().toLowerCase() === "root@ozkanbilge.com" && pass === "123321Aq") {
+    const adminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "").toLowerCase();
+    const adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? "";
+    if (adminEmail && adminPass && email.trim().toLowerCase() === adminEmail && pass === adminPass) {
       setAdminLoggedIn(true);
       localStorage.setItem("se_admin_logged", "true");
       return true;

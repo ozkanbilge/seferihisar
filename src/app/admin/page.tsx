@@ -84,7 +84,7 @@ export default function AdminPage() {
               </label>
               <input
                 type="email"
-                placeholder="root@ozkanbilge.com"
+                placeholder="admin@ornek.com"
                 value={emailInput}
                 onChange={(e) => setEmailInput(e.target.value)}
                 className="w-full bg-cream-soft border border-cream-line rounded-xl px-4 py-3 text-xs text-fg placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"

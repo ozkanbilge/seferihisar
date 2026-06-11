@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { ParselLogEntry } from "@/lib/cms";
 import { formatPrice } from "@/lib/format";
 
-const ADMIN_KEY = "123321Aq";
+const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY ?? "";
 
 const DURUM_BADGE: Record<ParselLogEntry["durum"], { label: string; cls: string }> = {
   bulundu: { label: "Bulundu", cls: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" },

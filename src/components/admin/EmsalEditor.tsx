@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import type { EmsalEntry } from "@/lib/cms";
 
-const ADMIN_KEY = "123321Aq";
+const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY ?? "";
 
 /**
  * Gerçek emsal arsa fiyatları (TL/m²). Arsa değeri sorgulamada buradaki

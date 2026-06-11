@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { HomepageContent } from "@/lib/cms";
 import { LANGS, type Lang } from "@/lib/i18n";
 
-const ADMIN_KEY = "123321Aq";
+const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY ?? "";
 
 const SECTION_LABELS: Record<keyof HomepageContent["sections"], string> = {
   stats: "İstatistik Barı",

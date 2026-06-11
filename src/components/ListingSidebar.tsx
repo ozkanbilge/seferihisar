@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useApp, type Appointment } from "@/context/AppContext";
 import { site } from "@/lib/site";
-import { LuxeDatePicker } from "@/components/LuxeDatePicker";
+import { LuxeDatePicker, LuxeTimePicker } from "@/components/LuxeDatePicker";
 import { Phone, Star } from "@/components/icons";
 
 interface ListingSidebarProps {
@@ -176,17 +176,11 @@ export function ListingSidebar({
                   <label className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
                     Saat
                   </label>
-                  <select
+                  <LuxeTimePicker
                     value={timeInput}
-                    onChange={(e) => setTimeInput(e.target.value)}
-                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-fg focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
-                  >
-                    {["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"].map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={setTimeInput}
+                    options={["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]}
+                  />
                 </div>
               </div>
 

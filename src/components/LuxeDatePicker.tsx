@@ -165,3 +165,90 @@ export function LuxeDatePicker({
     </div>
   );
 }
+
+/** Takvimle aynı dilde saat seçici: ızgara halinde saat çipleri */
+export function LuxeTimePicker({
+  value,
+  onChange,
+  options,
+  className = "",
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+  className?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent | TouchEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("touchstart", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("touchstart", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className={`relative ${className}`}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="w-full flex items-center justify-between gap-2 bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-left focus:border-gold focus:outline-none transition-colors cursor-pointer hover:border-gold/50"
+      >
+        <span className="text-fg font-medium">{value}</span>
+        <svg
+          className={`w-3.5 h-3.5 text-gold shrink-0 transition-transform duration-300 ${open ? "scale-110" : ""}`}
+          fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 3" />
+        </svg>
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          className="absolute right-0 left-auto min-w-[210px] top-[calc(100%+8px)] z-50 rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up"
+          style={{ backgroundColor: "var(--color-ink-card)", animationDuration: "0.25s" }}
+        >
+          <div className="h-[2px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep" />
+          <div className="grid grid-cols-3 gap-1.5 p-3">
+            {options.map((t) => {
+              const isSel = t === value;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  role="option"
+                  aria-selected={isSel}
+                  onClick={() => {
+                    onChange(t);
+                    setOpen(false);
+                  }}
+                  className={`py-1.5 rounded-lg text-[0.7rem] font-semibold transition-all duration-200 ${
+                    isSel
+                      ? "bg-gradient-to-br from-gold-deep via-gold to-gold-bright text-ink shadow-[0_2px_10px_rgba(192,160,98,0.4)]"
+                      : "text-fg-invert-muted hover:text-gold-bright hover:bg-gold/10 border border-gold/10"
+                  }`}
+                >
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

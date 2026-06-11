@@ -117,32 +117,49 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
         )}
       </div>
 
-      {/* Küçük resimler */}
+      {/* Küçük resimler — film şeridi */}
       {images.length > 1 && (
-        <div className="flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {images.map((img, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              aria-label={`Fotoğraf ${i + 1}`}
-              className={`relative w-20 h-16 rounded-xl overflow-hidden shrink-0 transition-all duration-300 ${
-                i === activeIndex
-                  ? "ring-2 ring-gold shadow-[0_0_14px_rgba(192,160,98,0.35)]"
-                  : "ring-1 ring-gold/15 opacity-60 hover:opacity-100 hover:ring-gold/50"
-              }`}
-            >
-              <Image
-                src={img}
-                alt={`Küçük resim ${i + 1}`}
-                fill
-                sizes="80px"
-                className="object-cover"
-              />
-              {i === activeIndex && (
-                <span className="absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep" />
-              )}
-            </button>
-          ))}
+        <div className="relative">
+          {/* Kenarlarda yumuşak kaybolma */}
+          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-cream to-transparent z-10 pointer-events-none rounded-l-xl" />
+          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream to-transparent z-10 pointer-events-none rounded-r-xl" />
+
+          <div className="flex md:justify-center gap-3 overflow-x-auto px-6 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {images.map((img, i) => {
+              const active = i === activeIndex;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActiveIndex(i)}
+                  aria-label={`Fotoğraf ${i + 1}`}
+                  className={`group/thumb relative w-[5.5rem] h-[4.1rem] rounded-xl overflow-hidden shrink-0 transition-all duration-300 ${
+                    active
+                      ? "ring-2 ring-gold shadow-[0_4px_18px_rgba(192,160,98,0.4)] scale-105"
+                      : "ring-1 ring-gold/15 opacity-55 grayscale-[35%] hover:opacity-100 hover:grayscale-0 hover:ring-gold/50 hover:-translate-y-0.5"
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`Küçük resim ${i + 1}`}
+                    fill
+                    sizes="88px"
+                    className="object-cover transition-transform duration-500 group-hover/thumb:scale-110"
+                  />
+                  {/* Numara rozeti */}
+                  <span
+                    className={`absolute top-1 right-1 min-w-[1.05rem] h-[1.05rem] px-1 rounded-full text-[0.55rem] font-bold flex items-center justify-center transition-colors ${
+                      active ? "bg-gold text-ink" : "bg-ink/60 text-fg-invert-muted"
+                    }`}
+                  >
+                    {i + 1}
+                  </span>
+                  {active && (
+                    <span className="absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 

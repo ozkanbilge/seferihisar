@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useApp, type Appointment } from "@/context/AppContext";
 import { site } from "@/lib/site";
+import { LuxeDatePicker } from "@/components/LuxeDatePicker";
 import { Phone, Star } from "@/components/icons";
 
 interface ListingSidebarProps {
@@ -165,13 +166,10 @@ export function ListingSidebar({
                   <label className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
                     Randevu Tarihi
                   </label>
-                  <input
-                    type="date"
+                  <LuxeDatePicker
                     value={dateInput}
-                    min={new Date().toISOString().split("T")[0]}
-                    onChange={(e) => setDateInput(e.target.value)}
-                    onClick={(e) => e.currentTarget.showPicker?.()}
-                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-fg focus:border-gold focus:outline-none transition-colors cursor-pointer"
+                    onChange={setDateInput}
+                    label="Tarih seçin"
                   />
                 </div>
                 <div>

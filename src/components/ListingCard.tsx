@@ -48,8 +48,8 @@ export function ListingCard({ listing, eager = false }: { listing: Listing; eage
           <span
             className={`px-2.5 py-1 rounded-full text-[0.65rem] font-bold uppercase tracking-wider ${
               listing.transaction === "satilik"
-                ? "bg-ink/80 text-fg backdrop-blur-sm"
-                : "bg-ink/85 text-fg backdrop-blur-sm"
+                ? "bg-ink/80 text-fg-invert backdrop-blur-sm"
+                : "bg-ink/85 text-fg-invert backdrop-blur-sm"
             }`}
           >
             {listing.transaction === "satilik" ? "Satılık" : "Kiralık"}

@@ -53,7 +53,7 @@ function PickerPanel({
           role="dialog"
           aria-label={title}
           className="absolute inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.15)] overflow-hidden animate-fade-up"
-          style={{ backgroundColor: "var(--color-ink-card)", animationDuration: "0.25s" }}
+          style={{ backgroundColor: "var(--color-surface)", animationDuration: "0.25s" }}
         >
           <div className="flex items-center justify-between pl-4 pr-2 pt-2.5">
             <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-gold">{title}</span>
@@ -61,7 +61,7 @@ function PickerPanel({
               type="button"
               onClick={onClose}
               aria-label="Kapat"
-              className="p-2 text-fg-invert-muted hover:text-gold transition-colors"
+              className="p-2 text-fg-muted hover:text-gold transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" viewBox="0 0 24 24">
                 <path d="M6 18L18 6M6 6l12 12" />
@@ -80,7 +80,7 @@ function PickerPanel({
       role="dialog"
       aria-label={title}
       className={`absolute top-[calc(100%+8px)] z-50 rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up ${anchorClass}`}
-      style={{ backgroundColor: "var(--color-ink-card)", animationDuration: "0.25s" }}
+      style={{ backgroundColor: "var(--color-surface)", animationDuration: "0.25s" }}
     >
       {panelInner}
     </div>
@@ -185,7 +185,7 @@ export function LuxeDatePicker({
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg>
           </button>
-          <span className="text-xs font-bold text-fg-invert capitalize tracking-wide">{monthLabel}</span>
+          <span className="text-xs font-bold text-fg capitalize tracking-wide">{monthLabel}</span>
           <button
             type="button"
             onClick={() => setViewDate(new Date(year, month + 1, 1))}
@@ -226,8 +226,8 @@ export function LuxeDatePicker({
                   isSel
                     ? "bg-gradient-to-br from-gold-deep via-gold to-gold-bright text-ink shadow-[0_2px_10px_rgba(192,160,98,0.4)]"
                     : isPast
-                    ? "text-fg-invert-muted/25 cursor-not-allowed"
-                    : "text-fg-invert-muted hover:text-gold-bright hover:bg-gold/10"
+                    ? "text-fg-muted/30 cursor-not-allowed"
+                    : "text-fg-muted hover:text-gold-bright hover:bg-gold/10"
                 } ${isToday && !isSel ? "border border-gold/50 text-gold-bright" : ""}`}
               >
                 {d.getDate()}
@@ -319,7 +319,7 @@ export function LuxeTimePicker({
                 className={`py-2.5 md:py-1.5 rounded-lg text-[0.72rem] font-semibold transition-all duration-200 ${
                   isSel
                     ? "bg-gradient-to-br from-gold-deep via-gold to-gold-bright text-ink shadow-[0_2px_10px_rgba(192,160,98,0.4)]"
-                    : "text-fg-invert-muted hover:text-gold-bright hover:bg-gold/10 border border-gold/10"
+                    : "text-fg-muted hover:text-gold-bright hover:bg-gold/10 border border-gold/10"
                 }`}
               >
                 {t}

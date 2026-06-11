@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { listings, listingBySlug } from "@/data/listings";
 import { districtBySlug, neighborhoodBySlug } from "@/data/locations";
 import { propertyTypeBySlug, transactionBySlug } from "@/data/property-types";
@@ -10,17 +9,16 @@ import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ImageGallery } from "@/components/ImageGallery";
 import { ListingSidebar } from "@/components/ListingSidebar";
-import { site } from "@/lib/site";
 import {
   Bed,
   Bath,
   AreaIcon,
   MapPin,
-  Phone,
-  Mail,
+  
+  
   Check,
   Star,
-  ArrowRight,
+  
 } from "@/components/icons";
 import type { Metadata } from "next";
 

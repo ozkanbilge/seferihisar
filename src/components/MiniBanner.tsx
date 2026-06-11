@@ -18,7 +18,7 @@ export function MiniBanner({ type }: MiniBannerProps) {
             Satılık Yeriniz Mi Var?
           </h3>
           <p className="text-sm text-fg-invert-muted max-w-lg mx-auto md:mx-0">
-            Gayrimenkulünüzü Private Estate'in profesyonel ağıyla en doğru fiyata ve en kısa sürede değerlendirin.
+            Gayrimenkulünüzü Private Estate&apos;in profesyonel ağıyla en doğru fiyata ve en kısa sürede değerlendirin.
           </p>
         </div>
         

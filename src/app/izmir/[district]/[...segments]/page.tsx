@@ -36,10 +36,6 @@ import type { Metadata } from "next";
  *   /izmir/seferihisar/sigacik/satilik-villa → neighborhood + type combo
  */
 
-interface Params {
-  district: string;
-  segments: string[];
-}
 
 export function generateStaticParams() {
   const params: { district: string; segments: string[] }[] = [];

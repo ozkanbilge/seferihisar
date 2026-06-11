@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { listings, type Listing } from "@/data/listings";
+import { listings } from "@/data/listings";
 
 export interface Appointment {
   id: string;
@@ -37,11 +37,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [adminLoggedIn, setAdminLoggedIn] = useState<boolean>(false);
-  const [isMounted, setIsMounted] = useState(false);
 
   // Initialize state from localStorage once mounted
   useEffect(() => {
-    setIsMounted(true);
     const storedPhone = localStorage.getItem("se_user_phone");
     if (storedPhone) setUserPhone(storedPhone);
 
@@ -49,7 +47,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (storedFavs) {
       try {
         setFavorites(JSON.parse(storedFavs));
-      } catch (e) {
+      } catch {
         setFavorites([]);
       }
     }
@@ -58,7 +56,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (storedApps) {
       try {
         setAppointments(JSON.parse(storedApps));
-      } catch (e) {
+      } catch {
         setAppointments([]);
       }
     } else {

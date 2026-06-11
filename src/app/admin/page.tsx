@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useApp, type Appointment } from "@/context/AppContext";
+import { useApp } from "@/context/AppContext";
 import { listings } from "@/data/listings";
-import { formatPrice } from "@/lib/format";
-import { Phone, Check, Close, Logo } from "@/components/icons";
+import { Phone, Logo } from "@/components/icons";
 import { HomepageEditor } from "@/components/admin/HomepageEditor";
 import { ParselLogs } from "@/components/admin/ParselLogs";
 import { EmsalEditor } from "@/components/admin/EmsalEditor";
@@ -59,7 +57,6 @@ export default function AdminPage() {
   const totalApps = appointments.length;
   const pendingApps = appointments.filter((a) => a.status === "pending").length;
   const approvedApps = appointments.filter((a) => a.status === "approved").length;
-  const cancelledApps = appointments.filter((a) => a.status === "cancelled").length;
 
   if (!adminLoggedIn) {
     return (
@@ -196,7 +193,7 @@ export default function AdminPage() {
               ].map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setFilter(tab.id as any)}
+                  onClick={() => setFilter(tab.id as "all" | "pending" | "approved" | "cancelled")}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     filter === tab.id
                       ? "bg-surface text-gold-deep shadow-sm"

@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useApp } from "@/context/AppContext";
+import { useApp, type Appointment } from "@/context/AppContext";
 import { site } from "@/lib/site";
-import { formatPrice } from "@/lib/format";
-import { Phone, Mail, Star } from "@/components/icons";
+import { Phone, Star } from "@/components/icons";
 
 interface ListingSidebarProps {
   listingSlug: string;
@@ -16,7 +15,6 @@ interface ListingSidebarProps {
 export function ListingSidebar({
   listingSlug,
   listingTitle,
-  listingPrice,
   listingRef,
 }: ListingSidebarProps) {
   const { userPhone, login, toggleFavorite, isFavorite, createAppointment } = useApp();
@@ -28,7 +26,7 @@ export function ListingSidebar({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [lastAppointment, setLastAppointment] = useState<any>(null);
+  const [lastAppointment, setLastAppointment] = useState<Appointment | null>(null);
 
   const fav = isFavorite(listingSlug);
 
@@ -180,7 +178,7 @@ export function ListingSidebar({
             <div>
               <h4 className="text-sm font-semibold text-fg">Randevu Talebiniz Alındı</h4>
               <p className="text-xs text-fg-muted mt-1 leading-relaxed">
-                Talebiniz sisteme iletildi. Randevu detaylarınızı "Hesabım" panelinden takip edebilirsiniz.
+                Talebiniz sisteme iletildi. Randevu detaylarınızı &quot;Hesabım&quot; panelinden takip edebilirsiniz.
               </p>
             </div>
 

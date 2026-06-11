@@ -12,7 +12,17 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "src/generated/**",
+    "prisma/**",
   ]),
+  {
+    rules: {
+      // localStorage/cookie gibi yalnızca istemcide bilinen değerlerin mount
+      // anında state'e alınması SSR hidrasyonu için bilinçli bir kalıptır;
+      // bu kural uyarıya indirildi.
+      "react-hooks/set-state-in-effect": "warn",
+    },
+  },
 ]);
 
 export default eslintConfig;

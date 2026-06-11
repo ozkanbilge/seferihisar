@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useApp } from "@/context/AppContext";
 import { listings } from "@/data/listings";
 import { formatPrice, formatArea } from "@/lib/format";
-import { Phone, Star, Bed, AreaIcon, Bath, Check } from "@/components/icons";
+import { Phone, Bed, AreaIcon, Check } from "@/components/icons";
 
 export default function UserAccountPage() {
   const { userPhone, login, logout, favorites, toggleFavorite, appointments } = useApp();

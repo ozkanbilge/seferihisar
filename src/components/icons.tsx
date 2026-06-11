@@ -55,6 +55,72 @@ export const Star = (p: P) => (
   <svg {...base} {...p} fill="currentColor" stroke="none"><path d="m12 3 2.5 6 6.5.5-5 4.2 1.6 6.3L12 16.8 6.4 20l1.6-6.3-5-4.2 6.5-.5L12 3Z" /></svg>
 );
 
+
+/** Lüks kraliyet tacı — header marka işareti */
+export const Crown = (p: P) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 100 100"
+    fill="none"
+    {...p}
+    className={`royal-logo ${p.className || ""}`}
+  >
+    <style>{`
+      @keyframes crownDraw {
+        0% { stroke-dashoffset: 300; }
+        100% { stroke-dashoffset: 0; }
+      }
+      @keyframes crownShimmer {
+        0% { stop-color: #c0a062; }
+        50% { stop-color: #f3e5ab; }
+        100% { stop-color: #9c7f45; }
+      }
+      .crown-line {
+        stroke-dasharray: 300;
+        stroke-dashoffset: 300;
+        animation: crownDraw 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+      .crown-stop-1 { animation: crownShimmer 7s ease-in-out infinite alternate; }
+      .crown-stop-2 { animation: crownShimmer 7s ease-in-out infinite alternate-reverse; }
+      @media (prefers-reduced-motion: reduce) {
+        .crown-line, .crown-stop-1, .crown-stop-2 { animation: none; }
+        .crown-line { stroke-dashoffset: 0; }
+      }
+    `}</style>
+    <defs>
+      <linearGradient id="crownGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#8a6f3c" className="crown-stop-1" />
+        <stop offset="25%" stopColor="#c0a062" />
+        <stop offset="45%" stopColor="#f6e7b6" className="crown-stop-2" />
+        <stop offset="62%" stopColor="#d8b978" />
+        <stop offset="82%" stopColor="#f3e5ab" className="crown-stop-1" />
+        <stop offset="100%" stopColor="#8a6f3c" />
+      </linearGradient>
+    </defs>
+
+    <g stroke="url(#crownGrad)" strokeLinecap="round" strokeLinejoin="round">
+      {/* Taç gövdesi: kavisli üç sivri uç */}
+      <path
+        d="M 20 64 L 24 32 Q 37 48 50 20 Q 63 48 76 32 L 80 64 Z"
+        strokeWidth="4"
+        className="crown-line"
+        style={{ animationDelay: "0.05s" }}
+      />
+      {/* Çift bant */}
+      <path d="M 18 73 H 82" strokeWidth="3.2" className="crown-line" style={{ animationDelay: "0.35s" }} />
+      <path d="M 24 80 H 76" strokeWidth="1.5" opacity="0.55" className="crown-line" style={{ animationDelay: "0.45s" }} />
+    </g>
+
+    {/* Mücevherler: yan inciler, tepe elması, band taşları */}
+    <circle cx="24" cy="27" r="3.4" fill="url(#crownGrad)" />
+    <circle cx="76" cy="27" r="3.4" fill="url(#crownGrad)" />
+    <polygon points="50 6, 54.5 12.5, 50 19, 45.5 12.5" fill="url(#crownGrad)" />
+    <polygon points="50 68.5, 53.5 73, 50 77.5, 46.5 73" fill="url(#crownGrad)" />
+    <circle cx="34" cy="73" r="2" fill="url(#crownGrad)" />
+    <circle cx="66" cy="73" r="2" fill="url(#crownGrad)" />
+  </svg>
+);
+
 export const Logo = (p: P) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

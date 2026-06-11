@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Logo, Phone, Menu } from "@/components/icons";
+import { Crown, Phone, Menu } from "@/components/icons";
 import { site, nav } from "@/lib/site";
 import { MobileMenu } from "./MobileMenu";
 import { getDict, setClientLang, LANGS, type Lang } from "@/lib/i18n";
@@ -13,8 +13,8 @@ export function Header({ lang = "tr" }: { lang?: Lang }) {
   return (
     <header className="sticky top-0 z-50 bg-ink/95 backdrop-blur-md border-b border-ink-line">
       <div className="container-x flex items-center justify-between h-16 md:h-[72px]">
-        <Link href="/" className="flex items-center gap-3 group" id="header-logo">
-          <Logo className="w-14 h-14 min-[380px]:w-16 min-[380px]:h-16 md:w-28 md:h-28 translate-y-1 md:translate-y-5 text-gold transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3" />
+        <Link href="/" className="flex items-center gap-2 md:gap-3 group" id="header-logo">
+          <Crown className="w-16 h-16 min-[380px]:w-[72px] min-[380px]:h-[72px] md:w-24 md:h-24 translate-y-1 md:translate-y-3 text-gold transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6" />
           <span className="font-semibold text-base min-[380px]:text-lg md:text-3xl tracking-[0.06em] md:tracking-[0.08em] uppercase font-[family-name:var(--font-cinzel)] royal-text whitespace-nowrap">
             {site.shortName}
           </span>

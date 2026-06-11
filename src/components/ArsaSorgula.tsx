@@ -31,9 +31,9 @@ interface ParselDetails {
   sorguNo: string;
 }
 
-/** TKGM parsel poligonunu 200x200 SVG alanına oturtur */
-function ringToSvgPoints(ring: [number, number][]): string {
-  if (ring.length < 3) return "";
+/** TKGM parsel poligonunu 200x200 SVG alanına oturtur (nokta dizisiyle) */
+function ringToSvg(ring: [number, number][]): { points: string; vertices: [number, number][] } {
+  if (ring.length < 3) return { points: "", vertices: [] };
   const lngs = ring.map((p) => p[0]);
   const lats = ring.map((p) => p[1]);
   const minX = Math.min(...lngs);
@@ -43,12 +43,30 @@ function ringToSvgPoints(ring: [number, number][]): string {
   const scale = 160 / Math.max(w, h);
   const ox = (200 - w * scale) / 2;
   const oy = (200 - h * scale) / 2;
-  return ring
-    .map(
-      ([x, y]) =>
-        `${(ox + (x - minX) * scale).toFixed(1)},${(oy + (maxY - y) * scale).toFixed(1)}`
-    )
-    .join(" ");
+  const vertices = ring.map(
+    ([x, y]) =>
+      [Number((ox + (x - minX) * scale).toFixed(1)), Number((oy + (maxY - y) * scale).toFixed(1))] as [number, number]
+  );
+  return { points: vertices.map(([x, y]) => `${x},${y}`).join(" "), vertices };
+}
+
+/** Değerin 0'dan hedefe yumuşak sayarak yükselmesi */
+function CountUp({ value, format }: { value: number; format: (n: number) => string }) {
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const start = performance.now();
+    const dur = 1500;
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(Math.round(value * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return <>{format(display)}</>;
 }
 
 export function ArsaSorgula() {
@@ -207,7 +225,9 @@ export function ArsaSorgula() {
     window.open(whatsappUrl, "_blank");
   };
 
-  const parcelPoints = details ? ringToSvgPoints(details.ring) : "";
+  const { points: parcelPoints, vertices: parcelVertices } = details
+    ? ringToSvg(details.ring)
+    : { points: "", vertices: [] };
 
   return (
     <section className="bg-ink-soft border-y border-ink-line scroll-mt-20" id="arsa-sorgulama">
@@ -442,17 +462,24 @@ export function ArsaSorgula() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-up">
                 {/* Sol Taraf: Metrikler */}
                 <div className="space-y-4">
-                  <div>
-                    <span className="text-[0.65rem] text-gold uppercase tracking-widest font-semibold block mb-0.5">{t.found}</span>
-                    <h4 className="display text-xl md:text-2xl text-fg-invert">
-                      {details.mahalle} Mah. {details.ada}/{details.parsel}
-                    </h4>
-                    <span className="text-[0.62rem] text-fg-invert-muted/70 block">
-                      {details.il} / {details.ilce} · Sorgu No: {details.sorguNo}
+                  <div className="flex items-start gap-3 animate-fade-up">
+                    <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center shrink-0 stamp-in animate-glow">
+                      <svg className="w-5 h-5 text-gold" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
                     </span>
+                    <div>
+                      <span className="text-[0.65rem] text-gold uppercase tracking-widest font-semibold block mb-0.5">{t.found}</span>
+                      <h4 className="display text-xl md:text-2xl text-fg-invert">
+                        {details.mahalle} Mah. {details.ada}/{details.parsel}
+                      </h4>
+                      <span className="text-[0.62rem] text-fg-invert-muted/70 block">
+                        {details.il} / {details.ilce} · Sorgu No: {details.sorguNo}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 pt-3 border-t border-ink-line">
+                  <div className="grid grid-cols-2 gap-4 pt-3 border-t border-ink-line animate-fade-up" style={{ animationDelay: "0.15s" }}>
                     <div>
                       <span className="text-[0.65rem] text-fg-invert-muted uppercase block">{t.area}</span>
                       <span className="text-base font-bold text-fg-invert">{details.alanText} m²</span>
@@ -477,24 +504,49 @@ export function ArsaSorgula() {
                     )}
                   </div>
 
-                  <div className="pt-3 border-t border-ink-line space-y-2">
+                  <div className="pt-3 border-t border-ink-line space-y-3 animate-fade-up" style={{ animationDelay: "0.3s" }}>
                     {details.tahminiDeger && details.birimFiyat ? (
                       <>
-                        <div>
-                          <span className="text-[0.65rem] text-fg-invert-muted uppercase block">{t.unitPrice}</span>
-                          <span className="text-sm font-semibold text-fg-invert">{formatPrice(details.birimFiyat)}</span>
-                        </div>
-                        <div>
-                          <span className="text-[0.65rem] text-fg-invert-muted uppercase block">{t.estimated}</span>
-                          <span className="text-xl font-bold text-gold">{formatPrice(details.tahminiDeger)}</span>
+                        {/* Tahmini değer — dönen ışık çerçeveli sayan panel */}
+                        <div className="gold-ring relative rounded-2xl p-[1.5px] shadow-[0_8px_30px_rgba(0,0,0,0.4),0_0_24px_rgba(192,160,98,0.12)]">
+                          {/* Sayım bitince saçılan altın kıvılcımlar */}
+                          {[
+                            { dx: "-26px", dy: "-30px", t: "8%", l: "12%" },
+                            { dx: "30px", dy: "-24px", t: "4%", l: "82%" },
+                            { dx: "-34px", dy: "16px", t: "70%", l: "6%" },
+                            { dx: "28px", dy: "26px", t: "74%", l: "88%" },
+                            { dx: "0px", dy: "-36px", t: "0%", l: "48%" },
+                            { dx: "36px", dy: "0px", t: "42%", l: "96%" },
+                          ].map((sp, i) => (
+                            <span
+                              key={i}
+                              className="sparkle"
+                              style={{
+                                top: sp.t,
+                                left: sp.l,
+                                "--dx": sp.dx,
+                                "--dy": sp.dy,
+                                "--delay": `${1.5 + i * 0.08}s`,
+                              } as React.CSSProperties}
+                            />
+                          ))}
+                          <div className="rounded-[15px] bg-ink/85 px-4 py-3.5">
+                            <div className="flex items-baseline justify-between gap-3">
+                              <span className="text-[0.62rem] text-fg-invert-muted uppercase tracking-wider">{t.estimated}</span>
+                              <span className="text-[0.6rem] text-fg-invert-muted/60">{formatPrice(details.birimFiyat)} / m²</span>
+                            </div>
+                            <span className="block text-2xl md:text-[1.7rem] font-bold royal-text font-[family-name:var(--font-cinzel)] tracking-wide mt-1">
+                              <CountUp value={details.tahminiDeger} format={formatPrice} />
+                            </span>
+                          </div>
                         </div>
                         {details.garantiDeger && (
-                          <div className="mt-2 p-3 rounded-xl border border-gold/30 bg-gold/5 animate-glow">
+                          <div className="p-3 rounded-xl border border-gold/30 bg-gold/5 animate-glow">
                             <span className="text-[0.65rem] text-gold-bright uppercase tracking-wider font-bold block mb-0.5">
                               {t.guarantee}
                             </span>
                             <span className="text-lg font-bold text-gold-bright block">
-                              {formatPrice(details.garantiDeger)}
+                              <CountUp value={details.garantiDeger} format={formatPrice} />
                             </span>
                             <span className="text-[0.62rem] text-fg-invert-muted leading-snug block mt-0.5">
                               {t.guaranteeText}
@@ -514,43 +566,121 @@ export function ArsaSorgula() {
 
                   <button
                     onClick={handleWhatsAppRedirect}
-                    className="w-full btn btn-gold gap-2.5 py-3 text-xs uppercase font-bold tracking-wider"
+                    className="w-full btn btn-gold gap-2.5 py-3 text-xs uppercase font-bold tracking-wider animate-fade-up"
+                    style={{ animationDelay: "0.45s" }}
                   >
                     <Phone className="w-3.5 h-3.5" />
                     {t.whatsapp}
                   </button>
                 </div>
 
-                {/* Sağ Taraf: Gerçek Kadastro Çizimi (TKGM) */}
-                <div className="flex flex-col bg-ink/75 border border-ink-line rounded-xl overflow-hidden min-h-[260px] relative">
+                {/* Sağ Taraf: Gerçek Kadastro Çizimi (TKGM) — fareyle hafif 3B eğilir */}
+                <div
+                  className="flex flex-col bg-ink/75 border border-ink-line rounded-xl overflow-hidden min-h-[260px] relative transition-transform duration-300 ease-out will-change-transform"
+                  style={{ transformStyle: "preserve-3d" }}
+                  onPointerMove={(e) => {
+                    const el = e.currentTarget;
+                    const r = el.getBoundingClientRect();
+                    const rx = ((e.clientY - r.top) / r.height - 0.5) * -6;
+                    const ry = ((e.clientX - r.left) / r.width - 0.5) * 6;
+                    el.style.transform = `perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+                  }}
+                  onPointerLeave={(e) => {
+                    e.currentTarget.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg)";
+                  }}
+                >
                   {/* Grid background */}
                   <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]" />
 
                   <div className="flex-1 flex items-center justify-center p-4 relative z-10">
                     {parcelPoints ? (
                       <svg className="w-full h-full max-h-[220px]" viewBox="0 0 200 200" fill="none">
-                        {/* Gerçek parsel sınırı (TKGM geometrisi) */}
+                        <defs>
+                          <linearGradient id="goldGradBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#c0a062" stopOpacity="0.25" />
+                            <stop offset="100%" stopColor="#9c7f45" stopOpacity="0.06" />
+                          </linearGradient>
+                          <linearGradient id="scanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#d8b978" stopOpacity="0" />
+                            <stop offset="50%" stopColor="#d8b978" stopOpacity="0.35" />
+                            <stop offset="100%" stopColor="#d8b978" stopOpacity="0" />
+                          </linearGradient>
+                          <clipPath id="parcelClip">
+                            <polygon points={parcelPoints} />
+                          </clipPath>
+                        </defs>
+
+                        {/* Dolgu: çizim bitince yumuşakça belirir */}
+                        <polygon points={parcelPoints} fill="url(#goldGradBg)" className="parcel-fill" />
+
+                        {/* Parsel içinde gezinen tarama ışını */}
+                        <g clipPath="url(#parcelClip)">
+                          <rect x="0" y="0" width="200" height="36" fill="url(#scanGrad)" className="scan-beam" />
+                        </g>
+
+                        {/* Sınır: kalemle çizilir gibi */}
                         <polygon
                           points={parcelPoints}
                           stroke="#c0a062"
                           strokeWidth="2"
                           strokeLinejoin="round"
-                          fill="url(#goldGradBg)"
-                          className="animate-pulse"
+                          fill="none"
+                          pathLength={100}
+                          className="parcel-draw"
                         />
 
-                        {/* Center Point */}
-                        <circle cx="100" cy="100" r="3" fill="#d8b978" />
-                        <line x1="100" y1="80" x2="100" y2="120" stroke="#d8b978" strokeWidth="0.5" strokeDasharray="2 2" />
-                        <line x1="80" y1="100" x2="120" y2="100" stroke="#d8b978" strokeWidth="0.5" strokeDasharray="2 2" />
+                        {/* Köşe noktaları sırayla belirir */}
+                        {parcelVertices.map(([vx, vy], i) => (
+                          <circle
+                            key={i}
+                            cx={vx}
+                            cy={vy}
+                            r="2.2"
+                            fill="#d8b978"
+                            stroke="#0e0f12"
+                            strokeWidth="0.8"
+                            className="vertex-pop"
+                            style={{ animationDelay: `${0.2 + (i / Math.max(parcelVertices.length, 1)) * 1.4}s` }}
+                          />
+                        ))}
 
-                        {/* Map gradient */}
-                        <defs>
-                          <linearGradient id="goldGradBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#c0a062" stopOpacity="0.2" />
-                            <stop offset="100%" stopColor="#9c7f45" stopOpacity="0.05" />
-                          </linearGradient>
-                        </defs>
+                        {/* Nefes alan merkez + artı işareti */}
+                        <circle cx="100" cy="100" r="3" fill="#d8b978">
+                          <animate attributeName="r" values="2.4;3.4;2.4" dur="2.4s" repeatCount="indefinite" />
+                        </circle>
+                        <line x1="100" y1="82" x2="100" y2="118" stroke="#d8b978" strokeWidth="0.5" strokeDasharray="2 2" />
+                        <line x1="82" y1="100" x2="118" y2="100" stroke="#d8b978" strokeWidth="0.5" strokeDasharray="2 2" />
+
+                        {/* Teknik çizim köşe tikleri */}
+                        {[
+                          "M 6 16 V 6 H 16", "M 184 6 H 194 V 16",
+                          "M 194 184 V 194 H 184", "M 16 194 H 6 V 184",
+                        ].map((d, i) => (
+                          <path key={i} d={d} stroke="#c0a062" strokeOpacity="0.5" strokeWidth="1" fill="none" />
+                        ))}
+
+                        {/* Kuzey oku */}
+                        <g className="animate-fade-up" style={{ animationDelay: "1.2s" }}>
+                          <circle cx="178" cy="26" r="11" fill="#0e0f12" fillOpacity="0.8" stroke="#c0a062" strokeOpacity="0.4" strokeWidth="0.6" />
+                          <path d="M 178 19 L 181 29 L 178 27 L 175 29 Z" fill="#d8b978" />
+                          <text x="178" y="34.5" textAnchor="middle" fill="#d8b978" fontSize="5.5" fontWeight="700" fontFamily="var(--font-sans)">N</text>
+                        </g>
+
+                        {/* Ölçek çubuğu */}
+                        <g className="animate-fade-up" style={{ animationDelay: "1.4s" }}>
+                          <line x1="14" y1="188" x2="54" y2="188" stroke="#d8b978" strokeWidth="1.2" />
+                          <line x1="14" y1="185" x2="14" y2="191" stroke="#d8b978" strokeWidth="1.2" />
+                          <line x1="34" y1="186" x2="34" y2="190" stroke="#d8b978" strokeWidth="0.8" />
+                          <line x1="54" y1="185" x2="54" y2="191" stroke="#d8b978" strokeWidth="1.2" />
+                        </g>
+
+                        {/* Alan etiketi */}
+                        <g className="animate-fade-up" style={{ animationDelay: "1.7s" }}>
+                          <rect x="62" y="124" width="76" height="17" rx="8.5" fill="#0e0f12" fillOpacity="0.85" stroke="#c0a062" strokeOpacity="0.4" strokeWidth="0.6" />
+                          <text x="100" y="135.5" textAnchor="middle" fill="#d8b978" fontSize="9" fontWeight="700" fontFamily="var(--font-sans)">
+                            {details.alanText} m²
+                          </text>
+                        </g>
                       </svg>
                     ) : (
                       <p className="text-xs text-fg-invert-muted">{t.geomMissing}</p>

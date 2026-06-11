@@ -94,7 +94,7 @@ export function LuxeDatePicker({
         <div
           role="dialog"
           aria-label={label}
-          className="absolute left-0 right-0 min-w-[248px] top-[calc(100%+8px)] z-50 rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up"
+          className="absolute left-0 right-0 min-w-[248px] max-w-[calc(100vw-3rem)] top-[calc(100%+8px)] z-50 rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up"
           style={{ backgroundColor: "var(--color-ink-card)", animationDuration: "0.25s" }}
         >
           <div className="h-[2px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep" />
@@ -219,7 +219,7 @@ export function LuxeTimePicker({
       {open && (
         <div
           role="listbox"
-          className="absolute right-0 left-auto min-w-[210px] top-[calc(100%+8px)] z-50 rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up"
+          className="absolute left-0 right-0 min-[420px]:left-auto min-[420px]:min-w-[210px] top-[calc(100%+8px)] z-50 rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up"
           style={{ backgroundColor: "var(--color-ink-card)", animationDuration: "0.25s" }}
         >
           <div className="h-[2px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep" />

@@ -157,7 +157,7 @@ export function ListingSidebar({
               )}
 
               {/* Date Input */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
                     Randevu Tarihi

@@ -77,6 +77,10 @@ export const Logo = (p: P) => (
         0% { opacity: 0; transform: translateY(5px); }
         100% { opacity: 1; transform: translateY(0); }
       }
+      @keyframes leafPop {
+        0% { opacity: 0; transform: scale(0); }
+        100% { opacity: 1; transform: scale(1); }
+      }
       .logo-line {
         stroke-dasharray: 300;
         stroke-dashoffset: 300;
@@ -85,52 +89,25 @@ export const Logo = (p: P) => (
       .logo-monogram {
         animation: monogramIn 1.1s ease-out 0.4s both;
       }
+      .logo-leaf {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: leafPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
       .logo-shimmer-stop-1 {
         animation: shimmer 7s ease-in-out infinite alternate;
       }
       .logo-shimmer-stop-2 {
         animation: shimmer 7s ease-in-out infinite alternate-reverse;
       }
+      @media (prefers-reduced-motion: reduce) {
+        .logo-line, .logo-monogram, .logo-leaf,
+        .logo-shimmer-stop-1, .logo-shimmer-stop-2 { animation: none; }
+        .logo-line { stroke-dashoffset: 0; }
+        .logo-leaf, .logo-monogram { opacity: 1; }
+      }
     `}</style>
-
-    <g stroke="url(#goldGrad)" strokeLinecap="round" strokeLinejoin="round">
-      {/* Modern geometrik taç — keskin hatlar */}
-      <path
-        d="M 26 36 L 29 18 L 40 28 L 50 12 L 60 28 L 71 18 L 74 36 Z"
-        strokeWidth="2.4"
-        className="logo-line"
-        style={{ animationDelay: "0.1s" }}
-      />
-      {/* Taç bandı — çift ince çizgi */}
-      <path d="M 27 41 H 73" strokeWidth="1.8" className="logo-line" style={{ animationDelay: "0.4s" }} />
-      <path d="M 30 45 H 70" strokeWidth="0.9" opacity="0.6" className="logo-line" style={{ animationDelay: "0.55s" }} />
-
-      {/* Monogram altı flörür */}
-      <path d="M 22 84 H 42 M 58 84 H 78" strokeWidth="1.2" className="logo-line" style={{ animationDelay: "0.75s" }} />
-    </g>
-
-    {/* Taç uçlarındaki mücevherler */}
-    <circle cx="29" cy="16" r="1.9" fill="url(#goldGrad)" />
-    <circle cx="50" cy="9.5" r="2.4" fill="url(#goldGrad)" />
-    <circle cx="71" cy="16" r="1.9" fill="url(#goldGrad)" />
-
-    {/* Serif "PE" monogramı — büyük ve net */}
-    <text
-      x="50"
-      y="76"
-      textAnchor="middle"
-      fontFamily="var(--font-cinzel), var(--font-cormorant), Georgia, serif"
-      fontSize="32"
-      fontWeight="700"
-      letterSpacing="2"
-      fill="url(#goldGrad)"
-      className="logo-monogram"
-    >
-      PE
-    </text>
-
-    {/* Flörür ortasındaki elmas */}
-    <polygon points="50 80.5, 53 84, 50 87.5, 47 84" fill="url(#goldGrad)" />
 
     <defs>
       <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -141,7 +118,83 @@ export const Logo = (p: P) => (
         <stop offset="82%" stopColor="#f3e5ab" className="logo-shimmer-stop-1" />
         <stop offset="100%" stopColor="#8a6f3c" />
       </linearGradient>
+      {/* Defne yaprağı (badem formu) */}
+      <path id="laurelLeaf" d="M 0 0 Q 3.4 -2.6 7 0 Q 3.4 2.6 0 0 Z" />
     </defs>
+
+    <g stroke="url(#goldGrad)" strokeLinecap="round" strokeLinejoin="round">
+      {/* Görkemli taç: kavisli üç sivri uç */}
+      <path
+        d="M 33 36 L 35 20 Q 43 30 50 13 Q 57 30 65 20 L 67 36 Z"
+        strokeWidth="2.2"
+        className="logo-line"
+        style={{ animationDelay: "0.1s" }}
+      />
+      {/* Taç bandı — çift çizgi */}
+      <path d="M 32 41 H 68" strokeWidth="1.7" className="logo-line" style={{ animationDelay: "0.4s" }} />
+      <path d="M 35.5 45 H 64.5" strokeWidth="0.8" opacity="0.55" className="logo-line" style={{ animationDelay: "0.5s" }} />
+
+      {/* Defne dalları — sap çizgileri */}
+      <path d="M 37 86 Q 24 74 22.5 54" strokeWidth="1.3" className="logo-line" style={{ animationDelay: "0.55s" }} />
+      <path d="M 63 86 Q 76 74 77.5 54" strokeWidth="1.3" className="logo-line" style={{ animationDelay: "0.55s" }} />
+    </g>
+
+    {/* Taç mücevherleri: yan inciler + tepe elması */}
+    <circle cx="35" cy="17.5" r="1.9" fill="url(#goldGrad)" />
+    <circle cx="65" cy="17.5" r="1.9" fill="url(#goldGrad)" />
+    <polygon points="50 5.5, 52.6 9.2, 50 12.9, 47.4 9.2" fill="url(#goldGrad)" />
+    {/* Band ortası elmas */}
+    <polygon points="50 38.6, 52 41, 50 43.4, 48 41" fill="url(#goldGrad)" />
+
+    {/* Sol defne yaprakları */}
+    {[
+      [32.5, 81, -128], [27.5, 74.5, -112], [24.5, 67.5, -100],
+      [23, 60.5, -90], [22.8, 53.5, -76],
+    ].map(([x, y, r], i) => (
+      <use
+        key={`l${i}`}
+        href="#laurelLeaf"
+        fill="url(#goldGrad)"
+        transform={`translate(${x} ${y}) rotate(${r})`}
+        className="logo-leaf"
+        style={{ animationDelay: `${0.7 + i * 0.12}s` }}
+      />
+    ))}
+    {/* Sağ defne yaprakları (ayna) */}
+    {[
+      [67.5, 81, -52], [72.5, 74.5, -68], [75.5, 67.5, -80],
+      [77, 60.5, -90], [77.2, 53.5, -104],
+    ].map(([x, y, r], i) => (
+      <use
+        key={`r${i}`}
+        href="#laurelLeaf"
+        fill="url(#goldGrad)"
+        transform={`translate(${x} ${y}) rotate(${r})`}
+        className="logo-leaf"
+        style={{ animationDelay: `${0.7 + i * 0.12}s` }}
+      />
+    ))}
+
+    {/* Süslü "PE" monogramı */}
+    <text
+      x="50"
+      y="74"
+      textAnchor="middle"
+      fontFamily="var(--font-cinzel-deco), var(--font-cinzel), Georgia, serif"
+      fontSize="27"
+      fontWeight="900"
+      letterSpacing="0.5"
+      fill="url(#goldGrad)"
+      className="logo-monogram"
+    >
+      PE
+    </text>
+
+    {/* Alt flörür: çizgi · elmas · çizgi */}
+    <g stroke="url(#goldGrad)" strokeLinecap="round">
+      <path d="M 41 88 H 46.5 M 53.5 88 H 59" strokeWidth="1" className="logo-line" style={{ animationDelay: "0.9s" }} />
+    </g>
+    <polygon points="50 85.8, 52 88, 50 90.2, 48 88" fill="url(#goldGrad)" />
   </svg>
 );
 

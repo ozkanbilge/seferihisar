@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cinzel, Cormorant_Garamond, Inter } from "next/font/google";
+import { Cinzel, Cinzel_Decorative, Cormorant_Garamond, Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { isLang, langDir, LANG_COOKIE, type Lang } from "@/lib/i18n";
 import { site } from "@/lib/site";
@@ -30,6 +30,14 @@ const cinzel = Cinzel({
   variable: "--font-cinzel",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "600", "700"],
+  display: "swap",
+});
+
+// Logo monogramı (PE) için süslü kraliyet serifi
+const cinzelDeco = Cinzel_Decorative({
+  variable: "--font-cinzel-deco",
+  subsets: ["latin", "latin-ext"],
+  weight: ["700", "900"],
   display: "swap",
 });
 
@@ -69,7 +77,7 @@ export default async function RootLayout({
     <html
       lang={lang}
       dir={langDir(lang)}
-      className={`${cormorant.variable} ${inter.variable} ${cinzel.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${inter.variable} ${cinzel.variable} ${cinzelDeco.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

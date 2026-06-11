@@ -15,7 +15,6 @@ import { ArsaSorgula } from "@/components/ArsaSorgula";
 import { HeroSearch } from "@/components/HeroSearch";
 import { MiniBanner } from "@/components/MiniBanner";
 import { OtherDistricts } from "@/components/OtherDistricts";
-import { BrandsMarquee } from "@/components/BrandsMarquee";
 import { getHomepage } from "@/lib/cms";
 import { getDict, isLang, LANG_COOKIE, type Lang } from "@/lib/i18n";
 
@@ -270,9 +269,6 @@ export default async function Home() {
           </div>
         </section>
       )}
-
-      {/* ══════ MARKALAR (logo geçişli) ══════ */}
-      <BrandsMarquee />
 
       {/* ══════ BLOG / INSIGHTS ══════ */}
       {c.sections.blog && (

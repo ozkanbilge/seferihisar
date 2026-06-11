@@ -105,7 +105,7 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredListings.slice(0, c.featured.count).map((listing) => (
-              <ListingCard key={listing.slug} listing={listing} />
+              <ListingCard key={listing.slug} listing={listing} eager />
             ))}
           </div>
 
@@ -239,7 +239,7 @@ export default async function Home() {
 
       {/* ══════ WHY US ══════ */}
       {c.sections.whyUs && (
-        <section className="bg-cream-soft border-y border-cream-line animate-fade-up" id="why-us">
+        <section className="bg-cream-soft border-y border-cream-line" id="why-us">
           <div className="container-x py-16 md:py-20">
             <div className="text-center mb-12">
               <p className="eyebrow mb-3">{c.whyUs.eyebrow}</p>

@@ -1,12 +1,11 @@
-interface Stat {
-  value: string;
-  label: string;
-}
+import { districts, allNeighborhoods } from "@/data/locations";
+import { propertyTypes } from "@/data/property-types";
 
-const stats: Stat[] = [
-  { value: "150+", label: "Aktif İlan" },
-  { value: "10+", label: "Bölge" },
-  { value: "98%", label: "Müşteri Memnuniyeti" },
+/** Veri dosyalarından canlı türetilen gerçek rakamlar */
+const stats = [
+  { value: String(districts.length), label: "İlçe" },
+  { value: `${allNeighborhoods.length}+`, label: "Mahalle" },
+  { value: String(propertyTypes.length), label: "Gayrimenkul Türü" },
   { value: "15+", label: "Yıllık Deneyim" },
 ];
 

@@ -4,7 +4,7 @@ import type { Listing } from "@/data/listings";
 import { formatPriceShort, formatArea } from "@/lib/format";
 import { Bed, Bath, AreaIcon, MapPin, Star } from "@/components/icons";
 
-export function ListingCard({ listing }: { listing: Listing }) {
+export function ListingCard({ listing, eager = false }: { listing: Listing; eager?: boolean }) {
   const isPremium = listing.tier === "premium";
   const isVitrin = listing.tier === "vitrin";
 
@@ -15,12 +15,14 @@ export function ListingCard({ listing }: { listing: Listing }) {
       id={`listing-${listing.slug}`}
     >
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden bg-ink-soft">
         <Image
           src={listing.images[0]}
           alt={listing.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          priority={eager}
+          unoptimized
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {/* Overlay gradient */}

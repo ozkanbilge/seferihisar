@@ -4,7 +4,7 @@ import type { BlogPost } from "@/data/blog";
 import { formatDate } from "@/lib/format";
 import { ArrowUpRight } from "@/components/icons";
 
-export function BlogCard({ post }: { post: BlogPost }) {
+export function BlogCard({ post, eager = false }: { post: BlogPost; eager?: boolean }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -17,6 +17,8 @@ export function BlogCard({ post }: { post: BlogPost }) {
           alt={post.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading={eager ? "eager" : undefined}
+          unoptimized
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />

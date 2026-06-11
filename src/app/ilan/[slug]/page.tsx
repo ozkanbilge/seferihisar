@@ -127,9 +127,28 @@ export default async function ListingDetailPage(
           {/* Description */}
           <section className="mt-8">
             <SectionTitle>Açıklama</SectionTitle>
-            <p className="text-sm text-fg-muted leading-relaxed">
-              {listing.description}
-            </p>
+            <div className="relative flex rounded-2xl bg-surface border border-gold/15 shadow-[0_8px_28px_rgba(0,0,0,0.18)] overflow-hidden">
+              {/* Sol altın aksan şeridi */}
+              <span className="w-[3px] shrink-0 bg-gradient-to-b from-gold-bright via-gold to-gold-deep" aria-hidden />
+              {/* Süslü arka plan tırnağı */}
+              <span
+                className="absolute -top-3 right-4 text-[5.5rem] leading-none font-[family-name:var(--font-cinzel-deco)] text-gold/[0.07] select-none pointer-events-none"
+                aria-hidden
+              >
+                &rdquo;
+              </span>
+              <div className="relative px-5 py-5 md:px-6 md:py-6 w-full">
+                <p className="text-sm md:text-[0.92rem] text-fg-muted leading-[1.95]">
+                  {listing.description}
+                </p>
+                {/* Kitap sonu flörürü */}
+                <div className="flex items-center justify-center gap-2.5 mt-5">
+                  <span className="h-px w-10 bg-gradient-to-r from-transparent to-gold/50" />
+                  <span className="w-1.5 h-1.5 rotate-45 bg-gold/70" />
+                  <span className="h-px w-10 bg-gradient-to-l from-transparent to-gold/50" />
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* Details Table */}

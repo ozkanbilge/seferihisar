@@ -336,7 +336,7 @@ function ListingHeader({
       </div>
 
       <div className="gold-ring rounded-2xl p-[1.5px] shadow-[0_10px_34px_rgba(0,0,0,0.35),0_0_24px_rgba(192,160,98,0.1)]">
-        <div className="rounded-[15px] px-4 py-3.5 flex items-center justify-between gap-3" style={{ backgroundColor: "var(--color-ink-card)" }}>
+        <div className="rounded-[15px] px-4 py-3.5 flex items-center justify-between gap-3" style={{ backgroundColor: "var(--color-surface)" }}>
           <div className="min-w-0">
             <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.18em] mb-0.5">
               {listing.transaction === "kiralik" ? "Aylık Kira Bedeli" : "Satış Bedeli"}

@@ -9,6 +9,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ImageGallery } from "@/components/ImageGallery";
 import { ListingSidebar } from "@/components/ListingSidebar";
+import { ListingCard } from "@/components/ListingCard";
 import {
   Bed,
   Bath,
@@ -59,6 +60,16 @@ export default async function ListingDetailPage(
 
   const isPremium = listing.tier === "premium";
 
+  // Benzer ilanlar: aynı tür + işlem öncelikli, sonra aynı ilçe
+  const similar = [
+    ...listings.filter(
+      (l) => l.slug !== listing.slug && l.typeSlug === listing.typeSlug && l.transaction === listing.transaction
+    ),
+    ...listings.filter(
+      (l) => l.slug !== listing.slug && l.districtSlug === listing.districtSlug && l.typeSlug !== listing.typeSlug
+    ),
+  ].slice(0, 3);
+
   const details = [
     { label: "İlan No", value: listing.ref },
     { label: "İlan Tarihi", value: formatDate(listing.createdAt) },
@@ -94,7 +105,11 @@ export default async function ListingDetailPage(
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
         {/* Left: Gallery + Details */}
         <div className="lg:col-span-3">
-          <div className="rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_16px_44px_rgba(0,0,0,0.35)]">
+          <div className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_16px_44px_rgba(0,0,0,0.35)]">
+            <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2 left-2 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2 right-2 w-5 h-5 border-b border-r border-gold/70 rounded-br z-10 pointer-events-none" aria-hidden />
             <div className="rounded-2xl overflow-hidden bg-surface p-2">
               <ImageGallery images={listing.images} alt={listing.title} />
             </div>
@@ -112,7 +127,7 @@ export default async function ListingDetailPage(
           {/* Description */}
           <section className="mt-8">
             <SectionTitle>Açıklama</SectionTitle>
-            <p className="text-sm text-fg-muted leading-relaxed">
+            <p className="text-sm text-fg-muted leading-[1.9] first-letter:float-left first-letter:font-[family-name:var(--font-cinzel-deco)] first-letter:text-[2.6rem] first-letter:leading-[0.85] first-letter:mr-2 first-letter:mt-1 first-letter:font-bold first-letter:[background:linear-gradient(135deg,#9c7f45,#f6e7b6,#c0a062)] first-letter:bg-clip-text first-letter:text-transparent">
               {listing.description}
             </p>
           </section>
@@ -157,7 +172,7 @@ export default async function ListingDetailPage(
         </div>
 
         {/* Right Sidebar */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 lg:sticky lg:top-24 lg:self-start">
           {/* Title + Price (desktop) */}
           <div className="hidden lg:block mb-8">
             <ListingHeader
@@ -176,6 +191,25 @@ export default async function ListingDetailPage(
           />
         </div>
       </div>
+
+      {similar.length > 0 && (
+        <section className="mt-14 md:mt-20">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/40" />
+            <h2 className="text-base md:text-lg font-bold text-fg font-[family-name:var(--font-cinzel)] uppercase tracking-[0.14em] flex items-center gap-2.5">
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+              Benzer İlanlar
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+            </h2>
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/40" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {similar.map((l) => (
+              <ListingCard key={l.slug} listing={l} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <JsonLd
         data={[
@@ -231,17 +265,26 @@ function ListingHeader({
         <span className="text-sm">{placeName}</span>
       </div>
 
-      <div className="flex items-baseline gap-2 mb-1">
-        <span className="text-2xl md:text-[2rem] font-bold royal-text font-[family-name:var(--font-cinzel)] tracking-wide">
-          {formatPrice(listing.price)}
-        </span>
-        {listing.transaction === "kiralik" && (
-          <span className="text-sm text-fg-muted">/ aylık</span>
-        )}
-      </div>
-      <div className="flex items-center gap-2 mt-2">
-        <span className="h-px w-12 bg-gradient-to-r from-gold/60 to-transparent" />
-        <span className="w-1.5 h-1.5 rotate-45 bg-gold/70" />
+      <div className="gold-ring rounded-2xl p-[1.5px] shadow-[0_10px_34px_rgba(0,0,0,0.35),0_0_24px_rgba(192,160,98,0.1)]">
+        <div className="rounded-[15px] px-4 py-3.5 flex items-center justify-between gap-3" style={{ backgroundColor: "var(--color-ink-card)" }}>
+          <div>
+            <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.18em] mb-0.5">
+              {listing.transaction === "kiralik" ? "Aylık Kira Bedeli" : "Satış Bedeli"}
+            </span>
+            <span className="text-2xl md:text-[1.9rem] font-bold royal-text font-[family-name:var(--font-cinzel)] tracking-wide whitespace-nowrap">
+              {formatPrice(listing.price)}
+            </span>
+          </div>
+          <a
+            href={`https://wa.me/905323994291?text=${encodeURIComponent(`Merhaba, ${listing.ref} referans numaralı "${listing.title}" ilanı hakkında bilgi almak istiyorum.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp ile sor"
+            className="shrink-0 w-11 h-11 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright text-ink flex items-center justify-center hover:shadow-[0_0_18px_rgba(192,160,98,0.5)] hover:scale-105 transition-all"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.004 2C6.48 2 2 6.48 2 12c0 1.76.46 3.42 1.27 4.88L2 22l5.3-1.29c1.4.78 3.01 1.22 4.7 1.22 5.52 0 10-4.48 10-10S17.524 2 12.004 2zm5.72 14.1c-.24.67-1.19 1.29-1.92 1.39-.49.07-1.12.11-3.23-.77-2.7-1.13-4.42-3.89-4.56-4.08-.13-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 1-2.32.24-.26.54-.32.71-.32h.51c.16 0 .38-.06.59.44.22.54.76 1.86.83 2 .07.14.12.31.02.51-.1.2-.21.32-.36.5-.15.18-.31.39-.45.52-.15.15-.31.31-.13.62.18.31.8 1.31 1.72 2.13.92.82 1.7 1.08 2.02 1.23.32.15.63.09.83-.05.21-.14 1.34-.63 1.57-.75.23-.12.38-.18.44-.29.06.11.06.64-.18 1.31z"/></svg>
+          </a>
+        </div>
       </div>
 
       {/* Quick specs */}

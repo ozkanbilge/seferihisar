@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Çalışma zamanı içerik/log verisi (admin panelden üretilir)
 /data/
+
+# prisma generated client
+/src/generated/

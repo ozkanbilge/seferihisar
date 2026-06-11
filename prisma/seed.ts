@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { db as prisma } from '../src/lib/db';
 import { listings } from '../src/data/listings';
-import { locations, primaryDistrict } from '../src/data/locations';
-
-const prisma = new PrismaClient();
+import { primaryDistrict } from '../src/data/locations';
 
 async function main() {
   console.log('Seed işlemi başlatılıyor...');
@@ -18,13 +16,13 @@ async function main() {
       slug: primaryDistrict.slug,
       name: primaryDistrict.name,
       summary: primaryDistrict.summary,
-      content: primaryDistrict.content,
+      content: primaryDistrict.about.join('\n'),
       priority: primaryDistrict.priority,
       neighborhoods: {
         create: primaryDistrict.neighborhoods.map((n) => ({
           slug: n.slug,
           name: n.name,
-          desc: n.desc,
+          desc: n.character,
         })),
       },
     },
@@ -44,7 +42,7 @@ async function main() {
         slug: d.slug,
         name: d.name,
         summary: d.summary,
-        content: d.content,
+        content: d.about.join('\n'),
         priority: d.priority,
       },
     });
@@ -54,34 +52,45 @@ async function main() {
   console.log('İlanlar ekleniyor...');
   for (const listing of listings) {
     // Bulunduğu lokasyonu ve mahalleyi bul
-    const loc = await prisma.location.findUnique({ where: { slug: listing.location.districtSlug } });
-    const neigh = await prisma.neighborhood.findUnique({ where: { slug: listing.location.neighborhoodSlug } });
+    const loc = await prisma.location.findUnique({ where: { slug: listing.districtSlug } });
+    const neigh = await prisma.neighborhood.findUnique({ where: { slug: listing.neighborhoodSlug } });
 
     if (loc && neigh) {
+      const isLand = listing.typeSlug === "arsa" || listing.typeSlug === "tarla";
+      
+      // Parse buildingAge (e.g. "5" or "12") to estimate buildYear
+      let buildYear: number | null = null;
+      if (listing.buildingAge) {
+        const ageMatch = listing.buildingAge.match(/^\d+/);
+        if (ageMatch) {
+          buildYear = 2026 - parseInt(ageMatch[0], 10);
+        }
+      }
+
       await prisma.property.upsert({
         where: { slug: listing.slug },
         update: {},
         create: {
           slug: listing.slug,
           title: listing.title,
-          desc: listing.desc,
+          desc: listing.description,
           price: listing.price,
-          currency: listing.currency,
-          type: listing.type,
+          currency: "₺",
+          type: listing.typeSlug,
           transaction: listing.transaction,
-          status: listing.status,
-          rooms: listing.features.rooms,
-          bathrooms: listing.features.bathrooms,
-          area: listing.features.area,
-          landArea: listing.features.landArea,
-          buildYear: listing.features.buildYear,
-          heating: listing.features.heating,
-          floor: listing.features.floor,
+          status: "active",
+          rooms: listing.rooms || null,
+          bathrooms: listing.bath || null,
+          area: listing.area,
+          landArea: isLand ? listing.area : null,
+          buildYear: buildYear,
+          heating: listing.heating || null,
+          floor: listing.floor || null,
           locationId: loc.id,
           neighborhoodId: neigh.id,
-          address: listing.location.address,
+          address: null,
           images: listing.images,
-          features: listing.highlights,
+          features: listing.features,
         },
       });
     }

@@ -12,7 +12,7 @@ export const VALUATION = {
   landToHousingRatio: 0.4,
   /** Gösterilen tahmine uygulanan pazarlık indirimi (%20 düşük) */
   marketDiscount: 0.8,
-  /** Seferihisar Emlak satış garantisi çarpanı (%30 üzeri) */
+  /** Private Estate satış garantisi çarpanı (%30 üzeri) */
   guaranteeMultiplier: 1.3,
 } as const;
 

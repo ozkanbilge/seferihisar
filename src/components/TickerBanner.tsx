@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { setClientLang, type Lang } from "@/lib/i18n";
 
 function RatesRow({ rates }: { rates: { usd: number; eur: number; gold: number; usdTrend: string; eurTrend: string; goldTrend: string } }) {
   const fmt = (v: number) => v.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -25,7 +24,7 @@ function RatesRow({ rates }: { rates: { usd: number; eur: number; gold: number; 
         Gram Altın: <span className="font-bold">{rates.gold ? `${rates.gold.toLocaleString("tr-TR")} TL` : "—"}</span>
         {arrow(rates.goldTrend)}
       </span>
-      <span className="text-gold-deep font-semibold">| Seferihisar Emlak Yatırım Endeksi</span>
+      <span className="text-gold-deep font-semibold">| Private Estate Yatırım Endeksi</span>
     </div>
   );
 }
@@ -73,23 +72,6 @@ export function TickerBanner() {
           </div>
         </div>
 
-        {/* Right Side: Dil seçimi */}
-        <div className="flex items-center gap-3 shrink-0 border-l border-ink-line pl-4">
-          {([["tr", "Türkçe", "TR"], ["en", "English", "EN"], ["ar", "العربية", "AR"]] as [Lang, string, string][]).map(([code, title, label]) => (
-            <button
-              key={code}
-              type="button"
-              title={title}
-              onClick={() => {
-                setClientLang(code);
-                window.location.reload();
-              }}
-              className="font-bold text-[0.62rem] tracking-wide text-fg-invert hover:text-gold-bright transition-colors cursor-pointer"
-            >
-              {label}
-            </button>
-          ))}
-        </div>
       </div>
 
       <style>{`

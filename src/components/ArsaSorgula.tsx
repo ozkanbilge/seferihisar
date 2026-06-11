@@ -71,6 +71,7 @@ export function ArsaSorgula() {
   const [ilceler, setIlceler] = useState<TkgmItem[]>([]);
   const [mahalleler, setMahalleler] = useState<TkgmItem[]>([]);
   const defaultsApplied = useRef(false);
+  const resultPanelRef = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState<ParselDetails | null>(null);
@@ -139,6 +140,11 @@ export function ArsaSorgula() {
     setLoading(true);
     setDetails(null);
 
+    // Mobilde sonuç paneli formun altında kaldığı için sorguyla birlikte oraya kaydır
+    if (window.innerWidth < 1024) {
+      resultPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
     // Seçilen idari birim adları (sunucu logu için)
     const ilAd = iller.find((i) => String(i.id) === formData.il)?.text || "";
     const ilceAd = ilceler.find((i) => String(i.id) === formData.ilce)?.text || "";
@@ -190,7 +196,7 @@ export function ArsaSorgula() {
     const degerSatiri = details.tahminiDeger
       ? `\n💰 *Tahmini Değer:* ${formatPrice(details.tahminiDeger)}${
           details.garantiDeger
-            ? `\n🛡️ *Seferihisar Emlak Satış Garantisi (%30 üzeri):* ${formatPrice(details.garantiDeger)}`
+            ? `\n🛡️ *Private Estate Satış Garantisi (%30 üzeri):* ${formatPrice(details.garantiDeger)}`
             : ""
         }`
       : "";
@@ -389,7 +395,7 @@ export function ArsaSorgula() {
           </div>
 
           {/* Sonuç Ekranı / Kadastro Haritası */}
-          <div className="lg:col-span-7 bg-ink-card border border-ink-line rounded-2xl p-6 md:p-8 shadow-2xl min-h-[440px] flex flex-col justify-center relative overflow-hidden">
+          <div ref={resultPanelRef} className="lg:col-span-7 bg-ink-card border border-ink-line rounded-2xl p-6 md:p-8 shadow-2xl min-h-[440px] flex flex-col justify-center relative overflow-hidden scroll-mt-24">
 
             {/* Boş Durum */}
             {!loading && !details && (

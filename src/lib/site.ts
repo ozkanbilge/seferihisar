@@ -2,8 +2,8 @@
  * Site genel yapılandırması — tek kaynak.
  */
 export const site = {
-  name: "Seferihisar Emlak",
-  shortName: "Seferihisar Emlak",
+  name: "Private Estate",
+  shortName: "Private Estate",
   tagline: "Ege'nin Sakin Kıyısında Doğru Gayrimenkul",
   // Üretimde gerçek alan adıyla değiştirin; canonical/sitemap bunu kullanır.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.seferihisaremlak.com",

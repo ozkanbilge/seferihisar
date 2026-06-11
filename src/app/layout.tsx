@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Cinzel, Cormorant_Garamond, Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { isLang, langDir, LANG_COOKIE, type Lang } from "@/lib/i18n";
 import { site } from "@/lib/site";
@@ -22,6 +22,14 @@ const cormorant = Cormorant_Garamond({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
+
+// Marka yazısı (Private Estate) için kraliyet/lüks serif
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
@@ -61,7 +69,7 @@ export default async function RootLayout({
     <html
       lang={lang}
       dir={langDir(lang)}
-      className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${inter.variable} ${cinzel.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

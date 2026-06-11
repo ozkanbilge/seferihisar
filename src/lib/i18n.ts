@@ -44,6 +44,8 @@ const tr = {
   viewAllNeighborhoods: "Tüm Mahalleleri Gör",
   viewAllPosts: "Tüm Yazıları Gör",
   otherDistricts: "İzmir'in Diğer Yatırım Bölgeleri",
+  showAll: "Tümünü Gör",
+  hide: "Gizle",
   contactForm: "İletişim Formu",
   // Arsa sorgulama
   arsa: {
@@ -79,7 +81,7 @@ const tr = {
     unitPrice: "Ort. Arsa m² Fiyatı",
     estimated: "Tahmini Toplam Piyasa Değeri",
     guarantee: "Satış Güvencesi",
-    guaranteeText: "Seferihisar Emlak ile piyasa değerinin %30 üzerine satış garantisi",
+    guaranteeText: "Private Estate ile piyasa değerinin %30 üzerine satış garantisi",
     contactDetail: "Detaylı değerleme için bizimle iletişime geçin.",
     noData:
       "Bu bölge için güncel emsal verimiz bulunmuyor. Detaylı değerleme için bizimle iletişime geçin — WhatsApp butonunu kullanabilirsiniz.",
@@ -109,6 +111,8 @@ const en: Dict = {
   viewAllNeighborhoods: "View All Neighborhoods",
   viewAllPosts: "View All Posts",
   otherDistricts: "Other Investment Districts of İzmir",
+  showAll: "View All",
+  hide: "Hide",
   contactForm: "Contact Form",
   arsa: {
     eyebrow: "Free Real Estate Tool",
@@ -143,7 +147,7 @@ const en: Dict = {
     unitPrice: "Avg. Land Price per m²",
     estimated: "Estimated Total Market Value",
     guarantee: "Sale Assurance",
-    guaranteeText: "Sale guarantee at 30% above market value with Seferihisar Emlak",
+    guaranteeText: "Sale guarantee at 30% above market value with Private Estate",
     contactDetail: "Contact us for a detailed valuation.",
     noData:
       "We don't have current comparable data for this region. Contact us for a detailed valuation — you can use the WhatsApp button.",
@@ -171,6 +175,8 @@ const ar: Dict = {
   viewAllNeighborhoods: "عرض جميع الأحياء",
   viewAllPosts: "عرض جميع المقالات",
   otherDistricts: "مناطق استثمارية أخرى في إزمير",
+  showAll: "عرض الكل",
+  hide: "إخفاء",
   contactForm: "نموذج الاتصال",
   arsa: {
     eyebrow: "أداة عقارية مجانية",
@@ -205,7 +211,7 @@ const ar: Dict = {
     unitPrice: "متوسط سعر م² للأرض",
     estimated: "القيمة السوقية التقديرية الإجمالية",
     guarantee: "ضمان البيع",
-    guaranteeText: "ضمان البيع بنسبة 30% فوق القيمة السوقية مع Seferihisar Emlak",
+    guaranteeText: "ضمان البيع بنسبة 30% فوق القيمة السوقية مع Private Estate",
     contactDetail: "تواصل معنا للحصول على تقييم مفصل.",
     noData:
       "لا تتوفر لدينا بيانات مقارنة حديثة لهذه المنطقة. تواصل معنا للتقييم المفصل — يمكنك استخدام زر واتساب.",

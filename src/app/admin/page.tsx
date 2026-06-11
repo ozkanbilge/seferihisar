@@ -126,7 +126,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-3">
             <Logo className="w-10 h-10 text-gold" />
             <div>
-              <h1 className="text-lg font-bold text-fg leading-tight">Seferihisar Emlak</h1>
+              <h1 className="text-lg font-bold text-fg leading-tight">Private Estate</h1>
               <span className="text-xs text-gold-deep font-semibold">Yönetim & Randevu Paneli</span>
             </div>
           </div>
@@ -261,7 +261,7 @@ export default function AdminPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <a
                       href={`https://wa.me/${app.userPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                        `Merhaba, Seferihisar Emlak'tan Özkan Bilge ben. ${app.listingTitle} ilanı için yapmış olduğunuz ${app.date} - ${app.time} tarihli randevu talebinizle alakalı iletişime geçiyorum.`
+                        `Merhaba, Private Estate'ten Özkan Bilge ben. ${app.listingTitle} ilanı için yapmış olduğunuz ${app.date} - ${app.time} tarihli randevu talebinizle alakalı iletişime geçiyorum.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

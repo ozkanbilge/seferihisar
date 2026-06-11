@@ -26,7 +26,7 @@ export default function Icon() {
           fontFamily: "serif",
         }}
       >
-        S
+        P
       </div>
     ),
     {

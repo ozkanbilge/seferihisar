@@ -14,6 +14,7 @@ import { site } from "@/lib/site";
 import { ArsaSorgula } from "@/components/ArsaSorgula";
 import { HeroSearch } from "@/components/HeroSearch";
 import { MiniBanner } from "@/components/MiniBanner";
+import { OtherDistricts } from "@/components/OtherDistricts";
 import { getHomepage } from "@/lib/cms";
 import { getDict, isLang, LANG_COOKIE, type Lang } from "@/lib/i18n";
 
@@ -28,50 +29,56 @@ export default async function Home() {
 
   return (
     <>
-      {/* ══════ HERO ══════ */}
-      <section className="relative min-h-[85vh] flex items-center bg-ink overflow-hidden" id="hero">
-        {/* Background Image */}
-        <Image
-          src="/images/hero-sunset.jpg"
-          alt="Seferihisar Sığacık sahil manzarası"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-45"
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/40" />
-        {/* Dolaşan altın ambiyans ışıkları */}
-        <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full bg-gold/10 blur-3xl animate-ambient pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-[360px] h-[360px] rounded-full bg-gold/5 blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
-
-        <div className="container-x relative z-10 py-24 md:py-32">
-          <div className="max-w-2xl">
-            <p className="eyebrow mb-5 animate-fade-up" style={{ animationDelay: "0.1s" }}>
-              {c.hero.eyebrow}
-            </p>
-            <h1
-              className="display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-fg-invert mb-6 animate-fade-up"
-              style={{ animationDelay: "0.2s" }}
-            >
-              {c.hero.title}
-              <br />
-              <span className="gold-text animate-shimmer bg-[linear-gradient(120deg,var(--color-gold-deep),var(--color-gold-bright)_40%,var(--color-gold)_60%,var(--color-gold-bright))]">
-                {c.hero.titleGold}
-              </span>
-            </h1>
-            <p
-              className="text-base md:text-lg text-fg-invert-muted max-w-lg leading-relaxed mb-8 animate-fade-up"
-              style={{ animationDelay: "0.3s" }}
-            >
-              {c.hero.subtitle}
-            </p>
-            <HeroSearch />
-          </div>
+      {/* ══════ HERO — minimal & royal ══════ */}
+      {/* z-30: açılır listeler alttaki bölümlerin üzerine taşabilsin */}
+      <section className="relative z-30 bg-ink border-b border-ink-line" id="hero">
+        {/* Sakin altın ambiyans — ayrı katmanda kırpılır, listeyi kesmez */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[640px] h-[420px] rounded-full bg-gold/[0.07] blur-3xl animate-ambient" />
+          <div className="absolute bottom-0 right-0 w-[360px] h-[280px] rounded-full bg-gold/5 blur-3xl animate-ambient" style={{ animationDelay: "-6s" }} />
         </div>
 
-        {/* Bottom edge fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-cream to-transparent" />
+        <div className="container-x relative z-10 py-16 md:py-24 flex flex-col items-center text-center">
+          {/* Flörür + etiket */}
+          <div className="flex items-center gap-4 mb-6 animate-fade-up">
+            <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+            <p className="eyebrow">{c.hero.eyebrow}</p>
+            <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+          </div>
+
+          {/* Başlık — Cinzel, kraliyet varak efekti */}
+          <h1
+            className="font-[family-name:var(--font-cinzel)] uppercase text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-fg-invert tracking-[0.06em] leading-tight mb-2 animate-fade-up"
+            style={{ animationDelay: "0.15s" }}
+          >
+            {c.hero.title}
+          </h1>
+          <span
+            className="font-[family-name:var(--font-cinzel)] uppercase text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-[0.1em] royal-text animate-fade-up"
+            style={{ animationDelay: "0.3s" }}
+          >
+            {c.hero.titleGold}
+          </span>
+
+          {/* Elmaslı ayraç */}
+          <div className="flex items-center gap-3 my-7 animate-fade-up" style={{ animationDelay: "0.45s" }}>
+            <span className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent to-gold/50" />
+            <span className="w-2 h-2 rotate-45 bg-gold" />
+            <span className="h-px w-16 md:w-24 bg-gradient-to-l from-transparent to-gold/50" />
+          </div>
+
+          {/* z-20: açılır listeler alttaki açıklama metninin üzerine boyanır */}
+          <div className="w-full flex justify-center relative z-20 animate-fade-up" style={{ animationDelay: "0.55s" }}>
+            <HeroSearch />
+          </div>
+
+          <p
+            className="text-sm md:text-base text-fg-invert-muted max-w-xl leading-relaxed mt-10 animate-fade-up"
+            style={{ animationDelay: "0.7s" }}
+          >
+            {c.hero.subtitle}
+          </p>
+        </div>
       </section>
 
       {/* ══════ STATS BAR ══════ */}
@@ -180,24 +187,15 @@ export default async function Home() {
             ))}
           </div>
 
-          {/* Other districts list for complete İzmir coverage */}
-          <div className="mt-12 pt-8 border-t border-cream-line">
-            <p className="text-xs font-semibold text-fg-muted uppercase tracking-wider mb-5 text-center sm:text-left">
-              {t.otherDistricts}
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-              {districts.filter((d) => d.priority > 2).map((d) => (
-                <Link
-                  key={d.slug}
-                  href={`/izmir/${d.slug}`}
-                  className="px-4 py-3 rounded-xl border border-cream-line bg-surface text-xs font-semibold text-fg-muted hover:border-gold hover:text-gold-bright hover:shadow-[0_0_18px_rgba(192,160,98,0.12)] transition-all duration-300 flex items-center justify-between group"
-                >
-                  <span>{d.name}</span>
-                  <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-gold translate-x-[-4px] group-hover:translate-x-0">→</span>
-                </Link>
-              ))}
-            </div>
-          </div>
+          {/* Other districts list — "Tümünü Gör" ile açılır */}
+          <OtherDistricts
+            districts={districts
+              .filter((d) => d.priority > 2)
+              .map((d) => ({ slug: d.slug, name: d.name }))}
+            title={t.otherDistricts}
+            showAllLabel={t.showAll}
+            hideLabel={t.hide}
+          />
         </section>
       )}
 

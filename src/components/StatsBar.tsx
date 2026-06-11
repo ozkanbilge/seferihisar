@@ -12,7 +12,7 @@ const stats: Stat[] = [
 
 export function StatsBar() {
   return (
-    <section className="relative -mt-10 z-10" id="stats-bar">
+    <section className="relative z-10 mt-8 md:mt-10" id="stats-bar">
       <div className="container-x">
         <div className="rounded-2xl bg-ink border border-ink-line shadow-2xl px-6 py-7 md:py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">

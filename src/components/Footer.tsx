@@ -46,7 +46,7 @@ export function Footer() {
           <div className="sm:col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-5">
               <Logo className="w-9 h-9 text-gold" />
-              <span className="text-fg-invert font-semibold text-base tracking-tight font-[family-name:var(--font-display)]">
+              <span className="text-fg-invert font-semibold text-sm tracking-[0.08em] uppercase font-[family-name:var(--font-cinzel)]">
                 {site.shortName}
               </span>
             </Link>

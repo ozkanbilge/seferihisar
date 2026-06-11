@@ -60,12 +60,12 @@ export const Logo = (p: P) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 100 100"
     fill="none"
-    className={`${p.className || ""}`}
     {...p}
+    className={`royal-logo ${p.className || ""}`}
   >
     <style>{`
       @keyframes drawLine {
-        0% { stroke-dashoffset: 240; }
+        0% { stroke-dashoffset: 300; }
         100% { stroke-dashoffset: 0; }
       }
       @keyframes shimmer {
@@ -73,61 +73,74 @@ export const Logo = (p: P) => (
         50% { stop-color: #f3e5ab; }
         100% { stop-color: #9c7f45; }
       }
-      @keyframes pulseGlow {
-        0% { opacity: 0.04; transform: scale(0.9); transform-origin: 50px 50px; }
-        50% { opacity: 0.12; transform: scale(1.1); transform-origin: 50px 50px; }
-        100% { opacity: 0.04; transform: scale(0.9); transform-origin: 50px 50px; }
+      @keyframes monogramIn {
+        0% { opacity: 0; transform: translateY(5px); }
+        100% { opacity: 1; transform: translateY(0); }
       }
       .logo-line {
-        stroke-dasharray: 240;
-        stroke-dashoffset: 240;
-        animation: drawLine 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        stroke-dasharray: 300;
+        stroke-dashoffset: 300;
+        animation: drawLine 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+      .logo-monogram {
+        animation: monogramIn 1.1s ease-out 0.4s both;
       }
       .logo-shimmer-stop-1 {
-        animation: shimmer 4s ease-in-out infinite alternate;
+        animation: shimmer 7s ease-in-out infinite alternate;
       }
       .logo-shimmer-stop-2 {
-        animation: shimmer 4s ease-in-out infinite alternate-reverse;
-      }
-      .logo-bg-glow {
-        animation: pulseGlow 4s ease-in-out infinite;
+        animation: shimmer 7s ease-in-out infinite alternate-reverse;
       }
     `}</style>
-    
-    {/* Dynamic Background Glow */}
-    <circle cx="50" cy="50" r="38" fill="url(#radialGlow)" className="logo-bg-glow" />
 
-    {/* Luxury Architectural Crown & Mansion Silhouette */}
-    <g stroke="url(#goldGrad)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-      {/* Ground/Water line */}
-      <path d="M 15 80 H 85" className="logo-line" style={{ animationDelay: "0.1s" }} />
+    <g stroke="url(#goldGrad)" strokeLinecap="round" strokeLinejoin="round">
+      {/* Modern geometrik taç — keskin hatlar */}
+      <path
+        d="M 26 36 L 29 18 L 40 28 L 50 12 L 60 28 L 71 18 L 74 36 Z"
+        strokeWidth="2.4"
+        className="logo-line"
+        style={{ animationDelay: "0.1s" }}
+      />
+      {/* Taç bandı — çift ince çizgi */}
+      <path d="M 27 41 H 73" strokeWidth="1.8" className="logo-line" style={{ animationDelay: "0.4s" }} />
+      <path d="M 30 45 H 70" strokeWidth="0.9" opacity="0.6" className="logo-line" style={{ animationDelay: "0.55s" }} />
 
-      {/* Main triangular roof outline (Outer) */}
-      <path d="M 22 80 L 50 24 L 78 80" className="logo-line" style={{ animationDelay: "0.2s" }} />
-
-      {/* Inner modern geometric pillars & lines representing luxury home windows */}
-      <path d="M 35 80 V 50 L 50 35 L 65 50 V 80" className="logo-line" style={{ animationDelay: "0.4s" }} />
-
-      {/* Cross beams forming geometric diamond shape (representing prestige and stability) */}
-      <path d="M 50 35 V 80" className="logo-line" style={{ animationDelay: "0.6s" }} />
-      <path d="M 35 60 H 65" className="logo-line" style={{ animationDelay: "0.8s" }} />
-      
-      {/* Elegant floating diamonds at the peaks (Architectural diamonds) */}
-      <polygon points="50 12, 53 17, 50 22, 47 17" fill="url(#goldGrad)" stroke="none" />
-      <polygon points="22 75, 25 78, 22 81, 19 78" fill="url(#goldGrad)" stroke="none" />
-      <polygon points="78 75, 81 78, 78 81, 75 78" fill="url(#goldGrad)" stroke="none" />
+      {/* Monogram altı flörür */}
+      <path d="M 22 84 H 42 M 58 84 H 78" strokeWidth="1.2" className="logo-line" style={{ animationDelay: "0.75s" }} />
     </g>
+
+    {/* Taç uçlarındaki mücevherler */}
+    <circle cx="29" cy="16" r="1.9" fill="url(#goldGrad)" />
+    <circle cx="50" cy="9.5" r="2.4" fill="url(#goldGrad)" />
+    <circle cx="71" cy="16" r="1.9" fill="url(#goldGrad)" />
+
+    {/* Serif "PE" monogramı — büyük ve net */}
+    <text
+      x="50"
+      y="76"
+      textAnchor="middle"
+      fontFamily="var(--font-cinzel), var(--font-cormorant), Georgia, serif"
+      fontSize="32"
+      fontWeight="700"
+      letterSpacing="2"
+      fill="url(#goldGrad)"
+      className="logo-monogram"
+    >
+      PE
+    </text>
+
+    {/* Flörür ortasındaki elmas */}
+    <polygon points="50 80.5, 53 84, 50 87.5, 47 84" fill="url(#goldGrad)" />
 
     <defs>
       <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#c0a062" className="logo-shimmer-stop-1" />
-        <stop offset="50%" stopColor="#f3e5ab" />
-        <stop offset="100%" stopColor="#9c7f45" className="logo-shimmer-stop-2" />
+        <stop offset="0%" stopColor="#8a6f3c" className="logo-shimmer-stop-1" />
+        <stop offset="25%" stopColor="#c0a062" />
+        <stop offset="45%" stopColor="#f6e7b6" className="logo-shimmer-stop-2" />
+        <stop offset="62%" stopColor="#d8b978" />
+        <stop offset="82%" stopColor="#f3e5ab" className="logo-shimmer-stop-1" />
+        <stop offset="100%" stopColor="#8a6f3c" />
       </linearGradient>
-      <radialGradient id="radialGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="#f3e5ab" stopOpacity="1" />
-        <stop offset="100%" stopColor="#c0a062" stopOpacity="0" />
-      </radialGradient>
     </defs>
   </svg>
 );

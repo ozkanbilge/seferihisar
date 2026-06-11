@@ -7,7 +7,7 @@ import { ContactForm } from "@/components/ContactForm";
 export const metadata = buildMetadata({
   title: "İletişim",
   description:
-    "Seferihisar Emlak ile iletişime geçin. Satılık ve kiralık gayrimenkul danışmanlığı, ücretsiz değerleme ve portföy bilgisi için bize ulaşın.",
+    "Private Estate ile iletişime geçin. Satılık ve kiralık gayrimenkul danışmanlığı, ücretsiz değerleme ve portföy bilgisi için bize ulaşın.",
   path: "/iletisim",
 });
 
@@ -89,7 +89,7 @@ export default function IletisimPage() {
           {/* Map Embed */}
           <div className="rounded-2xl overflow-hidden border border-cream-line h-64">
             <iframe
-              title="Seferihisar Emlak Konumu"
+              title="Private Estate Konumu"
               src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${site.geo.lat},${site.geo.lng}&zoom=14`}
               width="100%"
               height="100%"

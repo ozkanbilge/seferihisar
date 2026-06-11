@@ -336,6 +336,70 @@ body {
   animation: slide-left 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Kraliyet yazısı: altın varak degradesi, ağır ışıltı, kabartma derinliği
+   ve açılışta zarif harf aralığı toparlanması */
+.royal-text {
+  display: inline-block;
+  background: linear-gradient(
+    100deg,
+    #8a6f3c 0%,
+    #c0a062 22%,
+    #f6e7b6 38%,
+    #d8b978 50%,
+    #f3e5ab 62%,
+    #c0a062 78%,
+    #8a6f3c 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55)) drop-shadow(0 0 14px rgba(192, 160, 98, 0.25));
+  animation:
+    royal-sheen 7s ease-in-out infinite,
+    royal-enter 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes royal-sheen {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+@keyframes royal-enter {
+  0% { opacity: 0; letter-spacing: 0.3em; }
+  100% { opacity: 1; letter-spacing: inherit; }
+}
+
+/* Arama barı: çevresinde yavaşça dolaşan altın ışık halkası */
+@property --gold-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes gold-ring-spin {
+  to { --gold-angle: 360deg; }
+}
+.gold-ring {
+  background: conic-gradient(
+    from var(--gold-angle),
+    rgba(192, 160, 98, 0.55),
+    rgba(192, 160, 98, 0.1) 25%,
+    rgba(246, 231, 182, 0.7) 50%,
+    rgba(192, 160, 98, 0.1) 75%,
+    rgba(192, 160, 98, 0.55)
+  );
+  animation: gold-ring-spin 9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gold-ring {
+    animation: none;
+  }
+}
+
+/* Logo için aynı varak derinliği: kabartma gölgesi + altın hale + yumuşak düşen gölge */
+.royal-logo {
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55)) drop-shadow(0 0 14px rgba(192, 160, 98, 0.25))
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
+}
+
 .laser-text {
   position: relative;
   display: inline-block;
@@ -375,6 +439,7 @@ body {
   .animate-ambient,
   .animate-shimmer,
   .animate-slide-left,
+  .royal-text,
   .laser-text::after {
     animation: none;
   }

@@ -6,25 +6,93 @@ import {
   Phone,
   Mail,
   MapPin,
+  WhatsApp,
   Instagram,
   Facebook,
   Youtube,
   Linkedin,
 } from "@/components/icons";
 
+/** Elmas işaretli, altın alt çizgili sütun başlığı */
+function ColumnTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h3 className="text-gold font-semibold text-xs mb-5 tracking-[0.18em] uppercase font-[family-name:var(--font-cinzel)]">
+      <span className="flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+        {children}
+      </span>
+      <span className="block h-px mt-2.5 bg-gradient-to-r from-gold/40 to-transparent" />
+    </h3>
+  );
+}
+
+/** Hover'da altın elmas belirip sağa kayan link */
+function FooterLink({
+  href,
+  external = false,
+  children,
+}: {
+  href: string;
+  external?: boolean;
+  children: React.ReactNode;
+}) {
+  const cls =
+    "group inline-flex items-center gap-2 text-sm text-fg-invert-muted hover:text-gold-bright transition-all duration-300";
+  const diamond = (
+    <span className="w-1 h-1 rotate-45 bg-gold/0 group-hover:bg-gold transition-all duration-300 shrink-0" />
+  );
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
+        {diamond}
+        <span className="group-hover:translate-x-0.5 transition-transform duration-300">{children}</span>
+        <svg className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={cls}>
+      {diamond}
+      <span className="group-hover:translate-x-0.5 transition-transform duration-300">{children}</span>
+    </Link>
+  );
+}
+
 export function Footer() {
   const topNeighborhoods = primaryDistrict.neighborhoods.slice(0, 6);
 
   return (
-    <footer className="bg-ink text-fg-invert-muted" id="site-footer">
-      {/* CTA Band */}
-      <div className="border-b border-ink-line">
-        <div className="container-x py-14 md:py-20 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+    <footer className="relative bg-gradient-to-b from-ink to-[#08090c] text-fg-invert-muted overflow-hidden" id="site-footer">
+      {/* Üst altın ayraç + sakin ambiyans */}
+      <div className="divider-gold" />
+      <div className="absolute -top-24 left-1/4 w-[520px] h-[360px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[380px] h-[280px] rounded-full bg-gold/[0.04] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
+      {/* Dev filigran arma */}
+      <div className="absolute -right-24 -bottom-24 w-[420px] h-[420px] opacity-[0.035] pointer-events-none select-none" aria-hidden>
+        <Logo className="w-full h-full text-gold" />
+      </div>
+
+      {/* CTA Band — davetiye çerçeveli kraliyet paneli */}
+      <div className="relative border-b border-ink-line">
+        <div className="container-x py-12 md:py-16">
+          <div className="relative rounded-2xl border border-gold/25 bg-ink-soft/40 px-7 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center gap-8 md:gap-12 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_16px_44px_rgba(0,0,0,0.4)]">
+            {/* Köşe süslemeleri */}
+            <span className="absolute top-2.5 left-2.5 w-5 h-5 border-t border-l border-gold/60 rounded-tl" aria-hidden />
+            <span className="absolute top-2.5 right-2.5 w-5 h-5 border-t border-r border-gold/60 rounded-tr" aria-hidden />
+            <span className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b border-l border-gold/60 rounded-bl" aria-hidden />
+            <span className="absolute bottom-2.5 right-2.5 w-5 h-5 border-b border-r border-gold/60 rounded-br" aria-hidden />
           <div className="flex-1 text-center md:text-left">
-            <p className="eyebrow mb-3">Hayalinizdeki Mülkü Bulun</p>
-            <h2 className="display text-3xl md:text-4xl text-fg-invert">
-              Doğru Yatırım İçin<br />
-              <span className="text-gold">Uzman Desteği</span> Alın
+            <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+              <span className="h-px w-10 bg-gradient-to-r from-transparent to-gold/60 md:hidden" />
+              <p className="eyebrow">Hayalinizdeki Mülkü Bulun</p>
+              <span className="h-px w-10 bg-gradient-to-l from-transparent to-gold/60 md:hidden" />
+            </div>
+            <h2 className="font-[family-name:var(--font-cinzel)] uppercase text-2xl md:text-3xl lg:text-4xl text-fg-invert tracking-[0.05em] leading-snug">
+              Doğru Yatırım İçin
+              <br />
+              <span className="royal-text font-semibold">Uzman Desteği Alın</span>
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
@@ -36,16 +104,17 @@ export function Footer() {
               İletişime Geçin
             </Link>
           </div>
+          </div>
         </div>
       </div>
 
       {/* Main Grid */}
-      <div className="container-x py-14 md:py-16">
+      <div className="container-x py-14 md:py-16 relative">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-5">
-              <Logo className="w-9 h-9 text-gold" />
+            <Link href="/" className="flex items-center gap-2.5 mb-5 group">
+              <Logo className="w-12 h-12 text-gold transition-transform duration-500 group-hover:scale-105" />
               <span className="text-fg-invert font-semibold text-sm tracking-[0.08em] uppercase font-[family-name:var(--font-cinzel)]">
                 {site.shortName}
               </span>
@@ -66,7 +135,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-full border border-ink-line flex items-center justify-center text-fg-invert-muted hover:border-gold hover:text-gold transition-colors"
+                  className="w-9 h-9 rounded-full border border-ink-line flex items-center justify-center text-fg-invert-muted hover:border-gold hover:text-gold hover:shadow-[0_0_14px_rgba(192,160,98,0.25)] hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -76,18 +145,11 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-fg-invert font-semibold text-sm mb-5 tracking-wide uppercase font-[family-name:var(--font-display)] text-gold">
-              Hızlı Linkler
-            </h3>
+            <ColumnTitle>Hızlı Linkler</ColumnTitle>
             <ul className="space-y-3">
               {nav.map((item) => (
                 <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm hover:text-gold-bright transition-colors"
-                  >
-                    {item.label}
-                  </Link>
+                  <FooterLink href={item.href}>{item.label}</FooterLink>
                 </li>
               ))}
             </ul>
@@ -95,18 +157,11 @@ export function Footer() {
 
           {/* Popular Locations */}
           <div>
-            <h3 className="text-fg-invert font-semibold text-sm mb-5 tracking-wide uppercase font-[family-name:var(--font-display)] text-gold">
-              Popüler Bölgeler
-            </h3>
+            <ColumnTitle>Popüler Bölgeler</ColumnTitle>
             <ul className="space-y-3">
               {topNeighborhoods.map((n) => (
                 <li key={n.slug}>
-                  <Link
-                    href={`/izmir/${n.districtSlug}/${n.slug}`}
-                    className="text-sm hover:text-gold-bright transition-colors"
-                  >
-                    {n.name}
-                  </Link>
+                  <FooterLink href={`/izmir/${n.districtSlug}/${n.slug}`}>{n.name}</FooterLink>
                 </li>
               ))}
             </ul>
@@ -114,9 +169,7 @@ export function Footer() {
 
           {/* Real Estate & Deed Links */}
           <div>
-            <h3 className="text-fg-invert font-semibold text-sm mb-5 tracking-wide uppercase font-[family-name:var(--font-display)] text-gold">
-              Emlak & Tapu
-            </h3>
+            <ColumnTitle>Emlak &amp; Tapu</ColumnTitle>
             <ul className="space-y-3">
               {[
                 { label: "Web Tapu İşlemleri", href: "https://webtapu.tkgm.gov.tr/" },
@@ -126,17 +179,9 @@ export function Footer() {
                 { label: "E-Devlet İmar Durumu", href: "https://www.turkiye.gov.tr/cevre-ve-sehircilik-imar-durumu-sorgulama" },
               ].map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm hover:text-gold-bright transition-colors inline-flex items-center gap-1"
-                  >
+                  <FooterLink href={link.href} external>
                     {link.label}
-                    <svg className="w-3 h-3 opacity-60" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
+                  </FooterLink>
                 </li>
               ))}
             </ul>
@@ -144,28 +189,42 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-fg-invert font-semibold text-sm mb-5 tracking-wide uppercase font-[family-name:var(--font-display)] text-gold">
-              İletişim
-            </h3>
+            <ColumnTitle>İletişim</ColumnTitle>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm">
-                <Phone className="w-4 h-4 text-gold mt-0.5 shrink-0" />
-                <a href={site.phoneHref} className="hover:text-gold-bright transition-colors font-semibold">
+                <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
+                  <Phone className="w-3.5 h-3.5 text-gold" />
+                </span>
+                <a href={site.phoneHref} className="hover:text-gold-bright transition-colors font-semibold pt-1.5">
                   {site.phone}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
-                <Mail className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+                <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
+                  <WhatsApp className="w-3.5 h-3.5 text-gold" />
+                </span>
                 <a
-                  href={`mailto:${site.email}`}
-                  className="hover:text-gold-bright transition-colors"
+                  href="https://wa.me/905323994291"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gold-bright transition-colors pt-1.5"
                 >
+                  WhatsApp Destek Hattı
+                </a>
+              </li>
+              <li className="flex items-start gap-3 text-sm">
+                <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
+                  <Mail className="w-3.5 h-3.5 text-gold" />
+                </span>
+                <a href={`mailto:${site.email}`} className="hover:text-gold-bright transition-colors pt-1.5">
                   {site.email}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
-                <MapPin className="w-4 h-4 text-gold mt-0.5 shrink-0" />
-                <span className="text-fg-invert-muted/80">
+                <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
+                  <MapPin className="w-3.5 h-3.5 text-gold" />
+                </span>
+                <span className="text-fg-invert-muted/80 pt-1">
                   {site.address.street}
                   <br />
                   {site.address.locality}, {site.address.region}
@@ -177,13 +236,24 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-ink-line">
-        <div className="container-x py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-fg-invert-muted/70">
-          <p>© {new Date().getFullYear()} {site.name}. Tüm hakları saklıdır.</p>
+      <div className="relative border-t border-ink-line">
+        {/* Ortalanmış mini flörür */}
+        <div className="absolute -top-[5px] left-1/2 -translate-x-1/2 flex items-center gap-2">
+          <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/50" />
+          <span className="w-2 h-2 rotate-45 bg-gold/80" />
+          <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/50" />
+        </div>
+        <div className="container-x py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-fg-invert-muted/70">
+          <p>
+            © {new Date().getFullYear()}{" "}
+            <span className="font-[family-name:var(--font-cinzel)] tracking-wider text-gold/80 uppercase">{site.name}</span>
+            . Tüm hakları saklıdır.
+          </p>
           <div className="flex items-center gap-4">
             <Link href="/gizlilik" className="hover:text-gold-bright transition-colors">
               Gizlilik Politikası
             </Link>
+            <span className="w-1 h-1 rotate-45 bg-gold/40" />
             <Link href="/kullanim-sartlari" className="hover:text-gold-bright transition-colors">
               Kullanım Şartları
             </Link>

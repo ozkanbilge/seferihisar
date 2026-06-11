@@ -117,6 +117,8 @@ export default async function ListingDetailPage(
             <ListingHeader
               listing={listing}
               placeName={placeName}
+              districtName={district?.name}
+              txName={tx?.name}
               isPremium={isPremium}
             />
           </div>
@@ -199,6 +201,8 @@ export default async function ListingDetailPage(
             <ListingHeader
               listing={listing}
               placeName={placeName}
+              districtName={district?.name}
+              txName={tx?.name}
               isPremium={isPremium}
             />
           </div>
@@ -313,26 +317,58 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function ListingHeader({
   listing,
   placeName,
+  districtName,
+  txName,
   isPremium,
 }: {
   listing: (typeof listings)[number];
   placeName: string;
+  districtName?: string;
+  txName?: string;
   isPremium: boolean;
 }) {
+  const locationText = [placeName, districtName, "İzmir"]
+    .filter((v, i, a) => v && a.indexOf(v) === i)
+    .join(" · ");
+
   return (
     <>
-      {isPremium && (
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.65rem] font-bold uppercase tracking-[0.14em] mb-3 shadow-[0_2px_12px_rgba(192,160,98,0.35)]">
-          <Star className="w-3 h-3" />
-          Premium İlan
+      {/* Rozet satırı: premium + işlem + referans */}
+      <div className="flex flex-wrap items-center gap-2 mb-3.5">
+        {isPremium && (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.62rem] font-bold uppercase tracking-[0.14em] shadow-[0_2px_12px_rgba(192,160,98,0.35)]">
+            <Star className="w-3 h-3" />
+            Premium İlan
+          </span>
+        )}
+        {txName && (
+          <span className="inline-flex items-center px-3 py-1 rounded-full border border-gold/40 text-gold-deep text-[0.62rem] font-bold uppercase tracking-[0.14em]">
+            {txName}
+          </span>
+        )}
+        <span className="inline-flex items-center px-2.5 py-1 rounded-full border border-cream-line text-fg-muted text-[0.6rem] font-semibold font-mono tracking-wider">
+          {listing.ref}
         </span>
-      )}
-      <h1 className="display text-xl md:text-[1.65rem] font-semibold text-fg leading-snug mb-3">
+      </div>
+
+      {/* Ürün adı */}
+      <h1 className="display text-[1.35rem] md:text-[1.7rem] font-semibold text-fg leading-snug mb-3">
         {listing.title}
       </h1>
-      <div className="flex items-center gap-1.5 text-fg-muted mb-4">
-        <MapPin className="w-4 h-4 text-gold-deep" />
-        <span className="text-sm">{placeName}</span>
+
+      {/* Konum */}
+      <div className="flex items-center gap-2.5 text-fg-muted mb-4">
+        <span className="w-7 h-7 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
+          <MapPin className="w-3.5 h-3.5 text-gold" />
+        </span>
+        <span className="text-sm font-medium">{locationText}</span>
+      </div>
+
+      {/* Flörür ayraç */}
+      <div className="flex items-center gap-2.5 mb-4">
+        <span className="h-px w-12 bg-gradient-to-r from-gold/60 to-transparent" />
+        <span className="w-1.5 h-1.5 rotate-45 bg-gold/70" />
+        <span className="h-px flex-1 max-w-24 bg-gradient-to-r from-gold/30 to-transparent" />
       </div>
 
       <div className="gold-ring rounded-2xl p-[1.5px] shadow-[0_10px_34px_rgba(0,0,0,0.35),0_0_24px_rgba(192,160,98,0.1)]">

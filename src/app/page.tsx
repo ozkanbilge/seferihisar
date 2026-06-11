@@ -15,6 +15,7 @@ import { ArsaSorgula } from "@/components/ArsaSorgula";
 import { HeroSearch } from "@/components/HeroSearch";
 import { MiniBanner } from "@/components/MiniBanner";
 import { OtherDistricts } from "@/components/OtherDistricts";
+import { BrandsMarquee } from "@/components/BrandsMarquee";
 import { getHomepage } from "@/lib/cms";
 import { getDict, isLang, LANG_COOKIE, type Lang } from "@/lib/i18n";
 
@@ -270,6 +271,9 @@ export default async function Home() {
         </section>
       )}
 
+      {/* ══════ MARKALAR (logo geçişli) ══════ */}
+      <BrandsMarquee />
+
       {/* ══════ BLOG / INSIGHTS ══════ */}
       {c.sections.blog && (
         <section className="container-x py-16 md:py-20" id="insights">
@@ -293,6 +297,59 @@ export default async function Home() {
             {blogPosts.slice(0, 3).map((post) => (
               <BlogCard key={post.slug} post={post} />
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* ══════ SEO METNİ — Seferihisar Emlak ══════ */}
+      {lang === "tr" && (
+        <section className="bg-cream-soft border-t border-cream-line" id="seferihisar-emlak-rehberi">
+          <div className="container-x py-14 md:py-16">
+            <h2 className="display text-2xl md:text-3xl text-fg mb-6">
+              Seferihisar Emlak Piyasası ve Yatırım Rehberi
+            </h2>
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 text-sm leading-relaxed text-fg-muted">
+              <div className="space-y-4">
+                <p>
+                  <strong className="text-fg">Seferihisar emlak</strong> piyasası, Türkiye&apos;nin
+                  ilk Cittaslow (Sakin Şehir) ilçesi olmasının da etkisiyle son yıllarda İzmir&apos;in
+                  en çok değer kazanan bölgelerinden biri haline geldi.{" "}
+                  <Link href="/izmir/seferihisar/satilik-villa" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">Seferihisar satılık villa</Link>,{" "}
+                  <Link href="/izmir/seferihisar/satilik-arsa" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">satılık arsa</Link> ve{" "}
+                  <Link href="/izmir/seferihisar/satilik-daire" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">satılık daire</Link>{" "}
+                  arayışında olan yatırımcılar; Sığacık Marina, Teos Antik Kenti ve Akkum
+                  plajlarının çevresinde hem yaşam hem getiri odaklı seçenekler bulabiliyor.
+                </p>
+                <p>
+                  <Link href="/izmir/seferihisar/sigacik" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">Sığacık</Link>,{" "}
+                  <Link href="/izmir/seferihisar/akarca" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">Akarca</Link> ve{" "}
+                  <Link href="/izmir/seferihisar/ulamis" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">Ulamış</Link>{" "}
+                  gibi mahalleler denize yakınlık ve imar durumuna göre farklı fiyat
+                  segmentleri sunar. Sakin şehir imar planları yapılaşmayı sınırlı tuttuğu
+                  için arsa ve villa stoğu kıymetlidir; bu da Seferihisar gayrimenkul
+                  yatırımlarının uzun vadeli değerini destekler.
+                </p>
+              </div>
+              <div className="space-y-4">
+                <p>
+                  Private Estate olarak Seferihisar merkez ve köylerindeki{" "}
+                  <Link href="/satilik" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">satılık</Link> ve{" "}
+                  <Link href="/kiralik" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">kiralık</Link>{" "}
+                  portföyümüzü tapu ve imar kontrolünden geçirerek yayınlıyoruz. Ücretsiz{" "}
+                  <Link href="/#arsa-sorgulama" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">arsa değeri sorgulama</Link>{" "}
+                  aracımızla ada/parsel bilginizi girerek taşınmazınızın TKGM kayıtlı
+                  alanını ve güncel piyasa değer aralığını anında görebilirsiniz.
+                </p>
+                <p>
+                  Urla, Çeşme, Güzelbahçe ve Menderes dahil{" "}
+                  <Link href="/izmir/seferihisar" className="text-gold-deep hover:text-gold-bright font-semibold transition-colors">İzmir&apos;in 30 ilçesinde</Link>{" "}
+                  mahalle bazlı emlak rehberlerimiz; bölge fiyat ortalamaları, yatırım
+                  notları ve güncel ilanlarla düzenli olarak yenilenir. Seferihisar&apos;da
+                  emlak alım-satım sürecinizin her adımında uzman desteği için bize
+                  ulaşın — ilk danışma görüşmesi her zaman ücretsizdir.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
       )}

@@ -14,8 +14,8 @@ export function Header({ lang = "tr" }: { lang?: Lang }) {
     <header className="sticky top-0 z-50 bg-ink/95 backdrop-blur-md border-b border-ink-line">
       <div className="container-x flex items-center justify-between h-16 md:h-[72px]">
         <Link href="/" className="flex items-center gap-3 group" id="header-logo">
-          <Logo className="w-20 h-20 md:w-28 md:h-28 translate-y-2 md:translate-y-5 text-gold transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3" />
-          <span className="font-semibold text-xl md:text-3xl tracking-[0.08em] uppercase font-[family-name:var(--font-cinzel)] royal-text">
+          <Logo className="w-14 h-14 min-[380px]:w-16 min-[380px]:h-16 md:w-28 md:h-28 translate-y-1 md:translate-y-5 text-gold transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3" />
+          <span className="font-semibold text-base min-[380px]:text-lg md:text-3xl tracking-[0.06em] md:tracking-[0.08em] uppercase font-[family-name:var(--font-cinzel)] royal-text whitespace-nowrap">
             {site.shortName}
           </span>
         </Link>
@@ -36,8 +36,10 @@ export function Header({ lang = "tr" }: { lang?: Lang }) {
 
         {/* Right */}
         <div className="flex items-center gap-2 md:gap-3">
-          <LanguageSwitcher current={lang} />
-          <ThemeToggle />
+          <span className="hidden md:flex items-center gap-2 md:gap-3">
+            <LanguageSwitcher current={lang} />
+            <ThemeToggle />
+          </span>
           <a
             href={site.phoneHref}
             className="hidden lg:inline-flex btn btn-gold text-xs py-2.5 px-5 shadow-[0_0_15px_rgba(192,160,98,0.15)] hover:shadow-[0_0_25px_rgba(192,160,98,0.3)]"
@@ -47,6 +49,7 @@ export function Header({ lang = "tr" }: { lang?: Lang }) {
             {t.callUs}
           </a>
           <MobileMenuToggle />
+
         </div>
       </div>
     </header>

@@ -20,7 +20,7 @@ export function ListingSidebar({
   listingTitle,
   listingRef,
 }: ListingSidebarProps) {
-  const { userPhone, login, toggleFavorite, isFavorite, createAppointment } = useApp();
+  const { userPhone, login, createAppointment } = useApp();
   
   // Appointment Form state
   const [phoneInput, setPhoneInput] = useState("");
@@ -30,8 +30,6 @@ export function ListingSidebar({
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [lastAppointment, setLastAppointment] = useState<Appointment | null>(null);
-
-  const fav = isFavorite(listingSlug);
 
   const handleBookAppointment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,30 +120,6 @@ export function ListingSidebar({
             </svg>
             Tüm İlanları ({listings.length})
           </Link>
-        </div>
-      </div>
-
-      <div className="bg-surface border border-cream-line rounded-2xl p-6 shadow-sm">
-        <h3 className="text-base font-semibold text-fg mb-4">Bu İlanla İlgileniyor musunuz?</h3>
-        
-        <div className="flex flex-col gap-3">
-          {/* Favorite Toggle Button */}
-          <button
-            onClick={() => toggleFavorite(listingSlug)}
-            className={`w-full flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
-              fav
-                ? "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
-                : "bg-cream-soft text-fg-muted border-cream-line hover:border-gold hover:text-gold-bright"
-            }`}
-          >
-            <span>{fav ? "❤️ Favorilerden Kaldır" : "🤍 Beğendiklerime Ekle"}</span>
-          </button>
-
-          {/* Quick Call */}
-          <a href={site.phoneHref} className="btn btn-gold w-full justify-center text-xs uppercase font-bold tracking-wider py-3">
-            <Phone className="w-3.5 h-3.5" />
-            Hemen Arayın
-          </a>
         </div>
       </div>
 

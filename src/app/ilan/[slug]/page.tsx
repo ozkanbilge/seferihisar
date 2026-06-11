@@ -71,21 +71,17 @@ export default async function ListingDetailPage(
   ].slice(0, 3);
 
   const details = [
-    { label: "İlan No", value: listing.ref },
-    { label: "İlan Tarihi", value: formatDate(listing.createdAt) },
-    { label: "İşlem", value: tx?.name },
-    { label: "Tür", value: type?.name },
-    { label: "Alan", value: formatArea(listing.area) },
-    listing.rooms ? { label: "Oda Sayısı", value: listing.rooms } : null,
-    listing.bath
-      ? { label: "Banyo", value: `${listing.bath}` }
-      : null,
-    listing.floor ? { label: "Kat/Yapı", value: listing.floor } : null,
-    listing.buildingAge
-      ? { label: "Yapı Yaşı", value: listing.buildingAge }
-      : null,
-    listing.heating ? { label: "Isınma", value: listing.heating } : null,
-  ].filter(Boolean) as { label: string; value: string | undefined }[];
+    { label: "İlan No", value: listing.ref, icon: "ref" },
+    { label: "İlan Tarihi", value: formatDate(listing.createdAt), icon: "date" },
+    { label: "İşlem", value: tx?.name, icon: "tag" },
+    { label: "Tür", value: type?.name, icon: "home" },
+    { label: "Alan", value: formatArea(listing.area), icon: "area" },
+    listing.rooms ? { label: "Oda Sayısı", value: listing.rooms, icon: "bed" } : null,
+    listing.bath ? { label: "Banyo", value: `${listing.bath}`, icon: "bath" } : null,
+    listing.floor ? { label: "Kat/Yapı", value: listing.floor, icon: "floor" } : null,
+    listing.buildingAge ? { label: "Yapı Yaşı", value: listing.buildingAge, icon: "age" } : null,
+    listing.heating ? { label: "Isınma", value: listing.heating, icon: "heat" } : null,
+  ].filter(Boolean) as { label: string; value: string | undefined; icon: string }[];
 
   return (
     <div className="container-x py-8 md:py-12">
@@ -158,13 +154,18 @@ export default async function ListingDetailPage(
               {details.map((d) => (
                 <div
                   key={d.label}
-                  className="bg-surface p-4 flex flex-col gap-0.5 transition-colors hover:bg-gold/[0.04]"
+                  className="group bg-surface p-3.5 sm:p-4 flex items-center gap-3 transition-colors hover:bg-gold/[0.05]"
                 >
-                  <span className="text-[0.62rem] text-gold/80 font-semibold uppercase tracking-[0.14em]">
-                    {d.label}
+                  <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/35">
+                    <DetailIcon name={d.icon} />
                   </span>
-                  <span className="text-xs sm:text-sm font-medium text-fg break-words">
-                    {d.value}
+                  <span className="flex flex-col gap-0.5 min-w-0">
+                    <span className="text-[0.6rem] text-gold/80 font-semibold uppercase tracking-[0.14em]">
+                      {d.label}
+                    </span>
+                    <span className={`text-xs sm:text-sm font-semibold text-fg break-words ${d.icon === "ref" ? "font-mono text-gold-bright tracking-wide" : ""}`}>
+                      {d.value}
+                    </span>
                   </span>
                 </div>
               ))}
@@ -245,6 +246,27 @@ export default async function ListingDetailPage(
 }
 
 /* ---- Sub Components ---- */
+
+/** İlan detayı satırlarının altın mini ikonları */
+function DetailIcon({ name }: { name: string }) {
+  const paths: Record<string, React.ReactNode> = {
+    ref: <path d="M5 9h14M5 15h14M9 4l-2 16M17 4l-2 16" />,
+    date: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></>,
+    tag: <><path d="M20 12l-8.5 8.5a2 2 0 0 1-2.8 0L3 14.8a2 2 0 0 1 0-2.8L11.5 3.5A2 2 0 0 1 12.9 3H19a2 2 0 0 1 2 2v6.1a2 2 0 0 1-.6 1.4z" /><circle cx="16" cy="8" r="1.3" /></>,
+    home: <path d="M3 11 12 4l9 7M5 10v10h14V10M10 20v-6h4v6" />,
+    area: <><rect x="4" y="4" width="16" height="16" rx="1.5" /><path d="M9 4v4M4 9h4M15 20v-4M20 15h-4" /></>,
+    bed: <path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M3 18v2M21 18v2M7 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />,
+    bath: <path d="M4 12h16a1 1 0 0 1 1 1c0 3-2 6-5 6H8c-3 0-5-3-5-6a1 1 0 0 1 1-1zM6 12V6a2 2 0 0 1 4 0M8 19l-1 2M16 19l1 2" />,
+    floor: <path d="M4 21V9l8-5 8 5v12M4 21h16M9 21v-4h6v4M9 12h.01M15 12h.01" />,
+    age: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></>,
+    heat: <path d="M12 3c2 3.5 5 5.5 5 9.5a5 5 0 0 1-10 0c0-2 .8-3.5 2-5 .3 1.5 1 2.5 2 3 0-3 .3-5.5 1-7.5z" />,
+  };
+  return (
+    <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+      {paths[name] ?? <circle cx="12" cy="12" r="8" />}
+    </svg>
+  );
+}
 
 /** Elmas işaretli, altın çizgili lüks bölüm başlığı */
 function SectionTitle({ children }: { children: React.ReactNode }) {

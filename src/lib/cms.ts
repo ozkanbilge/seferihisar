@@ -40,6 +40,8 @@ export interface HomepageContent {
   };
   blog: { eyebrow: string; title: string };
   cta: { eyebrow: string; title: string; titleGold: string; subtitle: string };
+  /** Arama barı altındaki popüler arama çipleri */
+  popularSearches: { label: string; href: string }[];
 }
 
 export const HOMEPAGE_DEFAULTS: HomepageContent = {
@@ -100,6 +102,12 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
     subtitle:
       "Villa, arsa veya yazlık yatırımınızda doğru kararı vermek için uzman ekibimizle tanışın.",
   },
+  popularSearches: [
+    { label: "Villa · Seferihisar", href: "/izmir/seferihisar/satilik-villa" },
+    { label: "Arsa · Seferihisar", href: "/izmir/seferihisar/satilik-arsa" },
+    { label: "Yazlık · Urla", href: "/izmir/urla/satilik-yazlik" },
+    { label: "Daire · Çeşme", href: "/izmir/cesme/satilik-daire" },
+  ],
 };
 
 const HOMEPAGE_DEFAULTS_EN: HomepageContent = {
@@ -138,6 +146,12 @@ const HOMEPAGE_DEFAULTS_EN: HomepageContent = {
     subtitle:
       "Meet our expert team to make the right decision on your villa, land or summer house investment.",
   },
+  popularSearches: [
+    { label: "Villa · Seferihisar", href: "/izmir/seferihisar/satilik-villa" },
+    { label: "Land · Seferihisar", href: "/izmir/seferihisar/satilik-arsa" },
+    { label: "Summer House · Urla", href: "/izmir/urla/satilik-yazlik" },
+    { label: "Apartment · Çeşme", href: "/izmir/cesme/satilik-daire" },
+  ],
 };
 
 const HOMEPAGE_DEFAULTS_AR: HomepageContent = {
@@ -176,6 +190,12 @@ const HOMEPAGE_DEFAULTS_AR: HomepageContent = {
     subtitle:
       "تعرّف على فريقنا المتخصص لاتخاذ القرار الصحيح في استثمارك بالفلل أو الأراضي أو المنازل الصيفية.",
   },
+  popularSearches: [
+    { label: "فيلا · سفريحصار", href: "/izmir/seferihisar/satilik-villa" },
+    { label: "أرض · سفريحصار", href: "/izmir/seferihisar/satilik-arsa" },
+    { label: "منزل صيفي · أورلا", href: "/izmir/urla/satilik-yazlik" },
+    { label: "شقة · تشيشمه", href: "/izmir/cesme/satilik-daire" },
+  ],
 };
 
 const DEFAULTS_BY_LANG: Record<Lang, HomepageContent> = {
@@ -201,6 +221,7 @@ function mergeContent(saved: Partial<HomepageContent>, lang: Lang): HomepageCont
     },
     blog: { ...d.blog, ...saved.blog },
     cta: { ...d.cta, ...saved.cta },
+    popularSearches: saved.popularSearches?.length ? saved.popularSearches : d.popularSearches,
   };
 }
 

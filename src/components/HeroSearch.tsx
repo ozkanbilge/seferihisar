@@ -158,7 +158,19 @@ function LuxeSelect({
   );
 }
 
-export function HeroSearch() {
+export interface SearchChip {
+  label: string;
+  href: string;
+}
+
+const DEFAULT_CHIPS: SearchChip[] = [
+  { label: "Villa · Seferihisar", href: "/izmir/seferihisar/satilik-villa" },
+  { label: "Arsa · Seferihisar", href: "/izmir/seferihisar/satilik-arsa" },
+  { label: "Yazlık · Urla", href: "/izmir/urla/satilik-yazlik" },
+  { label: "Daire · Çeşme", href: "/izmir/cesme/satilik-daire" },
+];
+
+export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) {
   const router = useRouter();
   const [transaction, setTransaction] = useState<"satilik" | "kiralik">("satilik");
   const [districtSlug, setDistrictSlug] = useState("seferihisar");
@@ -261,12 +273,7 @@ export function HeroSearch() {
       {/* Hızlı arama çipleri — son arama + popüler aramalar */}
       <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
         <span className="text-[0.6rem] text-fg-invert-muted/60 uppercase tracking-[0.16em] mr-1">Popüler Aramalar:</span>
-        {[
-          { label: "Villa · Seferihisar", href: "/izmir/seferihisar/satilik-villa" },
-          { label: "Arsa · Seferihisar", href: "/izmir/seferihisar/satilik-arsa" },
-          { label: "Yazlık · Urla", href: "/izmir/urla/satilik-yazlik" },
-          { label: "Daire · Çeşme", href: "/izmir/cesme/satilik-daire" },
-        ].map((chip) => (
+        {chips.map((chip) => (
           <button
             key={chip.href}
             type="button"

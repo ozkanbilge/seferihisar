@@ -188,6 +188,44 @@ export function HomepageEditor() {
             </div>
           </section>
 
+          {/* Popüler Aramalar */}
+          <section className="bg-surface border border-cream-line rounded-2xl p-5 space-y-3">
+            <h3 className="text-sm font-bold text-fg">Popüler Aramalar (arama barı altı çipler)</h3>
+            <div className="space-y-2">
+              {content.popularSearches.map((chip, i) => (
+                <div key={i} className="grid grid-cols-[1fr_1.4fr_auto] gap-2 items-center">
+                  <input
+                    value={chip.label}
+                    onChange={(e) => set((c) => ((c.popularSearches[i].label = e.target.value), c))}
+                    placeholder="Villa · Seferihisar"
+                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3.5 py-2.5 text-xs text-fg focus:border-gold focus:outline-none"
+                  />
+                  <input
+                    value={chip.href}
+                    onChange={(e) => set((c) => ((c.popularSearches[i].href = e.target.value), c))}
+                    placeholder="/izmir/seferihisar/satilik-villa"
+                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3.5 py-2.5 text-xs text-fg font-mono focus:border-gold focus:outline-none"
+                  />
+                  <button
+                    onClick={() => set((c) => ((c.popularSearches.splice(i, 1)), c))}
+                    className="p-2 text-red-400 hover:text-red-500 transition-colors"
+                    aria-label="Çipi sil"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => set((c) => ((c.popularSearches.push({ label: "", href: "" })), c))}
+              className="btn btn-outline text-[0.65rem] px-4 py-2"
+            >
+              + Çip Ekle
+            </button>
+          </section>
+
           {/* Alt CTA */}
           <section className="bg-surface border border-cream-line rounded-2xl p-5 space-y-3">
             <h3 className="text-sm font-bold text-fg">Alt İletişim Çağrısı</h3>

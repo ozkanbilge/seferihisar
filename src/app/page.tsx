@@ -70,7 +70,7 @@ export default async function Home() {
 
           {/* z-20: açılır listeler alttaki açıklama metninin üzerine boyanır */}
           <div className="w-full flex justify-center relative z-20 animate-fade-up" style={{ animationDelay: "0.55s" }}>
-            <HeroSearch />
+            <HeroSearch chips={c.popularSearches} />
           </div>
 
           <p

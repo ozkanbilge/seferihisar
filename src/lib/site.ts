@@ -27,6 +27,13 @@ export const site = {
     linkedin: "https://linkedin.com/",
   },
   geo: { lat: 38.196, lng: 26.838 },
+  /** İlan danışmanı / ilan sahibi profili */
+  agent: {
+    name: "Özkan Bilge",
+    title: "Kurucu Gayrimenkul Danışmanı",
+    initials: "ÖB",
+    memberSince: "2010",
+  },
 } as const;
 
 export const nav = [

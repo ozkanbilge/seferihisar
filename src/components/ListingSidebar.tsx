@@ -70,6 +70,38 @@ export function ListingSidebar({
   return (
     <div className="space-y-6 sticky top-24">
       {/* Action Buttons */}
+      {/* İlan Danışmanı */}
+      <div className="card-luxe rounded-2xl p-5">
+        <div className="flex items-center gap-4">
+          {/* Varak monogram avatarı */}
+          <div className="relative shrink-0">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright p-[2px]">
+              <div className="w-full h-full rounded-full bg-ink flex items-center justify-center">
+                <span className="font-[family-name:var(--font-cinzel-deco)] font-bold text-xl royal-text">
+                  {site.agent.initials}
+                </span>
+              </div>
+            </div>
+            {/* Doğrulanmış rozeti */}
+            <span className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold flex items-center justify-center border-2 border-surface">
+              <svg className="w-3 h-3 text-ink" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20 6L9 17l-5-5" />
+              </svg>
+            </span>
+          </div>
+          <div className="min-w-0">
+            <h3 className="text-sm font-bold text-fg leading-tight">{site.agent.name}</h3>
+            <p className="text-[0.65rem] text-gold-deep font-semibold mt-0.5">{site.agent.title}</p>
+            <p className="text-[0.62rem] text-fg-muted mt-1 flex items-center gap-1.5">
+              <svg className="w-3 h-3 text-gold shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" />
+              </svg>
+              Üyelik: {site.agent.memberSince}&apos;dan beri · {new Date().getFullYear() - Number(site.agent.memberSince)} yıl
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="bg-surface border border-cream-line rounded-2xl p-6 shadow-sm">
         <h3 className="text-base font-semibold text-fg mb-4">Bu İlanla İlgileniyor musunuz?</h3>
         
@@ -138,7 +170,8 @@ export function ListingSidebar({
                     value={dateInput}
                     min={new Date().toISOString().split("T")[0]}
                     onChange={(e) => setDateInput(e.target.value)}
-                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-fg focus:border-gold focus:outline-none transition-colors"
+                    onClick={(e) => e.currentTarget.showPicker?.()}
+                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3 py-2.5 text-xs text-fg focus:border-gold focus:outline-none transition-colors cursor-pointer"
                   />
                 </div>
                 <div>

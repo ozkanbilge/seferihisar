@@ -99,6 +99,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Tarih girdisi: koyu temada takvim ikonu görünür ve tıklanabilir olsun */
+input[type="date"] {
+  color-scheme: dark;
+}
+html.light input[type="date"] {
+  color-scheme: light;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 ::selection {
   background: var(--color-gold);
   color: var(--color-ink);

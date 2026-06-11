@@ -128,8 +128,8 @@ export function ListingSidebar({
       </div>
 
       {/* Appointment Booking Form */}
-      <div className="bg-surface border border-cream-line rounded-2xl p-6 shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gold to-gold-deep" />
+      <div className="bg-surface border border-cream-line rounded-2xl p-6 shadow-sm relative">
+        <div className="absolute top-0 left-0 w-full h-[3px] rounded-t-2xl bg-gradient-to-r from-gold to-gold-deep" />
         
         {!success ? (
           <>

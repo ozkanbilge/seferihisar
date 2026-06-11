@@ -84,32 +84,43 @@ export default async function Home() {
       {/* ══════ STATS BAR ══════ */}
       {c.sections.stats && <StatsBar />}
 
-      {/* ══════ FEATURED LISTINGS ══════ */}
+      {/* ══════ FEATURED LISTINGS — vitrin ══════ */}
       {c.sections.featured && (
-        <section className="container-x pt-20 pb-16 md:pt-24 md:pb-20" id="featured-listings">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+        <section className="relative container-x pt-20 pb-16 md:pt-24 md:pb-20 overflow-hidden" id="featured-listings">
+          {/* Sakin altın ambiyans */}
+          <div className="absolute -top-10 right-0 w-[420px] h-[280px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+
+          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between mb-10">
             <div>
-              <p className="eyebrow mb-3">{c.featured.eyebrow}</p>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                <p className="eyebrow">{c.featured.eyebrow}</p>
+                <span className="h-px w-12 bg-gradient-to-r from-gold/50 to-transparent" />
+              </div>
               <h2 className="display text-3xl md:text-4xl text-fg">
                 {c.featured.title}
               </h2>
+              <span className="block h-px w-24 mt-4 bg-gradient-to-r from-gold/50 to-transparent" />
             </div>
             <Link
               href="/satilik"
-              className="btn btn-outline mt-6 md:mt-0 self-start md:self-auto"
+              className="btn btn-outline group mt-6 md:mt-0 self-start md:self-auto"
             >
               {t.viewAllListings}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredListings.slice(0, c.featured.count).map((listing) => (
-              <ListingCard key={listing.slug} listing={listing} eager />
+          {/* İlk ilan büyük sahnede (spotlight), kalanlar standart */}
+          <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {featuredListings.slice(0, c.featured.count).map((listing, i) => (
+              <div key={listing.slug} className={i === 0 ? "sm:col-span-2 lg:row-span-1" : ""}>
+                <ListingCard listing={listing} eager />
+              </div>
             ))}
           </div>
 
-          <div className="mt-12">
+          <div className="relative mt-12">
             <MiniBanner type="sell" />
           </div>
         </section>

@@ -127,7 +127,7 @@ export default async function ListingDetailPage(
           {/* Description */}
           <section className="mt-8">
             <SectionTitle>Açıklama</SectionTitle>
-            <p className="text-sm text-fg-muted leading-[1.9] first-letter:float-left first-letter:font-[family-name:var(--font-cinzel-deco)] first-letter:text-[2.6rem] first-letter:leading-[0.85] first-letter:mr-2 first-letter:mt-1 first-letter:font-bold first-letter:text-gold first-letter:[text-shadow:0_1px_0_rgba(0,0,0,0.35)]">
+            <p className="text-sm text-fg-muted leading-relaxed">
               {listing.description}
             </p>
           </section>

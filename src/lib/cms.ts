@@ -103,10 +103,13 @@ export const HOMEPAGE_DEFAULTS: HomepageContent = {
       "Villa, arsa veya yazlık yatırımınızda doğru kararı vermek için uzman ekibimizle tanışın.",
   },
   popularSearches: [
-    { label: "Villa · Seferihisar", href: "/izmir/seferihisar/satilik-villa" },
-    { label: "Arsa · Seferihisar", href: "/izmir/seferihisar/satilik-arsa" },
-    { label: "Yazlık · Urla", href: "/izmir/urla/satilik-yazlik" },
-    { label: "Daire · Çeşme", href: "/izmir/cesme/satilik-daire" },
+    { label: "Seferihisar Satılık Villa", href: "/izmir/seferihisar/satilik-villa" },
+    { label: "Seferihisar Satılık Arsa", href: "/izmir/seferihisar/satilik-arsa" },
+    { label: "Sığacık Satılık Villa", href: "/izmir/seferihisar/sigacik/satilik-villa" },
+    { label: "Seferihisar Satılık Yazlık", href: "/izmir/seferihisar/satilik-yazlik" },
+    { label: "Seferihisar Satılık Tarla", href: "/izmir/seferihisar/satilik-tarla" },
+    { label: "Seferihisar Kiralık Daire", href: "/izmir/seferihisar/kiralik-daire" },
+    { label: "Urla Satılık Yazlık", href: "/izmir/urla/satilik-yazlik" },
   ],
 };
 
@@ -147,10 +150,12 @@ const HOMEPAGE_DEFAULTS_EN: HomepageContent = {
       "Meet our expert team to make the right decision on your villa, land or summer house investment.",
   },
   popularSearches: [
-    { label: "Villa · Seferihisar", href: "/izmir/seferihisar/satilik-villa" },
-    { label: "Land · Seferihisar", href: "/izmir/seferihisar/satilik-arsa" },
-    { label: "Summer House · Urla", href: "/izmir/urla/satilik-yazlik" },
-    { label: "Apartment · Çeşme", href: "/izmir/cesme/satilik-daire" },
+    { label: "Seferihisar Villas for Sale", href: "/izmir/seferihisar/satilik-villa" },
+    { label: "Seferihisar Land for Sale", href: "/izmir/seferihisar/satilik-arsa" },
+    { label: "Sığacık Villas", href: "/izmir/seferihisar/sigacik/satilik-villa" },
+    { label: "Seferihisar Summer Houses", href: "/izmir/seferihisar/satilik-yazlik" },
+    { label: "Apartments for Rent", href: "/izmir/seferihisar/kiralik-daire" },
+    { label: "Urla Summer Houses", href: "/izmir/urla/satilik-yazlik" },
   ],
 };
 
@@ -191,10 +196,12 @@ const HOMEPAGE_DEFAULTS_AR: HomepageContent = {
       "تعرّف على فريقنا المتخصص لاتخاذ القرار الصحيح في استثمارك بالفلل أو الأراضي أو المنازل الصيفية.",
   },
   popularSearches: [
-    { label: "فيلا · سفريحصار", href: "/izmir/seferihisar/satilik-villa" },
-    { label: "أرض · سفريحصار", href: "/izmir/seferihisar/satilik-arsa" },
-    { label: "منزل صيفي · أورلا", href: "/izmir/urla/satilik-yazlik" },
-    { label: "شقة · تشيشمه", href: "/izmir/cesme/satilik-daire" },
+    { label: "فلل للبيع في سفريحصار", href: "/izmir/seferihisar/satilik-villa" },
+    { label: "أراضٍ للبيع في سفريحصار", href: "/izmir/seferihisar/satilik-arsa" },
+    { label: "فلل صيجاجك", href: "/izmir/seferihisar/sigacik/satilik-villa" },
+    { label: "منازل صيفية في سفريحصار", href: "/izmir/seferihisar/satilik-yazlik" },
+    { label: "شقق للإيجار", href: "/izmir/seferihisar/kiralik-daire" },
+    { label: "منازل صيفية في أورلا", href: "/izmir/urla/satilik-yazlik" },
   ],
 };
 

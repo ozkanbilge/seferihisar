@@ -123,6 +123,14 @@ export const Logo = (p: P) => (
     </defs>
 
     <g stroke="url(#goldGrad)" strokeLinecap="round" strokeLinejoin="round">
+      {/* Taçtan yayılan ışık huzmeleri */}
+      <g strokeWidth="0.9" opacity="0.4">
+        <path d="M 43 6.5 L 40 2.5" className="logo-line" style={{ animationDelay: "1.5s" }} />
+        <path d="M 57 6.5 L 60 2.5" className="logo-line" style={{ animationDelay: "1.55s" }} />
+        <path d="M 38 12 L 33.5 9" className="logo-line" style={{ animationDelay: "1.6s" }} />
+        <path d="M 62 12 L 66.5 9" className="logo-line" style={{ animationDelay: "1.65s" }} />
+      </g>
+
       {/* Görkemli taç: kavisli üç sivri uç */}
       <path
         d="M 33 36 L 35 20 Q 43 30 50 13 Q 57 30 65 20 L 67 36 Z"
@@ -143,8 +151,10 @@ export const Logo = (p: P) => (
     <circle cx="35" cy="17.5" r="1.9" fill="url(#goldGrad)" />
     <circle cx="65" cy="17.5" r="1.9" fill="url(#goldGrad)" />
     <polygon points="50 5.5, 52.6 9.2, 50 12.9, 47.4 9.2" fill="url(#goldGrad)" />
-    {/* Band ortası elmas */}
+    {/* Band mücevherleri: orta elmas + yan inciler */}
     <polygon points="50 38.6, 52 41, 50 43.4, 48 41" fill="url(#goldGrad)" />
+    <circle cx="41" cy="41" r="1.1" fill="url(#goldGrad)" />
+    <circle cx="59" cy="41" r="1.1" fill="url(#goldGrad)" />
 
     {/* Sol defne yaprakları */}
     {[
@@ -175,20 +185,60 @@ export const Logo = (p: P) => (
       />
     ))}
 
-    {/* Süslü "PE" monogramı */}
+    {/* Monogram zemini: yumuşak hale + kraliyet baklavası */}
+    <circle cx="50" cy="65.5" r="16" fill="url(#goldGrad)" opacity="0.05" className="logo-monogram" />
+    <rect
+      x="36.5" y="52" width="27" height="27" rx="2"
+      transform="rotate(45 50 65.5)"
+      stroke="url(#goldGrad)" strokeWidth="0.5" opacity="0.3" fill="none"
+      className="logo-monogram"
+    />
+
+    {/* İç içe geçen "ÖB" monogramı: arkada kontur B, önde varak Ö */}
     <text
-      x="50"
-      y="74"
+      x="56.5"
+      y="74.5"
       textAnchor="middle"
       fontFamily="var(--font-cinzel-deco), var(--font-cinzel), Georgia, serif"
-      fontSize="27"
+      fontSize="26"
       fontWeight="900"
-      letterSpacing="0.5"
-      fill="url(#goldGrad)"
+      stroke="url(#goldGrad)"
+      strokeWidth="0.7"
+      fill="none"
+      opacity="0.9"
       className="logo-monogram"
     >
-      PE
+      B
     </text>
+    <text
+      x="44"
+      y="74.5"
+      textAnchor="middle"
+      fontFamily="var(--font-cinzel-deco), var(--font-cinzel), Georgia, serif"
+      fontSize="26"
+      fontWeight="900"
+      fill="url(#goldGrad)"
+      className="logo-monogram"
+      style={{ animationDelay: "0.55s" }}
+    >
+      Ö
+    </text>
+
+    {/* Defne taneleri */}
+    {[
+      [30.5, 78.5], [25.8, 71], [23.4, 63.5],
+      [69.5, 78.5], [74.2, 71], [76.6, 63.5],
+    ].map(([bx, by], i) => (
+      <circle
+        key={`b${i}`}
+        cx={bx}
+        cy={by}
+        r="1"
+        fill="url(#goldGrad)"
+        className="logo-leaf"
+        style={{ animationDelay: `${1.0 + (i % 3) * 0.12}s` }}
+      />
+    ))}
 
     {/* Alt flörür: çizgi · elmas · çizgi */}
     <g stroke="url(#goldGrad)" strokeLinecap="round">

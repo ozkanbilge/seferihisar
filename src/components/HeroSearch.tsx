@@ -116,8 +116,8 @@ function LuxeSelect({
       {open && (
         <div
           role="listbox"
-          className="absolute left-2 right-2 top-[calc(100%+10px)] z-40 rounded-2xl border border-gold/25 bg-ink-card shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up"
-          style={{ animationDuration: "0.25s" }}
+          className="absolute left-2 right-2 top-[calc(100%+10px)] z-50 rounded-2xl border border-gold/25 shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_24px_rgba(192,160,98,0.1)] overflow-hidden animate-fade-up"
+          style={{ backgroundColor: "var(--color-ink-card)", animationDuration: "0.25s" }}
         >
           <div className="h-[2px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep" />
 
@@ -164,10 +164,11 @@ export interface SearchChip {
 }
 
 const DEFAULT_CHIPS: SearchChip[] = [
-  { label: "Villa · Seferihisar", href: "/izmir/seferihisar/satilik-villa" },
-  { label: "Arsa · Seferihisar", href: "/izmir/seferihisar/satilik-arsa" },
-  { label: "Yazlık · Urla", href: "/izmir/urla/satilik-yazlik" },
-  { label: "Daire · Çeşme", href: "/izmir/cesme/satilik-daire" },
+  { label: "Seferihisar Satılık Villa", href: "/izmir/seferihisar/satilik-villa" },
+  { label: "Seferihisar Satılık Arsa", href: "/izmir/seferihisar/satilik-arsa" },
+  { label: "Sığacık Satılık Villa", href: "/izmir/seferihisar/sigacik/satilik-villa" },
+  { label: "Seferihisar Satılık Yazlık", href: "/izmir/seferihisar/satilik-yazlik" },
+  { label: "Seferihisar Kiralık Daire", href: "/izmir/seferihisar/kiralik-daire" },
 ];
 
 export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) {
@@ -188,7 +189,7 @@ export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) 
   };
 
   return (
-    <div className="w-full max-w-3xl">
+    <div className="group/hs w-full max-w-3xl">
       {/* Satılık / Kiralık — kayan altın göstergeli sekme grubu */}
       <div className="flex justify-center mb-6">
         <div className="relative grid grid-cols-2 p-1 rounded-full border border-gold/25 bg-ink/70 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_4px_14px_rgba(0,0,0,0.35)]">
@@ -270,23 +271,32 @@ export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) 
         </div>
       </form>
 
-      {/* Hızlı arama çipleri — son arama + popüler aramalar */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
-        <span className="text-[0.6rem] text-fg-invert-muted/60 uppercase tracking-[0.16em] mr-1">Popüler Aramalar:</span>
-        {chips.map((chip) => (
-          <button
-            key={chip.href}
-            type="button"
-            onClick={() => router.push(chip.href)}
-            className="px-3.5 py-1.5 rounded-full border border-gold/20 bg-ink/40 text-[0.65rem] font-semibold text-fg-invert-muted hover:text-gold-bright hover:border-gold/50 hover:shadow-[0_0_14px_rgba(192,160,98,0.15)] transition-all duration-300"
-          >
-            {chip.label}
-          </button>
-        ))}
+      {/* Hızlı arama çipleri — liste açıkken solar */}
+      <div className="mt-5 transition-opacity duration-300 group-has-[[role=listbox]]/hs:opacity-0 group-has-[[role=listbox]]/hs:pointer-events-none">
+        <span className="block text-center text-[0.6rem] text-fg-invert-muted/60 uppercase tracking-[0.16em] mb-2.5">
+          Popüler Aramalar
+        </span>
+        <div className="relative">
+          {/* Mobilde kenarlarda yumuşak kaybolma */}
+          <div className="md:hidden absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
+          <div className="md:hidden absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none" />
+          <div className="flex md:flex-wrap md:justify-center gap-2 overflow-x-auto md:overflow-visible px-4 md:px-0 -mx-4 md:mx-0 pb-1 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {chips.map((chip) => (
+              <button
+                key={chip.href}
+                type="button"
+                onClick={() => router.push(chip.href)}
+                className="shrink-0 px-3.5 py-2 md:py-1.5 rounded-full border border-gold/20 bg-ink/40 text-[0.65rem] font-semibold text-fg-invert-muted hover:text-gold-bright hover:border-gold/50 hover:shadow-[0_0_14px_rgba(192,160,98,0.15)] transition-all duration-300 whitespace-nowrap"
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Güven satırı */}
-      <p className="text-center text-[0.6rem] text-fg-invert-muted/50 tracking-[0.14em] uppercase mt-4">
+      <p className="text-center text-[0.6rem] text-fg-invert-muted/50 tracking-[0.14em] uppercase mt-4 transition-opacity duration-300 group-has-[[role=listbox]]/hs:opacity-0">
         30 İlçe · Doğrulanmış İlanlar · Ücretsiz Danışmanlık
       </p>
     </div>

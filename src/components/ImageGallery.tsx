@@ -120,9 +120,9 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
       {/* Küçük resimler — film şeridi */}
       {images.length > 1 && (
         <div className="relative">
-          {/* Kenarlarda yumuşak kaybolma */}
-          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-cream to-transparent z-10 pointer-events-none rounded-l-xl" />
-          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream to-transparent z-10 pointer-events-none rounded-r-xl" />
+          {/* Kenarlarda yumuşak kaybolma — galerinin kendi zemininde (surface) */}
+          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-surface to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-surface to-transparent z-10 pointer-events-none" />
 
           <div className="flex md:justify-center gap-3 overflow-x-auto px-6 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {images.map((img, i) => {

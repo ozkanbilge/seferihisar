@@ -399,11 +399,11 @@ function ListingHeader({
               href={`https://wa.me/905323994291?text=${encodeURIComponent(`Merhaba, ${listing.ref} referans numaralı "${listing.title}" ilanı hakkında bilgi almak istiyorum.`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="WhatsApp ile teklif sor"
+              aria-label="WhatsApp ile teklif ver"
               className="shrink-0 flex items-center gap-2 pl-3 pr-3.5 py-2 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright text-ink hover:shadow-[0_0_18px_rgba(192,160,98,0.5)] hover:scale-[1.03] transition-all"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.004 2C6.48 2 2 6.48 2 12c0 1.76.46 3.42 1.27 4.88L2 22l5.3-1.29c1.4.78 3.01 1.22 4.7 1.22 5.52 0 10-4.48 10-10S17.524 2 12.004 2zm5.72 14.1c-.24.67-1.19 1.29-1.92 1.39-.49.07-1.12.11-3.23-.77-2.7-1.13-4.42-3.89-4.56-4.08-.13-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 1-2.32.24-.26.54-.32.71-.32h.51c.16 0 .38-.06.59.44.22.54.76 1.86.83 2 .07.14.12.31.02.51-.1.2-.21.32-.36.5-.15.18-.31.39-.45.52-.15.15-.31.31-.13.62.18.31.8 1.31 1.72 2.13.92.82 1.7 1.08 2.02 1.23.32.15.63.09.83-.05.21-.14 1.34-.63 1.57-.75.23-.12.38-.18.44-.29.06.11.06.64-.18 1.31z"/></svg>
-              <span className="text-[0.62rem] font-bold uppercase tracking-wider whitespace-nowrap">Teklif Sor</span>
+              <span className="text-[0.62rem] font-bold uppercase tracking-wider whitespace-nowrap">Teklif Ver</span>
             </a>
           </div>
         </div>

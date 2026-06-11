@@ -216,7 +216,7 @@ export default async function ListingDetailPage(
       {similar.length > 0 && (
         <section className="mt-14 md:mt-20">
           {/* Vitrin paneli: köşebentli altın çerçeve + ambiyans */}
-          <div className="relative rounded-3xl border border-gold/20 bg-gradient-to-b from-ink-soft to-ink overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)]">
+          <div className="relative rounded-3xl border border-gold/20 bg-gradient-to-b from-ink-soft to-ink [.light_&]:from-[#fbf8f2] [.light_&]:to-[#f3eee3] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)] [.light_&]:shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
             {/* Köşebent süslemeleri */}
             <span className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/60 rounded-tl z-10 pointer-events-none" aria-hidden />
             <span className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/60 rounded-tr z-10 pointer-events-none" aria-hidden />
@@ -232,7 +232,7 @@ export default async function ListingDetailPage(
               <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center gap-4 min-[480px]:gap-6 mb-8">
                 <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
                   <span className="hidden sm:block h-px flex-1 max-w-16 bg-gradient-to-r from-transparent to-gold/50" />
-                  <h2 className="text-sm min-[420px]:text-base md:text-lg font-bold text-fg-invert font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em] md:tracking-[0.14em] flex items-center gap-2 md:gap-2.5 whitespace-nowrap">
+                  <h2 className="text-sm min-[420px]:text-base md:text-lg font-bold text-fg font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em] md:tracking-[0.14em] flex items-center gap-2 md:gap-2.5 whitespace-nowrap">
                     <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
                     Benzer İlanlar
                     <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
@@ -241,7 +241,7 @@ export default async function ListingDetailPage(
                 </div>
                 <Link
                   href={`/${listing.transaction}`}
-                  className="btn btn-ghost text-[0.65rem] px-5 py-2 self-start min-[480px]:self-auto shrink-0"
+                  className="btn btn-outline text-[0.65rem] px-5 py-2 self-start min-[480px]:self-auto shrink-0"
                 >
                   Tümünü Gör
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">

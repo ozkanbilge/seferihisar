@@ -26,15 +26,6 @@ interface ParselDetails {
   fiyatKaynak: "emsal" | "tahmin" | null;
   tahminiDeger: number | null;
   garantiDeger: number | null;
-  imar: {
-    meriPlan: string;
-    katAdedi: string;
-    taks: string;
-    kaks: string;
-    insaatNizami: string;
-    binaYuksekligi: string;
-    kaynakUrl: string;
-  } | null;
   coordinates: { lat: number; lng: number } | null;
   ring: [number, number][];
   sorguNo: string;
@@ -512,51 +503,6 @@ export function ArsaSorgula() {
                       </div>
                     )}
                   </div>
-
-                  {details.imar && (
-                    <div className="pt-3 border-t border-ink-line animate-fade-up" style={{ animationDelay: "0.25s" }}>
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-[0.65rem] text-gold uppercase tracking-widest font-semibold">
-                          {t.imarTitle}
-                        </span>
-                        <a
-                          href={details.imar.kaynakUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[0.6rem] font-semibold text-gold-deep hover:text-gold-bright transition-colors inline-flex items-center gap-1 shrink-0"
-                        >
-                          {t.imarSource}
-                          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </a>
-                      </div>
-                      {details.imar.meriPlan && details.imar.meriPlan !== "-" ? (
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
-                          <div className="col-span-2">
-                            <span className="text-[0.62rem] text-fg-invert-muted uppercase block">{t.imarPlan}</span>
-                            <span className="text-xs font-bold text-gold-bright">{details.imar.meriPlan}</span>
-                          </div>
-                          {[
-                            [t.imarKat, details.imar.katAdedi],
-                            [t.imarNizam, details.imar.insaatNizami],
-                            [t.imarTaks, details.imar.taks],
-                            [t.imarKaks, details.imar.kaks],
-                            [t.imarYukseklik, details.imar.binaYuksekligi],
-                          ]
-                            .filter(([, v]) => v && v !== "-" && v !== "- (-)")
-                            .map(([k, v]) => (
-                              <div key={k}>
-                                <span className="text-[0.62rem] text-fg-invert-muted uppercase block">{k}</span>
-                                <span className="text-xs font-semibold text-fg-invert">{v}</span>
-                              </div>
-                            ))}
-                        </div>
-                      ) : (
-                        <p className="text-[0.68rem] text-fg-invert-muted leading-snug">{t.imarNoPlan}</p>
-                      )}
-                    </div>
-                  )}
 
                   <div className="pt-3 border-t border-ink-line space-y-3 animate-fade-up" style={{ animationDelay: "0.3s" }}>
                     {details.tahminiDeger && details.birimFiyat ? (

@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { fetchParsel, TkgmLimitError } from "@/lib/tkgm";
 import { estimateUnitPrice, VALUATION } from "@/lib/valuation";
 import { appendParselLog } from "@/lib/cms";
-import { fetchKeosImar, type KeosImar } from "@/lib/keos";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -85,19 +84,6 @@ export async function GET(request: Request) {
         }
       : null;
 
-  // Seferihisar parselleri için belediye E-İmar verisi (hata sorguyu düşürmez)
-  let imar: KeosImar | null = null;
-  if (data.ilceAd === "Seferihisar") {
-    try {
-      imar = await Promise.race([
-        fetchKeosImar(data.mahalleAd, data.adaNo, data.parselNo),
-        new Promise<null>((resolve) => setTimeout(() => resolve(null), 8000)),
-      ]);
-    } catch {
-      imar = null;
-    }
-  }
-
   await log("bulundu", {
     il: data.ilAd,
     ilce: data.ilceAd,
@@ -123,7 +109,6 @@ export async function GET(request: Request) {
     fiyatKaynak: unit?.source ?? null,
     tahminiDeger,
     garantiDeger,
-    imar,
     coordinates,
     ring: data.ring,
     sorguNo: `TKGM-${data.adaNo}-${data.parselNo}-${Date.now().toString().slice(-4)}`,

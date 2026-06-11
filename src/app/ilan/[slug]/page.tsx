@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { listings, listingBySlug } from "@/data/listings";
 import { districtBySlug, neighborhoodBySlug } from "@/data/locations";
@@ -214,19 +215,47 @@ export default async function ListingDetailPage(
 
       {similar.length > 0 && (
         <section className="mt-14 md:mt-20">
-          <div className="flex items-center gap-4 mb-8">
-            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/40" />
-            <h2 className="text-sm min-[420px]:text-base md:text-lg font-bold text-fg font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em] md:tracking-[0.14em] flex items-center gap-2 md:gap-2.5 whitespace-nowrap">
-              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-              Benzer İlanlar
-              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-            </h2>
-            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/40" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {similar.map((l) => (
-              <ListingCard key={l.slug} listing={l} />
-            ))}
+          {/* Vitrin paneli: köşebentli altın çerçeve + ambiyans */}
+          <div className="relative rounded-3xl border border-gold/20 bg-gradient-to-b from-ink-soft to-ink overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)]">
+            {/* Köşebent süslemeleri */}
+            <span className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/60 rounded-tl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/60 rounded-tr z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/60 rounded-bl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/60 rounded-br z-10 pointer-events-none" aria-hidden />
+
+            {/* Sakin altın ambiyans */}
+            <div className="absolute -top-20 left-1/3 w-[420px] h-[260px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
+            <div className="absolute -bottom-16 right-0 w-[300px] h-[200px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
+
+            <div className="relative px-5 py-8 md:px-10 md:py-10">
+              {/* Başlık + eylem */}
+              <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center gap-4 min-[480px]:gap-6 mb-8">
+                <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
+                  <span className="hidden sm:block h-px flex-1 max-w-16 bg-gradient-to-r from-transparent to-gold/50" />
+                  <h2 className="text-sm min-[420px]:text-base md:text-lg font-bold text-fg-invert font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em] md:tracking-[0.14em] flex items-center gap-2 md:gap-2.5 whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                    Benzer İlanlar
+                    <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                  </h2>
+                  <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/50" />
+                </div>
+                <Link
+                  href={`/${listing.transaction}`}
+                  className="btn btn-ghost text-[0.65rem] px-5 py-2 self-start min-[480px]:self-auto shrink-0"
+                >
+                  Tümünü Gör
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                {similar.map((l) => (
+                  <ListingCard key={l.slug} listing={l} />
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       )}

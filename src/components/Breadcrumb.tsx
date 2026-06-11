@@ -23,7 +23,7 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
                 {item.label}
               </Link>
             ) : (
-              <span className="text-fg font-medium">{item.label}</span>
+              <span className="text-fg font-medium truncate max-w-[180px] min-[420px]:max-w-[280px] sm:max-w-none">{item.label}</span>
             )}
           </li>
         ))}

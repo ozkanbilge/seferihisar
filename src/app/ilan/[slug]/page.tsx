@@ -163,7 +163,7 @@ export default async function ListingDetailPage(
                   <span className="text-[0.62rem] text-gold/80 font-semibold uppercase tracking-[0.14em]">
                     {d.label}
                   </span>
-                  <span className="text-sm font-medium text-fg">
+                  <span className="text-xs sm:text-sm font-medium text-fg break-words">
                     {d.value}
                   </span>
                 </div>
@@ -179,7 +179,7 @@ export default async function ListingDetailPage(
                 {listing.features.map((f) => (
                   <div
                     key={f}
-                    className="group flex items-center gap-2.5 text-sm text-fg-muted px-3 py-2 rounded-xl border border-gold/10 bg-surface transition-all duration-300 hover:border-gold/40 hover:text-fg"
+                    className="group flex items-center gap-2.5 text-xs sm:text-sm text-fg-muted px-3 py-2 rounded-xl border border-gold/10 bg-surface transition-all duration-300 hover:border-gold/40 hover:text-fg min-w-0"
                   >
                     <span className="w-1.5 h-1.5 rotate-45 bg-gold/60 group-hover:bg-gold shrink-0 transition-colors" />
                     {f}
@@ -215,7 +215,7 @@ export default async function ListingDetailPage(
         <section className="mt-14 md:mt-20">
           <div className="flex items-center gap-4 mb-8">
             <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/40" />
-            <h2 className="text-base md:text-lg font-bold text-fg font-[family-name:var(--font-cinzel)] uppercase tracking-[0.14em] flex items-center gap-2.5">
+            <h2 className="text-sm min-[420px]:text-base md:text-lg font-bold text-fg font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em] md:tracking-[0.14em] flex items-center gap-2 md:gap-2.5 whitespace-nowrap">
               <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
               Benzer İlanlar
               <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
@@ -286,11 +286,11 @@ function ListingHeader({
 
       <div className="gold-ring rounded-2xl p-[1.5px] shadow-[0_10px_34px_rgba(0,0,0,0.35),0_0_24px_rgba(192,160,98,0.1)]">
         <div className="rounded-[15px] px-4 py-3.5 flex items-center justify-between gap-3" style={{ backgroundColor: "var(--color-ink-card)" }}>
-          <div>
+          <div className="min-w-0">
             <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.18em] mb-0.5">
               {listing.transaction === "kiralik" ? "Aylık Kira Bedeli" : "Satış Bedeli"}
             </span>
-            <span className="text-2xl md:text-[1.9rem] font-bold royal-text font-[family-name:var(--font-cinzel)] tracking-wide whitespace-nowrap">
+            <span className="text-xl min-[400px]:text-2xl md:text-[1.9rem] font-bold royal-text font-[family-name:var(--font-cinzel)] tracking-wide whitespace-nowrap">
               {formatPrice(listing.price)}
             </span>
           </div>
@@ -307,7 +307,7 @@ function ListingHeader({
       </div>
 
       {/* Quick specs */}
-      <div className="flex items-center gap-4 mt-5 pt-5 border-t border-cream-line">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 mt-5 pt-5 border-t border-cream-line">
         <div className="flex items-center gap-2 text-sm text-fg-muted">
           <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
             <AreaIcon className="w-3.5 h-3.5 text-gold" />

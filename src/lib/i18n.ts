@@ -92,6 +92,15 @@ const tr = {
     fillAll: "Lütfen il, ilçe, mahalle ile ada ve parsel numaralarını girin.",
     queryError: "Sorgulama esnasında bir hata oluştu. Lütfen tekrar deneyin.",
     lastQueried: "Son sorguladığınız parsel",
+    imarTitle: "İmar Durumu (Belediye E-İmar)",
+    imarPlan: "Mer'i İmar Planı",
+    imarKat: "Kat Adedi",
+    imarTaks: "T.A.K.S",
+    imarKaks: "K.A.K.S (Emsal)",
+    imarNizam: "İnşaat Nizamı",
+    imarYukseklik: "Bina Yüksekliği",
+    imarNoPlan: "Bu parsel için yürürlükte 1/1000 uygulama imar planı bulunmuyor.",
+    imarSource: "Resmî E-İmar Belgesi",
   },
 };
 
@@ -158,6 +167,15 @@ const en: Dict = {
     fillAll: "Please select province, district, neighborhood and enter block and parcel numbers.",
     queryError: "An error occurred during the inquiry. Please try again.",
     lastQueried: "Your last queried parcel",
+    imarTitle: "Zoning Status (Municipal E-İmar)",
+    imarPlan: "Current Zoning Plan",
+    imarKat: "Floor Count",
+    imarTaks: "TAKS (Coverage)",
+    imarKaks: "KAKS (FAR)",
+    imarNizam: "Building Order",
+    imarYukseklik: "Building Height",
+    imarNoPlan: "No 1/1000 implementation zoning plan is in force for this parcel.",
+    imarSource: "Official E-İmar Document",
   },
 };
 
@@ -222,6 +240,15 @@ const ar: Dict = {
     fillAll: "يرجى اختيار المحافظة والمنطقة والحي وإدخال رقم القطعة والبارسيل.",
     queryError: "حدث خطأ أثناء الاستعلام. يرجى المحاولة مرة أخرى.",
     lastQueried: "آخر قطعة استعلمت عنها",
+    imarTitle: "حالة التنظيم (بلدية E-İmar)",
+    imarPlan: "مخطط التنظيم الساري",
+    imarKat: "عدد الطوابق",
+    imarTaks: "نسبة التغطية TAKS",
+    imarKaks: "معامل البناء KAKS",
+    imarNizam: "نظام البناء",
+    imarYukseklik: "ارتفاع المبنى",
+    imarNoPlan: "لا يوجد مخطط تنظيمي تنفيذي 1/1000 ساري لهذه القطعة.",
+    imarSource: "وثيقة E-İmar الرسمية",
   },
 };
 

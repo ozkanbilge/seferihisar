@@ -17,7 +17,11 @@ export default function IletisimPage() {
       <Breadcrumb items={[{ label: "İletişim" }]} />
 
       <div className="mb-10">
-        <p className="eyebrow mb-3">İletişim</p>
+        <div className="flex items-center gap-3 mb-3">
+          <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+          <p className="eyebrow">İletişim</p>
+          <span className="h-px w-14 bg-gradient-to-r from-gold/50 to-transparent" />
+        </div>
         <h1 className="display text-3xl md:text-4xl text-fg mb-3">
           Bize Ulaşın
         </h1>
@@ -25,19 +29,24 @@ export default function IletisimPage() {
           Gayrimenkul danışmanlığı, ücretsiz değerleme veya portföy bilgisi için
           ekibimizle iletişime geçin.
         </p>
+        <span className="block h-px w-24 mt-4 bg-gradient-to-r from-gold/50 to-transparent" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
         {/* Contact Info */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="rounded-2xl border border-cream-line bg-surface p-6">
-            <h2 className="text-base font-semibold text-fg mb-5">
-              İletişim Bilgileri
+          <div className="card-luxe rounded-2xl p-6">
+            <h2 className="text-sm font-bold text-fg mb-5 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.14em]">
+              <span className="flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                İletişim Bilgileri
+              </span>
+              <span className="block h-px mt-2.5 bg-gradient-to-r from-gold/40 to-transparent" />
             </h2>
             <ul className="space-y-5">
-              <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5 text-gold-deep" />
+              <li className="group flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/40">
+                  <Phone className="w-4 h-4 text-gold" />
                 </div>
                 <div>
                   <p className="text-xs text-fg-muted uppercase tracking-wider mb-1">
@@ -51,9 +60,9 @@ export default function IletisimPage() {
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-gold-deep" />
+              <li className="group flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/40">
+                  <Mail className="w-4 h-4 text-gold" />
                 </div>
                 <div>
                   <p className="text-xs text-fg-muted uppercase tracking-wider mb-1">
@@ -67,9 +76,9 @@ export default function IletisimPage() {
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
-                  <MapPin className="w-5 h-5 text-gold-deep" />
+              <li className="group flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/40">
+                  <MapPin className="w-4 h-4 text-gold" />
                 </div>
                 <div>
                   <p className="text-xs text-fg-muted uppercase tracking-wider mb-1">
@@ -146,14 +155,25 @@ export default function IletisimPage() {
 
         {/* Contact Form */}
         <div className="lg:col-span-3">
-          <div className="rounded-2xl border border-cream-line bg-surface p-6 md:p-8">
-            <h2 className="text-base font-semibold text-fg mb-2">
-              Mesaj Gönderin
-            </h2>
-            <p className="text-sm text-fg-muted mb-6">
-              Formu doldurun, en kısa sürede size dönüş yapacağız.
-            </p>
-            <ContactForm />
+          <div className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_16px_44px_rgba(0,0,0,0.25)]">
+            <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2 left-2 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2 right-2 w-5 h-5 border-b border-r border-gold/70 rounded-br z-10 pointer-events-none" aria-hidden />
+            <div className="rounded-2xl bg-surface p-6 md:p-8">
+              <h2 className="text-sm font-bold text-fg mb-2 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.14em] flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                Mesaj Gönderin
+              </h2>
+              <p className="text-sm text-fg-muted mb-1.5">
+                Formu doldurun, en kısa sürede size dönüş yapacağız.
+              </p>
+              <div className="flex items-center gap-2 mb-6">
+                <span className="h-px w-12 bg-gradient-to-r from-gold/50 to-transparent" />
+                <span className="w-1 h-1 rotate-45 bg-gold/60" />
+              </div>
+              <ContactForm />
+            </div>
           </div>
         </div>
       </div>

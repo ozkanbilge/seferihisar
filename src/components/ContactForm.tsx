@@ -5,6 +5,35 @@ import { ArrowRight, Check } from "@/components/icons";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setSending(true);
+    const fd = new FormData(e.currentTarget);
+    try {
+      const res = await fetch("/api/iletisim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fd.get("name"),
+          phone: fd.get("phone"),
+          email: fd.get("email"),
+          subject: fd.get("subject"),
+          message: fd.get("message"),
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) throw new Error(data?.error ?? "Mesaj gönderilemedi.");
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Mesaj gönderilemedi.");
+    } finally {
+      setSending(false);
+    }
+  };
 
   if (submitted) {
     return (
@@ -24,10 +53,7 @@ export function ContactForm() {
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setSubmitted(true);
-      }}
+      onSubmit={handleSubmit}
       className="space-y-5"
       id="contact-form"
     >
@@ -41,6 +67,7 @@ export function ContactForm() {
           </label>
           <input
             id="contact-name"
+            name="name"
             type="text"
             required
             placeholder="Adınız Soyadınız"
@@ -56,6 +83,7 @@ export function ContactForm() {
           </label>
           <input
             id="contact-phone"
+            name="phone"
             type="tel"
             required
             placeholder="05XX XXX XX XX"
@@ -73,6 +101,7 @@ export function ContactForm() {
         </label>
         <input
           id="contact-email"
+            name="email"
           type="email"
           placeholder="email@adresiniz.com"
           className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-fg placeholder:text-fg-muted/50 focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors"
@@ -88,6 +117,7 @@ export function ContactForm() {
         </label>
         <select
           id="contact-subject"
+            name="subject"
           className="w-full rounded-xl border border-cream-line px-4 py-3 text-sm text-fg focus:border-gold focus:ring-1 focus:ring-gold/30 outline-none transition-colors bg-surface"
         >
           <option>Satılık Gayrimenkul Bilgisi</option>
@@ -107,6 +137,7 @@ export function ContactForm() {
         </label>
         <textarea
           id="contact-message"
+            name="message"
           rows={5}
           required
           placeholder="Mesajınızı buraya yazın..."
@@ -114,8 +145,10 @@ export function ContactForm() {
         />
       </div>
 
-      <button type="submit" className="btn btn-gold w-full sm:w-auto justify-center">
-        Mesaj Gönderin
+      {error && <p className="text-red-500 text-xs font-medium">{error}</p>}
+
+      <button type="submit" disabled={sending} className="btn btn-gold w-full sm:w-auto justify-center disabled:opacity-60">
+        {sending ? "Gönderiliyor..." : "Mesaj Gönderin"}
         <ArrowRight className="w-4 h-4" />
       </button>
     </form>

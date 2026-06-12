@@ -208,8 +208,14 @@ export default function UserAccountPage() {
                         {app.listingTitle}
                       </h3>
                       <div className="text-xs text-fg-muted flex items-center gap-3">
-                        <span>📅 {app.date}</span>
-                        <span>⏰ {app.time}</span>
+                        <span className="flex items-center gap-1">
+                          <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
+                          {app.date}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>
+                          {app.time}
+                        </span>
                         <span className="text-gold-deep font-bold">
                           {formatPrice(app.listingPrice)}
                         </span>
@@ -246,8 +252,10 @@ export default function UserAccountPage() {
           <div>
             {myFavListings.length === 0 ? (
               <div className="text-center py-16 bg-surface border border-cream-line rounded-2xl shadow-sm">
-                <div className="w-16 h-16 rounded-full bg-gold/5 flex items-center justify-center mx-auto mb-4 border border-gold/15 text-2xl">
-                  ❤️
+                <div className="w-16 h-16 rounded-full bg-gold/5 flex items-center justify-center mx-auto mb-4 border border-gold/20">
+                  <svg className="w-7 h-7 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <path d="M19.5 12.572L12 20l-7.5-7.428A5 5 0 1 1 12 6.006a5 5 0 1 1 7.5 6.566z" />
+                  </svg>
                 </div>
                 <h3 className="text-base font-semibold text-fg mb-1">Favori İlanınız Yok</h3>
                 <p className="text-xs text-fg-muted max-w-xs mx-auto mb-5">
@@ -262,7 +270,7 @@ export default function UserAccountPage() {
                 {myFavListings.map((item) => (
                   <div
                     key={item.slug}
-                    className="bg-surface border border-cream-line rounded-2xl overflow-hidden shadow-sm group hover:shadow-md transition-shadow flex flex-col h-full"
+                    className="bg-surface border border-cream-line rounded-2xl overflow-hidden group hover:border-gold/35 hover-lift flex flex-col h-full"
                   >
                     <div className="relative aspect-[4/3] bg-cream-soft overflow-hidden">
                       <img
@@ -273,10 +281,12 @@ export default function UserAccountPage() {
                       />
                       <button
                         onClick={() => toggleFavorite(item.slug)}
-                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/85 backdrop-blur flex items-center justify-center shadow-md text-red-500 hover:bg-surface transition-colors"
+                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-ink/85 backdrop-blur border border-gold/30 flex items-center justify-center shadow-md text-gold hover:text-red-400 hover:border-red-400/50 transition-colors"
                         title="Favorilerden Kaldır"
                       >
-                        ❤️
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19.5 12.572L12 20l-7.5-7.428A5 5 0 1 1 12 6.006a5 5 0 1 1 7.5 6.566z" />
+                        </svg>
                       </button>
                     </div>
 

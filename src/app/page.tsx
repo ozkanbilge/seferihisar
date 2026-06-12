@@ -84,43 +84,66 @@ export default async function Home() {
       {/* ══════ STATS BAR ══════ */}
       {c.sections.stats && <StatsBar />}
 
-      {/* ══════ FEATURED LISTINGS — vitrin ══════ */}
+      {/* ══════ FEATURED LISTINGS — kraliyet vitrini ══════ */}
       {c.sections.featured && (
-        <section className="relative container-x pt-20 pb-16 md:pt-24 md:pb-20 overflow-hidden" id="featured-listings">
-          {/* Sakin altın ambiyans */}
-          <div className="absolute -top-10 right-0 w-[420px] h-[280px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+        <section className="container-x pt-16 pb-12 md:pt-20 md:pb-16" id="featured-listings">
+          {/* Köşebentli tema-duyarlı vitrin paneli */}
+          <div className="relative rounded-3xl border border-gold/20 bg-gradient-to-b from-ink-soft to-ink [.light_&]:from-[#fbf8f2] [.light_&]:to-[#f3eee3] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)] [.light_&]:shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+            {/* Köşebent süslemeleri */}
+            <span className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/60 rounded-tl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/60 rounded-tr z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/60 rounded-bl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/60 rounded-br z-10 pointer-events-none" aria-hidden />
 
-          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between mb-10">
-            <div>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-                <p className="eyebrow">{c.featured.eyebrow}</p>
-                <span className="h-px w-12 bg-gradient-to-r from-gold/50 to-transparent" />
+            {/* Sakin altın ambiyans */}
+            <div className="absolute -top-24 left-1/4 w-[460px] h-[300px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
+            <div className="absolute -bottom-16 right-0 w-[320px] h-[220px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
+
+            <div className="relative px-5 py-10 md:px-10 md:py-12">
+              {/* Ortalanmış kraliyet başlığı */}
+              <div className="text-center mb-10">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+                  <p className="eyebrow">{c.featured.eyebrow}</p>
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+                </div>
+                <h2 className="display text-3xl md:text-4xl text-fg mb-4">
+                  {c.featured.title}
+                </h2>
+                <div className="flex items-center justify-center gap-2.5">
+                  <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
+                  <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                  <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold/50" />
+                </div>
               </div>
-              <h2 className="display text-3xl md:text-4xl text-fg">
-                {c.featured.title}
-              </h2>
-              <span className="block h-px w-24 mt-4 bg-gradient-to-r from-gold/50 to-transparent" />
+
+              {/* İlk ilan spotlight + rozet, kalanlar ızgarada */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                {featuredListings.slice(0, c.featured.count).map((listing, i) => (
+                  <div key={listing.slug} className={`relative ${i === 0 ? "sm:col-span-2" : ""}`}>
+                    {i === 0 && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.6rem] font-bold uppercase tracking-[0.16em] shadow-[0_4px_14px_rgba(192,160,98,0.45)] whitespace-nowrap">
+                        <span className="w-1 h-1 rotate-45 bg-ink/60" />
+                        Haftanın Seçimi
+                        <span className="w-1 h-1 rotate-45 bg-ink/60" />
+                      </span>
+                    )}
+                    <ListingCard listing={listing} eager />
+                  </div>
+                ))}
+              </div>
+
+              {/* Vitrin çıkışı: ortalanmış eylem */}
+              <div className="flex justify-center mt-10">
+                <Link href="/satilik" className="btn btn-gold group px-8 text-xs font-bold uppercase tracking-[0.16em]">
+                  {t.viewAllListings}
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </div>
             </div>
-            <Link
-              href="/satilik"
-              className="btn btn-outline group mt-6 md:mt-0 self-start md:self-auto"
-            >
-              {t.viewAllListings}
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
           </div>
 
-          {/* İlk ilan büyük sahnede (spotlight), kalanlar standart */}
-          <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-            {featuredListings.slice(0, c.featured.count).map((listing, i) => (
-              <div key={listing.slug} className={i === 0 ? "sm:col-span-2 lg:row-span-1" : ""}>
-                <ListingCard listing={listing} eager />
-              </div>
-            ))}
-          </div>
-
-          <div className="relative mt-12">
+          <div className="mt-10">
             <MiniBanner type="sell" />
           </div>
         </section>

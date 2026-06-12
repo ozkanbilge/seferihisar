@@ -56,6 +56,13 @@ export const fetchIller = () => fetchIdariListe("ilListe");
 export const fetchIlceler = (ilId: number) => fetchIdariListe(`ilceListe/${ilId}`);
 export const fetchMahalleler = (ilceId: number) => fetchIdariListe(`mahalleListe/${ilceId}`);
 
+export class TkgmDownError extends Error {
+  constructor() {
+    super("TKGM parsel servisi geçici olarak hizmet dışı.");
+    this.name = "TkgmDownError";
+  }
+}
+
 export class TkgmLimitError extends Error {
   constructor() {
     super("TKGM günlük sorgu limiti aşıldı.");
@@ -77,10 +84,26 @@ export async function fetchParsel(
   const cached = parselCache.get(cacheKey);
   if (cached && cached.expires > Date.now()) return cached.data;
 
-  const res = await fetch(`${TKGM_BASE}/parsel/${mahalleId}/${ada}/${parsel}`, {
-    headers: TKGM_HEADERS,
-    cache: "no-store",
-  });
+  // TKGM zaman zaman anlık kesinti yaşar: bir kez kısa beklemeyle yeniden dene
+  let res: Response | null = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      res = await fetch(`${TKGM_BASE}/parsel/${mahalleId}/${ada}/${parsel}`, {
+        headers: TKGM_HEADERS,
+        cache: "no-store",
+      });
+      if (res.status < 500) break;
+    } catch {
+      res = null;
+    }
+    if (attempt === 0) await new Promise((r) => setTimeout(r, 1500));
+  }
+
+  // Servis çökmüşse: elde bayat önbellek varsa onu sun, yoksa kesinti bildir
+  if (!res || res.status >= 500) {
+    if (cached) return cached.data;
+    throw new TkgmDownError();
+  }
   if (res.status === 404) return null;
   if (res.status === 403) {
     // TKGM IP başına günlük sorgu limiti uygular

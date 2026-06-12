@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchParsel, TkgmLimitError } from "@/lib/tkgm";
+import { fetchParsel, TkgmLimitError, TkgmDownError } from "@/lib/tkgm";
 import { estimateUnitPrice, VALUATION } from "@/lib/valuation";
 import { appendParselLog } from "@/lib/cms";
 
@@ -41,6 +41,13 @@ export async function GET(request: Request) {
   try {
     data = await fetchParsel(mahalleId, ada, parsel);
   } catch (err) {
+    if (err instanceof TkgmDownError) {
+      await log("hata");
+      return NextResponse.json(
+        { error: "TKGM parsel servisinde şu anda geçici bir kesinti var (sorun Tapu Kadastro tarafında). Lütfen bir süre sonra tekrar deneyin." },
+        { status: 503 }
+      );
+    }
     if (err instanceof TkgmLimitError) {
       await log("limit");
       return NextResponse.json(

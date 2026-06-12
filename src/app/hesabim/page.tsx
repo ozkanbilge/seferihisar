@@ -32,11 +32,20 @@ export default function UserAccountPage() {
   if (!userPhone) {
     return (
       <div className="container-x py-16 md:py-24 min-h-[70vh] flex items-center justify-center">
-        <div className="bg-surface border border-cream-line rounded-2xl p-8 max-w-md w-full shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-gold via-gold-bright to-gold-deep" />
+        <div className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-md w-full">
+          <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
+          <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
+          <span className="absolute bottom-2 left-2 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-10 pointer-events-none" aria-hidden />
+          <span className="absolute bottom-2 right-2 w-5 h-5 border-b border-r border-gold/70 rounded-br z-10 pointer-events-none" aria-hidden />
+          <div className="rounded-2xl bg-surface p-8 relative overflow-hidden">
           
           <div className="text-center mb-8">
-            <h1 className="display text-2xl md:text-3xl text-fg mb-3">Kullanıcı Girişi</h1>
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <span className="h-px w-10 bg-gradient-to-r from-transparent to-gold/60" />
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+              <span className="h-px w-10 bg-gradient-to-l from-transparent to-gold/60" />
+            </div>
+            <h1 className="text-xl md:text-2xl font-bold text-fg mb-3 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em]">Kullanıcı Girişi</h1>
             <p className="text-sm text-fg-muted">
               Beğendiğiniz gayrimenkulleri kaydetmek ve tek tuşla randevu oluşturmak için telefon numaranızla giriş yapın.
             </p>
@@ -73,6 +82,7 @@ export default function UserAccountPage() {
           <p className="text-[0.7rem] text-fg-muted/70 text-center mt-5">
             Giriş yaparak kullanım koşullarını kabul etmiş olursunuz. Şifresiz ve hızlı erişim sağlanır.
           </p>
+          </div>
         </div>
       </div>
     );
@@ -82,13 +92,17 @@ export default function UserAccountPage() {
     <div className="container-x py-10 md:py-16 min-h-[80vh]">
       <div className="max-w-5xl mx-auto">
         {/* Profile Header */}
-        <div className="bg-surface border border-cream-line rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+        <div className="card-luxe rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-gold/10 flex items-center justify-center border border-gold/20 text-gold-deep text-xl font-bold">
-              👤
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright p-[2px] shrink-0">
+              <div className="w-full h-full rounded-full bg-ink flex items-center justify-center">
+                <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <path d="M16 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM4 21c0-3.5 3.5-6 8-6s8 2.5 8 6" />
+                </svg>
+              </div>
             </div>
             <div>
-              <span className="text-xs text-fg-muted uppercase tracking-wider block font-semibold">
+              <span className="text-[0.62rem] text-gold uppercase tracking-[0.18em] block font-bold">
                 Hoş Geldiniz
               </span>
               <h1 className="text-lg md:text-xl font-bold text-fg">{userPhone}</h1>
@@ -118,9 +132,12 @@ export default function UserAccountPage() {
                 : "text-fg-muted hover:text-fg"
             }`}
           >
-            Randevularım ({myAppointments.length})
+            <span className="flex items-center gap-2">
+              {activeTab === "randevu" && <span className="w-1.5 h-1.5 rotate-45 bg-gold" />}
+              Randevularım ({myAppointments.length})
+            </span>
             {activeTab === "randevu" && (
-              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gold-deep rounded-full" />
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep rounded-full" />
             )}
           </button>
           <button
@@ -131,9 +148,12 @@ export default function UserAccountPage() {
                 : "text-fg-muted hover:text-fg"
             }`}
           >
-            Beğendiğim İlanlar ({myFavListings.length})
+            <span className="flex items-center gap-2">
+              {activeTab === "favori" && <span className="w-1.5 h-1.5 rotate-45 bg-gold" />}
+              Beğendiğim İlanlar ({myFavListings.length})
+            </span>
             {activeTab === "favori" && (
-              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gold-deep rounded-full" />
+              <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep rounded-full" />
             )}
           </button>
         </div>
@@ -143,8 +163,10 @@ export default function UserAccountPage() {
           <div className="space-y-4">
             {myAppointments.length === 0 ? (
               <div className="text-center py-16 bg-surface border border-cream-line rounded-2xl shadow-sm">
-                <div className="w-16 h-16 rounded-full bg-gold/5 flex items-center justify-center mx-auto mb-4 border border-gold/15 text-2xl">
-                  📅
+                <div className="w-16 h-16 rounded-full bg-gold/5 flex items-center justify-center mx-auto mb-4 border border-gold/20">
+                  <svg className="w-7 h-7 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4M12 14v4M10 16h4" />
+                  </svg>
                 </div>
                 <h3 className="text-base font-semibold text-fg mb-1">Randevunuz Bulunmuyor</h3>
                 <p className="text-xs text-fg-muted max-w-xs mx-auto mb-5">
@@ -159,7 +181,7 @@ export default function UserAccountPage() {
                 {myAppointments.map((app) => (
                   <div
                     key={app.id}
-                    className="bg-surface border border-cream-line rounded-2xl p-5 md:p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-5"
+                    className="bg-surface border border-cream-line rounded-2xl p-5 md:p-6 hover:border-gold/35 hover-lift flex flex-col md:flex-row justify-between items-start md:items-center gap-5"
                   >
                     <div className="space-y-1.5 flex-1">
                       <div className="flex flex-wrap items-center gap-2.5">

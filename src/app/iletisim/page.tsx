@@ -35,64 +35,110 @@ export default function IletisimPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
         {/* Contact Info */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="card-luxe rounded-2xl p-6">
-            <h2 className="text-sm font-bold text-fg mb-5 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.14em]">
-              <span className="flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-                İletişim Bilgileri
-              </span>
-              <span className="block h-px mt-2.5 bg-gradient-to-r from-gold/40 to-transparent" />
-            </h2>
-            <ul className="space-y-5">
-              <li className="group flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/40">
-                  <Phone className="w-4 h-4 text-gold" />
+          <div className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_16px_44px_rgba(0,0,0,0.25)]">
+            <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2 left-2 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2 right-2 w-5 h-5 border-b border-r border-gold/70 rounded-br z-10 pointer-events-none" aria-hidden />
+
+            <div className="rounded-2xl bg-surface p-6">
+              <h2 className="text-sm font-bold text-fg mb-5 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.14em]">
+                <span className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                  İletişim Bilgileri
+                </span>
+                <span className="block h-px mt-2.5 bg-gradient-to-r from-gold/40 to-transparent" />
+              </h2>
+
+              {/* Tıklanabilir eylem satırları */}
+              <div className="space-y-2.5">
+                <a
+                  href={site.phoneHref}
+                  className="group flex items-center gap-3.5 p-3 rounded-xl border border-gold/10 transition-all duration-300 hover:border-gold/40 hover:bg-gold/[0.04]"
+                >
+                  <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/45">
+                    <Phone className="w-4 h-4 text-gold" />
+                  </span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em]">Telefon</span>
+                    <span className="block text-sm font-semibold text-fg">{site.phone}</span>
+                  </span>
+                  <span className="text-gold/40 group-hover:text-gold group-hover:translate-x-0.5 transition-all">›</span>
+                </a>
+
+                <a
+                  href="https://wa.me/905323994291"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3.5 p-3 rounded-xl border border-gold/10 transition-all duration-300 hover:border-gold/40 hover:bg-gold/[0.04]"
+                >
+                  <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/45">
+                    <svg className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12.004 2C6.48 2 2 6.48 2 12c0 1.76.46 3.42 1.27 4.88L2 22l5.3-1.29c1.4.78 3.01 1.22 4.7 1.22 5.52 0 10-4.48 10-10S17.524 2 12.004 2zm5.72 14.1c-.24.67-1.19 1.29-1.92 1.39-.49.07-1.12.11-3.23-.77-2.7-1.13-4.42-3.89-4.56-4.08-.13-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 1-2.32.24-.26.54-.32.71-.32h.51c.16 0 .38-.06.59.44.22.54.76 1.86.83 2 .07.14.12.31.02.51-.1.2-.21.32-.36.5-.15.18-.31.39-.45.52-.15.15-.31.31-.13.62.18.31.8 1.31 1.72 2.13.92.82 1.7 1.08 2.02 1.23.32.15.63.09.83-.05.21-.14 1.34-.63 1.57-.75.23-.12.38-.18.44-.29.06.11.06.64-.18 1.31z"/></svg>
+                  </span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em]">WhatsApp</span>
+                    <span className="block text-sm font-semibold text-fg">Anında mesaj gönderin</span>
+                  </span>
+                  <span className="text-gold/40 group-hover:text-gold group-hover:translate-x-0.5 transition-all">›</span>
+                </a>
+
+                <a
+                  href={`mailto:${site.email}`}
+                  className="group flex items-center gap-3.5 p-3 rounded-xl border border-gold/10 transition-all duration-300 hover:border-gold/40 hover:bg-gold/[0.04]"
+                >
+                  <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/45">
+                    <Mail className="w-4 h-4 text-gold" />
+                  </span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em]">E-posta</span>
+                    <span className="block text-sm font-semibold text-fg truncate">{site.email}</span>
+                  </span>
+                  <span className="text-gold/40 group-hover:text-gold group-hover:translate-x-0.5 transition-all">›</span>
+                </a>
+
+                <div className="group flex items-start gap-3.5 p-3 rounded-xl border border-gold/10">
+                  <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-gold" />
+                  </span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em]">Adres</span>
+                    <span className="block text-sm font-medium text-fg leading-snug">
+                      {site.address.street}
+                      <span className="block text-fg-muted text-xs mt-0.5">
+                        {site.address.locality}, {site.address.region} {site.address.postalCode}
+                      </span>
+                    </span>
+                  </span>
                 </div>
-                <div>
-                  <p className="text-xs text-fg-muted uppercase tracking-wider mb-1">
-                    Telefon
-                  </p>
-                  <a
-                    href={site.phoneHref}
-                    className="text-sm font-medium text-fg hover:text-gold-bright transition-colors"
-                  >
-                    {site.phone}
-                  </a>
+              </div>
+
+              {/* Flörür ayraç */}
+              <div className="flex items-center gap-2.5 my-5">
+                <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/40" />
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold/70" />
+                <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/40" />
+              </div>
+
+              {/* Çalışma saatleri */}
+              <div className="flex items-center gap-3.5">
+                <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" />
+                  </svg>
+                </span>
+                <div className="flex-1 text-xs">
+                  <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em] mb-1">Çalışma Saatleri</span>
+                  <div className="flex justify-between text-fg-muted gap-3">
+                    <span>Pzt – Cmt</span>
+                    <span className="font-semibold text-fg">09:00 – 19:00</span>
+                  </div>
+                  <div className="flex justify-between text-fg-muted gap-3">
+                    <span>Pazar</span>
+                    <span className="font-semibold text-gold-deep">Randevu ile</span>
+                  </div>
                 </div>
-              </li>
-              <li className="group flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/40">
-                  <Mail className="w-4 h-4 text-gold" />
-                </div>
-                <div>
-                  <p className="text-xs text-fg-muted uppercase tracking-wider mb-1">
-                    E-posta
-                  </p>
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="text-sm font-medium text-fg hover:text-gold-bright transition-colors"
-                  >
-                    {site.email}
-                  </a>
-                </div>
-              </li>
-              <li className="group flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/40">
-                  <MapPin className="w-4 h-4 text-gold" />
-                </div>
-                <div>
-                  <p className="text-xs text-fg-muted uppercase tracking-wider mb-1">
-                    Adres
-                  </p>
-                  <p className="text-sm text-fg">
-                    {site.address.street}
-                    <br />
-                    {site.address.locality}, {site.address.region}{" "}
-                    {site.address.postalCode}
-                  </p>
-                </div>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
 
           {/* Konum — lüks harita kartı */}

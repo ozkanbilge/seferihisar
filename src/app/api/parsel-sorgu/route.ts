@@ -12,6 +12,8 @@ export async function GET(request: Request) {
   const logIl = searchParams.get("il") || "";
   const logIlce = searchParams.get("ilce") || "";
   const logMahalle = searchParams.get("mah") || "";
+  const musteriAd = (searchParams.get("ad") || "").slice(0, 80);
+  const musteriTel = (searchParams.get("tel") || "").slice(0, 20);
 
   if (isNaN(mahalleId) || isNaN(ada) || ada < 0 || isNaN(parsel) || parsel < 1) {
     return NextResponse.json(
@@ -26,6 +28,8 @@ export async function GET(request: Request) {
   ) =>
     appendParselLog({
       ts: new Date().toISOString(),
+      musteriAd: musteriAd || undefined,
+      musteriTel: musteriTel || undefined,
       il: extra.il || logIl,
       ilce: extra.ilce || logIlce,
       mahalle: extra.mahalle || logMahalle,

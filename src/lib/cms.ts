@@ -262,6 +262,9 @@ export async function saveHomepage(lang: Lang, content: Partial<HomepageContent>
 
 export interface ParselLogEntry {
   ts: string;
+  /** Sorgulayan müşteri */
+  musteriAd?: string;
+  musteriTel?: string;
   il: string;
   ilce: string;
   mahalle: string;

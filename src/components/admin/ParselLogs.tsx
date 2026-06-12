@@ -68,6 +68,7 @@ export function ParselLogs() {
             <thead>
               <tr className="text-left text-[0.62rem] uppercase tracking-wider text-fg-muted border-b border-cream-line">
                 <th className="px-5 py-3 font-semibold">Tarih</th>
+                <th className="px-3 py-3 font-semibold">Müşteri</th>
                 <th className="px-3 py-3 font-semibold">Bölge</th>
                 <th className="px-3 py-3 font-semibold">Ada/Parsel</th>
                 <th className="px-3 py-3 font-semibold">Durum</th>
@@ -86,6 +87,23 @@ export function ParselLogs() {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
+                  </td>
+                  <td className="px-3 py-3">
+                    {log.musteriAd ? (
+                      <>
+                        <span className="block font-semibold text-fg whitespace-nowrap">{log.musteriAd}</span>
+                        {log.musteriTel && (
+                          <a
+                            href={`tel:${log.musteriTel.replace(/\s/g, "")}`}
+                            className="text-[0.62rem] text-gold-deep hover:text-gold-bright font-medium whitespace-nowrap"
+                          >
+                            {log.musteriTel}
+                          </a>
+                        )}
+                      </>
+                    ) : (
+                      <span className="text-fg-muted">—</span>
+                    )}
                   </td>
                   <td className="px-3 py-3 font-semibold text-fg">
                     {[log.il, log.ilce, log.mahalle].filter(Boolean).join(" / ") || "—"}

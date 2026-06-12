@@ -149,7 +149,13 @@ export function ArsaSorgula() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.il || !formData.ilce || !formData.mahalle || formData.ada === "" || formData.parsel === "") {
+    if (
+      !formData.name.trim() ||
+      !formData.surname.trim() ||
+      formData.phone.replace(/\D/g, "").length < 10 ||
+      !formData.il || !formData.ilce || !formData.mahalle ||
+      formData.ada === "" || formData.parsel === ""
+    ) {
       setError(t.fillAll);
       return;
     }
@@ -176,6 +182,8 @@ export function ArsaSorgula() {
         il: ilAd,
         ilce: ilceAd,
         mah: mahalleAd,
+        ad: `${formData.name.trim()} ${formData.surname.trim()}`,
+        tel: formData.phone.trim(),
       });
       const res = await fetch(`/api/parsel-sorgu?${params}`);
       const data = await res.json();

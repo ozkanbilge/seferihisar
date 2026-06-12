@@ -32,33 +32,59 @@ export function ListingSidebar({
   const [error, setError] = useState("");
   const [lastAppointment, setLastAppointment] = useState<Appointment | null>(null);
 
-  const handleBookAppointment = (e: React.FormEvent) => {
+  const handleBookAppointment = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!userPhone && (!phoneInput || phoneInput.length < 10)) {
+    const phone = userPhone || phoneInput.trim();
+    if (!phone || phone.replace(/\D/g, "").length < 10) {
       setError("Lütfen geçerli bir telefon numarası girin.");
       return;
     }
-
     if (!dateInput) {
-      setError("Lütfen bir randevu tarihi seçin.");
+      setError("Lütfen randevu tarihi seçin.");
       return;
     }
 
     setLoading(true);
+    try {
+      // Sunucuya kaydet — admin paneli her cihazdan görür
+      const res = await fetch("/api/randevu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userPhone: phone,
+          listingSlug,
+          listingTitle,
+          date: dateInput,
+          time: timeInput,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) throw new Error(data?.error ?? "Randevu oluşturulamadı.");
 
-    setTimeout(() => {
-      // Login if not already logged in
-      if (!userPhone) {
-        login(phoneInput);
-      }
-
-      const app = createAppointment(listingSlug, dateInput, timeInput);
-      setLastAppointment(app);
+      // Hesabım sayfası için yerel kopya (giriş yoksa önce kaydet)
+      if (!userPhone) login(phone);
+      const localApp = createAppointment(listingSlug, dateInput, timeInput);
+      setLastAppointment(
+        localApp ?? {
+          id: data.id,
+          userPhone: phone,
+          listingSlug,
+          listingTitle,
+          listingPrice: 0,
+          date: dateInput,
+          time: timeInput,
+          status: "pending",
+          createdAt: new Date().toISOString(),
+        }
+      );
       setSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Randevu oluşturulamadı.");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const handleWhatsAppShare = () => {

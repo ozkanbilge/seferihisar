@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { listings } from "@/data/listings";
 import { Phone, Logo } from "@/components/icons";
@@ -8,6 +8,9 @@ import { HomepageEditor } from "@/components/admin/HomepageEditor";
 import { ParselLogs } from "@/components/admin/ParselLogs";
 import { EmsalEditor } from "@/components/admin/EmsalEditor";
 import { ListingsEditor } from "@/components/admin/ListingsEditor";
+import type { ServerAppointment } from "@/lib/appointments-store";
+
+const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY ?? "";
 
 type Panel = "randevular" | "ilanlar" | "anasayfa" | "emsal" | "loglar";
 
@@ -20,13 +23,28 @@ const PANELS: { id: Panel; label: string }[] = [
 ];
 
 export default function AdminPage() {
-  const {
-    adminLoggedIn,
-    adminLogin,
-    adminLogout,
-    appointments,
-    updateAppointmentStatus,
-  } = useApp();
+  const { adminLoggedIn, adminLogin, adminLogout } = useApp();
+
+  // Randevular sunucudan gelir (tüm müşteri cihazlarından)
+  const [appointments, setAppointments] = useState<ServerAppointment[]>([]);
+  const loadAppointments = useCallback(() => {
+    fetch("/api/admin/appointments", { headers: { "x-admin-key": ADMIN_KEY } })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(setAppointments)
+      .catch(() => {});
+  }, []);
+  useEffect(() => {
+    if (adminLoggedIn) loadAppointments();
+  }, [adminLoggedIn, loadAppointments]);
+
+  const updateAppointmentStatus = async (id: string, status: "approved" | "cancelled") => {
+    await fetch("/api/admin/appointments", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", "x-admin-key": ADMIN_KEY },
+      body: JSON.stringify({ id, status }),
+    });
+    loadAppointments();
+  };
 
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");

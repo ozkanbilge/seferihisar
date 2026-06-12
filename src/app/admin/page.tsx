@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { site } from "@/lib/site";
 import { listings } from "@/data/listings";
 import { Phone, Logo } from "@/components/icons";
 import { HomepageEditor } from "@/components/admin/HomepageEditor";
@@ -83,14 +84,18 @@ export default function AdminPage() {
   if (!adminLoggedIn) {
     return (
       <div className="container-x py-16 md:py-24 min-h-[80vh] flex items-center justify-center">
-        <div className="bg-surface border border-cream-line rounded-2xl p-8 max-w-md w-full shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-gold via-gold-bright to-gold-deep" />
+        <div className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-md w-full">
+          <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
+          <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
+          <span className="absolute bottom-2 left-2 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-10 pointer-events-none" aria-hidden />
+          <span className="absolute bottom-2 right-2 w-5 h-5 border-b border-r border-gold/70 rounded-br z-10 pointer-events-none" aria-hidden />
+          <div className="rounded-2xl bg-surface p-8 relative">
 
           <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <Logo className="w-12 h-12 text-gold" />
+            <div className="flex justify-center mb-3">
+              <Logo className="w-16 h-16 text-gold" />
             </div>
-            <h1 className="display text-2xl text-fg mb-1">Yönetim Paneli</h1>
+            <h1 className="text-xl font-bold text-fg mb-1 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.12em]">Yönetim Paneli</h1>
             <p className="text-xs text-fg-muted">
               Lütfen yönetici giriş bilgilerini yazın.
             </p>
@@ -132,6 +137,7 @@ export default function AdminPage() {
               Giriş Yap
             </button>
           </form>
+          </div>
         </div>
       </div>
     );
@@ -141,12 +147,29 @@ export default function AdminPage() {
     <div className="container-x py-10 md:py-16 min-h-[85vh]">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-surface border border-cream-line rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center gap-3">
-            <Logo className="w-10 h-10 text-gold" />
+        <div className="card-luxe flex flex-col sm:flex-row justify-between sm:items-center gap-4 rounded-2xl p-6">
+          <div className="flex items-center gap-4">
+            {/* Yönetici profil avatarı: varak monogram + taç rozeti */}
+            <div className="relative shrink-0">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright p-[2px]">
+                <div className="w-full h-full rounded-full bg-ink flex items-center justify-center">
+                  <span className="font-[family-name:var(--font-cinzel-deco)] font-bold text-xl royal-text">
+                    {site.agent.initials}
+                  </span>
+                </div>
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-gold flex items-center justify-center border-2 border-surface">
+                <svg className="w-3.5 h-3.5 text-ink" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" />
+                </svg>
+              </span>
+            </div>
             <div>
-              <h1 className="text-lg font-bold text-fg leading-tight">Private Estate</h1>
-              <span className="text-xs text-gold-deep font-semibold">Yönetim & Randevu Paneli</span>
+              <span className="text-[0.6rem] text-gold uppercase tracking-[0.18em] font-bold block">Yönetici</span>
+              <h1 className="text-lg font-bold text-fg leading-tight">{site.agent.name}</h1>
+              <span className="text-[0.68rem] text-fg-muted font-medium">
+                {site.shortName} · Yönetim &amp; Randevu Paneli
+              </span>
             </div>
           </div>
           <button
@@ -163,12 +186,13 @@ export default function AdminPage() {
             <button
               key={p.id}
               onClick={() => setPanel(p.id)}
-              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                 panel === p.id
-                  ? "bg-gold/15 text-gold-deep border border-gold/30"
-                  : "text-fg-muted hover:text-fg border border-transparent"
+                  ? "bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink shadow-[0_2px_12px_rgba(192,160,98,0.35)]"
+                  : "text-fg-muted hover:text-gold-bright border border-transparent"
               }`}
             >
+              {panel === p.id && <span className="w-1.5 h-1.5 rotate-45 bg-ink/60 shrink-0" />}
               {p.label}
             </button>
           ))}
@@ -190,7 +214,7 @@ export default function AdminPage() {
             { label: "Onaylananlar", val: approvedApps, color: "text-emerald-600 bg-emerald-500/5" },
             { label: "Toplam Portföy", val: listings.length, color: "text-gold-deep bg-gold/5" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-surface border border-cream-line rounded-2xl p-5 shadow-sm space-y-1">
+            <div key={stat.label} className="card-luxe rounded-2xl p-5 space-y-1">
               <span className="text-[0.65rem] text-fg-muted uppercase tracking-wider font-semibold block">
                 {stat.label}
               </span>

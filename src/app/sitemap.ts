@@ -2,13 +2,13 @@ import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { districts } from "@/data/locations";
 import { propertyTypes, transactions, comboSlug } from "@/data/property-types";
-import { listings } from "@/data/listings";
+import { getAllListings } from "@/lib/listings-store";
 import { blogPosts } from "@/data/blog";
 
 /**
  * Dinamik sitemap — programmatic SEO sayfalarının tamamını otomatik üretir.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
 
@@ -56,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   // İlan detayları
-  for (const l of listings) {
+  for (const l of await getAllListings()) {
     push(`/ilan/${l.slug}`, 0.6);
   }
 

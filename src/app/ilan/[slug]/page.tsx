@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { listings, listingBySlug } from "@/data/listings";
+import { listings } from "@/data/listings";
+import { getListing, getAllListings } from "@/lib/listings-store";
 import { districtBySlug, neighborhoodBySlug } from "@/data/locations";
 import { propertyTypeBySlug, transactionBySlug } from "@/data/property-types";
 import { formatPrice, formatArea, formatDate } from "@/lib/format";
@@ -24,6 +25,9 @@ import {
 } from "@/components/icons";
 import type { Metadata } from "next";
 
+// Admin panelden eklenen/düzenlenen ilanlar anında yayında olsun
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return listings.map((l) => ({ slug: l.slug }));
 }
@@ -32,7 +36,7 @@ export async function generateMetadata(
   props: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const listing = listingBySlug(slug);
+  const listing = await getListing(slug);
   if (!listing) return {};
 
   return buildMetadata({
@@ -47,7 +51,7 @@ export default async function ListingDetailPage(
   props: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await props.params;
-  const listing = listingBySlug(slug);
+  const listing = await getListing(slug);
   if (!listing) notFound();
 
   const district = districtBySlug(listing.districtSlug);
@@ -62,11 +66,12 @@ export default async function ListingDetailPage(
   const isPremium = listing.tier === "premium";
 
   // Benzer ilanlar: aynı tür + işlem öncelikli, sonra aynı ilçe
+  const allListings = await getAllListings();
   const similar = [
-    ...listings.filter(
+    ...allListings.filter(
       (l) => l.slug !== listing.slug && l.typeSlug === listing.typeSlug && l.transaction === listing.transaction
     ),
-    ...listings.filter(
+    ...allListings.filter(
       (l) => l.slug !== listing.slug && l.districtSlug === listing.districtSlug && l.typeSlug !== listing.typeSlug
     ),
   ].slice(0, 3);
@@ -111,6 +116,19 @@ export default async function ListingDetailPage(
               <ImageGallery images={listing.images} alt={listing.title} />
             </div>
           </div>
+
+          {/* Tanıtım videoları */}
+          {listing.videos && listing.videos.length > 0 && (
+            <div className="mt-4 space-y-3">
+              {listing.videos.map((v, i) => (
+                <div key={`${v}-${i}`} className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_16px_44px_rgba(0,0,0,0.35)]">
+                  <div className="rounded-2xl overflow-hidden bg-ink">
+                    <video src={v} controls playsInline preload="metadata" className="w-full aspect-video bg-ink" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Title + Price (mobile) */}
           <div className="mt-6 lg:hidden">
@@ -213,6 +231,7 @@ export default async function ListingDetailPage(
             listingTitle={listing.title}
             listingPrice={listing.price}
             listingRef={listing.ref}
+            listingsCount={allListings.length}
           />
         </div>
       </div>

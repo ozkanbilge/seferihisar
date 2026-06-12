@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useApp, type Appointment } from "@/context/AppContext";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { listings } from "@/data/listings";
 import { LuxeDatePicker, LuxeTimePicker } from "@/components/LuxeDatePicker";
 import { Phone, Star } from "@/components/icons";
 
@@ -13,12 +12,14 @@ interface ListingSidebarProps {
   listingTitle: string;
   listingPrice: number;
   listingRef: string;
+  listingsCount?: number;
 }
 
 export function ListingSidebar({
   listingSlug,
   listingTitle,
   listingRef,
+  listingsCount,
 }: ListingSidebarProps) {
   const { userPhone, login, createAppointment } = useApp();
   
@@ -118,7 +119,7 @@ export function ListingSidebar({
             <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
               <path d="M3 11 12 4l9 7M5 10v10h14V10" />
             </svg>
-            Tüm İlanları ({listings.length})
+            Tüm İlanları{typeof listingsCount === "number" ? ` (${listingsCount})` : ""}
           </Link>
         </div>
       </div>

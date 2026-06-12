@@ -1,4 +1,5 @@
 import { filterListings } from "@/lib/query";
+import { getAllListings } from "@/lib/listings-store";
 import { ListingGrid } from "@/components/ListingGrid";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { buildMetadata } from "@/lib/seo";
@@ -12,8 +13,10 @@ export const metadata = buildMetadata({
   path: "/satilik",
 });
 
-export default function SatilikPage() {
-  const listings = filterListings({ transaction: "satilik" });
+export const dynamic = "force-dynamic";
+
+export default async function SatilikPage() {
+  const listings = filterListings({ transaction: "satilik" }, await getAllListings());
 
   return (
     <div className="container-x py-8 md:py-12">

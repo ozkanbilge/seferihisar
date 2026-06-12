@@ -7,8 +7,8 @@ export interface ListingFilter {
   neighborhoodSlug?: string;
 }
 
-export function filterListings(f: ListingFilter): Listing[] {
-  return listings
+export function filterListings(f: ListingFilter, source: Listing[] = listings): Listing[] {
+  return source
     .filter((l) => (f.transaction ? l.transaction === f.transaction : true))
     .filter((l) => (f.typeSlug ? l.typeSlug === f.typeSlug : true))
     .filter((l) => (f.districtSlug ? l.districtSlug === f.districtSlug : true))

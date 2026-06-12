@@ -19,6 +19,8 @@ export interface Listing {
   description: string;
   features: string[];
   images: string[];
+  /** Yüklenen tanıtım videoları (mp4/webm URL) */
+  videos?: string[];
   tier: Tier;
   featured: boolean;
   createdAt: string; // ISO

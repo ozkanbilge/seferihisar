@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { featuredListings } from "@/data/listings";
+import { getFeaturedListings } from "@/lib/listings-store";
 import { primaryDistrict, districts } from "@/data/locations";
 import { blogPosts } from "@/data/blog";
 import { propertyTypes } from "@/data/property-types";
@@ -25,6 +25,7 @@ export default async function Home() {
   const cookieLang = (await cookies()).get(LANG_COOKIE)?.value;
   const lang: Lang = isLang(cookieLang) ? cookieLang : "tr";
   const c = await getHomepage(lang);
+  const featuredListings = await getFeaturedListings();
   const t = getDict(lang);
 
   return (

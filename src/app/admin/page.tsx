@@ -7,11 +7,13 @@ import { Phone, Logo } from "@/components/icons";
 import { HomepageEditor } from "@/components/admin/HomepageEditor";
 import { ParselLogs } from "@/components/admin/ParselLogs";
 import { EmsalEditor } from "@/components/admin/EmsalEditor";
+import { ListingsEditor } from "@/components/admin/ListingsEditor";
 
-type Panel = "randevular" | "anasayfa" | "emsal" | "loglar";
+type Panel = "randevular" | "ilanlar" | "anasayfa" | "emsal" | "loglar";
 
 const PANELS: { id: Panel; label: string }[] = [
   { id: "randevular", label: "Randevular" },
+  { id: "ilanlar", label: "İlanlar" },
   { id: "anasayfa", label: "Anasayfa İçeriği" },
   { id: "emsal", label: "Emsal Fiyatları" },
   { id: "loglar", label: "Parsel Sorguları" },
@@ -152,6 +154,7 @@ export default function AdminPage() {
           ))}
         </div>
 
+        {panel === "ilanlar" && <ListingsEditor />}
         {panel === "anasayfa" && <HomepageEditor />}
         {panel === "emsal" && <EmsalEditor />}
         {panel === "loglar" && <ParselLogs />}

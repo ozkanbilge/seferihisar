@@ -156,25 +156,61 @@ function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="relative inline-flex items-center w-[3.4rem] h-7 rounded-full border border-gold/30 bg-ink/60 backdrop-blur-md transition-colors hover:border-gold/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+      className="group relative inline-flex items-center w-[3.6rem] h-[1.7rem] rounded-full overflow-hidden border transition-colors duration-500 active:scale-95"
+      style={{
+        borderColor: "rgba(192,160,98,0.35)",
+        background: light
+          ? "linear-gradient(135deg, #bfe0f5 0%, #e8d9a8 100%)"
+          : "linear-gradient(135deg, #0b1020 0%, #1a1530 100%)",
+      }}
       aria-label={light ? "Karanlık moda geç" : "Aydınlık moda geç"}
       aria-pressed={light}
       id="theme-toggle"
       title={light ? "Karanlık moda geç" : "Aydınlık moda geç"}
     >
-      {/* Sabit güneş (sol) ve ay (sağ) ikonları */}
-      <svg className={`absolute left-1.5 w-3.5 h-3.5 transition-colors ${light ? "text-gold" : "text-fg-invert-muted/40"}`} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-      </svg>
-      <svg className={`absolute right-1.5 w-3.5 h-3.5 transition-colors ${!light ? "text-gold" : "text-fg-muted/40"}`} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75 9.75 9.75 0 018.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25 9.75 9.75 0 0012.75 21a9.753 9.753 0 009.002-5.998z" />
-      </svg>
-      {/* Kayan altın topuz */}
+      {/* Gece yıldızları */}
+      <span className={`absolute inset-0 transition-opacity duration-500 ${light ? "opacity-0" : "opacity-100"}`} aria-hidden>
+        <span className="theme-star absolute top-1.5 left-2 w-[3px] h-[3px] rounded-full bg-gold-bright" style={{ animationDelay: "0s" }} />
+        <span className="theme-star absolute top-3 left-4 w-[2px] h-[2px] rounded-full bg-gold-bright/80" style={{ animationDelay: "0.6s" }} />
+        <span className="theme-star absolute bottom-1.5 left-3 w-[2px] h-[2px] rounded-full bg-gold-bright/70" style={{ animationDelay: "1.2s" }} />
+        <span className="theme-star absolute top-2 left-6 w-[2.5px] h-[2.5px] rounded-full bg-gold-bright/90" style={{ animationDelay: "0.3s" }} />
+      </span>
+
+      {/* Gündüz bulutları */}
+      <span className={`absolute inset-0 transition-opacity duration-500 ${light ? "opacity-100" : "opacity-0"}`} aria-hidden>
+        <span className="absolute bottom-1.5 right-6 w-3 h-1.5 rounded-full bg-white/70" />
+        <span className="absolute bottom-2.5 right-5 w-2 h-1 rounded-full bg-white/60" />
+        <span className="absolute top-2 right-8 w-2.5 h-1 rounded-full bg-white/50" />
+      </span>
+
+      {/* Kayan gök cismi topuzu */}
       <span
-        className={`relative z-10 w-5 h-5 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright shadow-[0_2px_8px_rgba(192,160,98,0.5)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          light ? "translate-x-1" : "translate-x-[1.8rem]"
+        className={`absolute top-1/2 -translate-y-1/2 w-[1.35rem] h-[1.35rem] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          light ? "left-[0.2rem]" : "left-[1.85rem]"
         }`}
-      />
+        style={{
+          background: light
+            ? "radial-gradient(circle at 35% 35%, #fff4cf, #f0c64e 55%, #d8a72e)"
+            : "radial-gradient(circle at 35% 35%, #fdfaf0, #e9e3d0 60%, #c9c2ac)",
+          boxShadow: light
+            ? "0 0 10px rgba(240,198,78,0.7), 0 1px 4px rgba(0,0,0,0.25)"
+            : "0 0 8px rgba(233,227,208,0.45), 0 1px 4px rgba(0,0,0,0.4)",
+        }}
+      >
+        {light ? (
+          /* Güneş ışınları — yavaş döner */
+          <svg className="theme-sun-rays absolute inset-0 w-full h-full text-[#d8a72e]" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" viewBox="0 0 24 24" aria-hidden>
+            <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19" />
+          </svg>
+        ) : (
+          /* Ay kraterleri */
+          <span aria-hidden>
+            <span className="absolute top-[5px] left-[6px] w-[3px] h-[3px] rounded-full bg-black/10" />
+            <span className="absolute top-[10px] left-[11px] w-[2px] h-[2px] rounded-full bg-black/10" />
+            <span className="absolute top-[12px] left-[5px] w-[2.5px] h-[2.5px] rounded-full bg-black/[0.08]" />
+          </span>
+        )}
+      </span>
     </button>
   );
 }

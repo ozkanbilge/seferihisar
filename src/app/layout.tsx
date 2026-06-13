@@ -81,11 +81,12 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Tema tercihi ilk boyamadan önce uygulanır (parlama önleyici) */}
+        {/* Tema ilk boyamadan önce uygulanır (parlama önleyici):
+            kayıtlı tercih varsa o, yoksa cihazın sistem tercihi */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              `try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light")}catch(e){}`,
+              `try{var t=localStorage.getItem("theme");if(t==="light"||(!t&&window.matchMedia("(prefers-color-scheme: light)").matches))document.documentElement.classList.add("light")}catch(e){}`,
           }}
         />
       </head>

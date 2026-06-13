@@ -514,6 +514,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   animation: fill-in 0.9s ease-out 1.5s forwards;
 }
 
+/* Tema switch: yıldız parıltısı + güneş ışını dönüşü */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+.theme-star {
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+@keyframes sun-spin {
+  to { transform: rotate(360deg); }
+}
+.theme-sun-rays {
+  transform-origin: center;
+  animation: sun-spin 9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-star, .theme-sun-rays { animation: none; }
+}
+
 /* Mühür: damga vurulur gibi */
 @keyframes stamp-in {
   0% { opacity: 0; transform: scale(1.9) rotate(-10deg); }

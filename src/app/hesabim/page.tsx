@@ -106,6 +106,32 @@ export default function UserAccountPage() {
                 Hoş Geldiniz
               </span>
               <h1 className="text-lg md:text-xl font-bold text-fg">{userPhone}</h1>
+              <span className="inline-flex items-center gap-1.5 mt-1.5 px-2.5 py-0.5 rounded-full border border-gold/25 text-[0.58rem] font-bold text-gold-deep uppercase tracking-[0.14em]">
+                <svg className="w-2.5 h-2.5 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" />
+                </svg>
+                Ayrıcalıklı Üye
+              </span>
+            </div>
+          </div>
+
+          {/* Özet istatistikler */}
+          <div className="flex items-stretch gap-3">
+            <div className="flex-1 md:flex-none md:w-28 rounded-xl border border-gold/20 bg-gold/[0.04] px-4 py-3 text-center">
+              <span className="block text-2xl font-bold royal-text font-[family-name:var(--font-cinzel)]">
+                {myAppointments.length}
+              </span>
+              <span className="block text-[0.58rem] text-fg-muted uppercase tracking-[0.12em] font-semibold mt-0.5">
+                Randevu
+              </span>
+            </div>
+            <div className="flex-1 md:flex-none md:w-28 rounded-xl border border-gold/20 bg-gold/[0.04] px-4 py-3 text-center">
+              <span className="block text-2xl font-bold royal-text font-[family-name:var(--font-cinzel)]">
+                {myFavListings.length}
+              </span>
+              <span className="block text-[0.58rem] text-fg-muted uppercase tracking-[0.12em] font-semibold mt-0.5">
+                Favori
+              </span>
             </div>
           </div>
 

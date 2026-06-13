@@ -7,8 +7,12 @@ import { articleSchema, breadcrumbSchema } from "@/lib/schema";
 import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { MiniBanner } from "@/components/MiniBanner";
+import { Phone } from "@/components/icons";
 import { BlogCard } from "@/components/BlogCard";
 import Link from "next/link";
+import { ReadingProgress } from "@/components/ReadingProgress";
+import { ShareButtons } from "@/components/ShareButtons";
+import { site } from "@/lib/site";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -46,6 +50,7 @@ export default async function BlogPostPage(
 
   return (
     <article className="container-x py-8 md:py-12">
+      <ReadingProgress />
       <Breadcrumb
         items={[
           { label: "Blog", href: "/blog" },
@@ -136,6 +141,46 @@ export default async function BlogPostPage(
         <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/40" />
         <span className="w-2 h-2 rotate-45 bg-gold" />
         <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/40" />
+      </div>
+
+      {/* Paylaşım */}
+      <div className="max-w-3xl mx-auto mt-7">
+        <ShareButtons title={post.title} />
+      </div>
+
+      {/* Yazar kartı */}
+      <div className="max-w-3xl mx-auto mt-8">
+        <div className="card-luxe rounded-2xl p-5 md:p-6 flex flex-col sm:flex-row items-center sm:items-stretch gap-5 text-center sm:text-left">
+          <div className="relative shrink-0 self-center">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright p-[2px]">
+              <div className="w-full h-full rounded-full bg-ink flex items-center justify-center">
+                <span className="font-[family-name:var(--font-cinzel-deco)] font-bold text-xl royal-text">
+                  {site.agent.initials}
+                </span>
+              </div>
+            </div>
+            <span className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-gold flex items-center justify-center border-2 border-surface">
+              <svg className="w-3.5 h-3.5 text-ink" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" /></svg>
+            </span>
+          </div>
+          <div className="flex-1 flex flex-col justify-center">
+            <span className="text-[0.6rem] text-gold uppercase tracking-[0.18em] font-bold">Yazan</span>
+            <h3 className="text-base font-bold text-fg">{site.agent.name}</h3>
+            <p className="text-[0.7rem] text-gold-deep font-semibold mb-1.5">{site.agent.title}</p>
+            <p className="text-xs text-fg-muted leading-relaxed">
+              {site.agent.memberSince}&apos;dan beri Seferihisar ve İzmir gayrimenkul piyasasında; yatırım danışmanlığı ve değerleme konularında uzman.
+            </p>
+          </div>
+          <div className="flex sm:flex-col gap-2 justify-center self-center shrink-0">
+            <a href={site.phoneHref} className="btn btn-gold text-[0.65rem] px-4 py-2 whitespace-nowrap">
+              <Phone className="w-3.5 h-3.5" />
+              Ara
+            </a>
+            <a href="https://wa.me/905323994291" target="_blank" rel="noopener noreferrer" className="btn btn-outline text-[0.65rem] px-4 py-2 whitespace-nowrap">
+              WhatsApp
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Diğer Yazılar */}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site, nav } from "@/lib/site";
+import { NewsletterForm } from "@/components/NewsletterForm";
 import { primaryDistrict } from "@/data/locations";
 import {
   Logo,
@@ -119,9 +120,19 @@ export function Footer() {
                 {site.shortName}
               </span>
             </Link>
-            <p className="text-sm leading-relaxed mb-6 max-w-xs text-fg-invert-muted/80">
+            <p className="text-sm leading-relaxed mb-5 max-w-xs text-fg-invert-muted/80">
               {site.description.slice(0, 140)}…
             </p>
+
+            {/* Bülten aboneliği */}
+            <div className="mb-6">
+              <p className="flex items-center gap-2 text-[0.62rem] font-bold text-gold uppercase tracking-[0.16em] mb-2.5">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
+                Yeni İlanlardan Haberdar Olun
+              </p>
+              <NewsletterForm />
+            </div>
+
             <div className="flex items-center gap-3">
               {[
                 { Icon: Instagram, href: site.social.instagram, label: "Instagram" },

@@ -106,33 +106,75 @@ function ThemeToggle() {
     setLight(document.documentElement.classList.contains("light"));
   }, []);
 
-  const toggle = () => {
+  const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     const next = !light;
-    setLight(next);
-    document.documentElement.classList.toggle("light", next);
-    try {
-      localStorage.setItem("theme", next ? "light" : "dark");
-    } catch {}
+    const apply = () => {
+      setLight(next);
+      document.documentElement.classList.toggle("light", next);
+      try {
+        localStorage.setItem("theme", next ? "light" : "dark");
+      } catch {}
+    };
+
+    type VTDocument = Document & {
+      startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+    };
+    const doc = document as VTDocument;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // View Transitions destekliyse: tıklanan noktadan dairesel açılma
+    if (!doc.startViewTransition || reduce) {
+      apply();
+      return;
+    }
+
+    const x = e.clientX;
+    const y = e.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = doc.startViewTransition(apply);
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 600,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
   };
 
   return (
     <button
       onClick={toggle}
-      className="p-2 rounded-full border border-ink-line text-fg-invert-muted hover:border-gold hover:text-gold-bright transition-colors"
+      className="relative inline-flex items-center w-[3.4rem] h-7 rounded-full border border-gold/30 bg-ink/60 backdrop-blur-md transition-colors hover:border-gold/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
       aria-label={light ? "Karanlık moda geç" : "Aydınlık moda geç"}
+      aria-pressed={light}
       id="theme-toggle"
+      title={light ? "Karanlık moda geç" : "Aydınlık moda geç"}
     >
-      {light ? (
-        /* Ay — karanlık moda dön */
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75 9.75 9.75 0 018.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25 9.75 9.75 0 0012.75 21a9.753 9.753 0 009.002-5.998z" />
-        </svg>
-      ) : (
-        /* Güneş — aydınlık moda geç */
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-        </svg>
-      )}
+      {/* Sabit güneş (sol) ve ay (sağ) ikonları */}
+      <svg className={`absolute left-1.5 w-3.5 h-3.5 transition-colors ${light ? "text-gold" : "text-fg-invert-muted/40"}`} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+      </svg>
+      <svg className={`absolute right-1.5 w-3.5 h-3.5 transition-colors ${!light ? "text-gold" : "text-fg-muted/40"}`} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75 9.75 9.75 0 018.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25 9.75 9.75 0 0012.75 21a9.753 9.753 0 009.002-5.998z" />
+      </svg>
+      {/* Kayan altın topuz */}
+      <span
+        className={`relative z-10 w-5 h-5 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright shadow-[0_2px_8px_rgba(192,160,98,0.5)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          light ? "translate-x-1" : "translate-x-[1.8rem]"
+        }`}
+      />
     </button>
   );
 }

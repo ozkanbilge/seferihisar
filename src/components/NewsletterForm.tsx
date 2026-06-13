@@ -36,27 +36,30 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={submit} className="relative max-w-xs">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          if (state === "error") setState("idle");
-        }}
-        placeholder="E-posta adresiniz"
-        className="w-full bg-ink/60 border border-ink-line rounded-full pl-4 pr-28 py-2.5 text-xs text-fg-invert placeholder-fg-invert-muted/40 focus:border-gold/50 focus:outline-none transition-colors"
-      />
-      <button
-        type="submit"
-        disabled={state === "sending"}
-        className="absolute right-1 top-1 bottom-1 px-4 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.62rem] font-bold uppercase tracking-wider hover:shadow-[0_0_14px_rgba(192,160,98,0.4)] transition-shadow"
-      >
-        {state === "sending" ? "..." : "Abone Ol"}
-      </button>
+    <form onSubmit={submit} className="w-full max-w-xs">
+      {/* Dar ekranda alt alta, geniş ekranda gömülü buton */}
+      <div className="flex flex-col min-[400px]:flex-row min-[400px]:items-stretch gap-2 min-[400px]:gap-0 min-[400px]:relative">
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (state === "error") setState("idle");
+          }}
+          placeholder="E-posta adresiniz"
+          className="w-full bg-ink/60 border border-ink-line rounded-full pl-4 pr-4 min-[400px]:pr-28 py-2.5 text-xs text-fg-invert placeholder-fg-invert-muted/40 focus:border-gold/50 focus:outline-none transition-colors"
+        />
+        <button
+          type="submit"
+          disabled={state === "sending"}
+          className="shrink-0 px-5 py-2.5 min-[400px]:py-0 min-[400px]:absolute min-[400px]:right-1 min-[400px]:top-1 min-[400px]:bottom-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.62rem] font-bold uppercase tracking-wider hover:shadow-[0_0_14px_rgba(192,160,98,0.4)] transition-shadow whitespace-nowrap"
+        >
+          {state === "sending" ? "Gönderiliyor..." : "Abone Ol"}
+        </button>
+      </div>
       {state === "error" && (
-        <span className="absolute -bottom-5 left-1 text-[0.62rem] text-red-400">Geçerli bir e-posta girin.</span>
+        <span className="block mt-1.5 text-[0.62rem] text-red-400">Geçerli bir e-posta girin.</span>
       )}
     </form>
   );

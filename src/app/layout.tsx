@@ -89,7 +89,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col pb-16 md:pb-0">
+      <body className="min-h-full flex flex-col pb-16 md:pb-0" suppressHydrationWarning>
         <AppProvider>
           <TickerBanner />
           <Header lang={lang} />

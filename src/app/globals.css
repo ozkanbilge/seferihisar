@@ -334,6 +334,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 1.75rem;
   font-weight: 600;
   margin: 2.5rem 0 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid;
+  border-image: linear-gradient(180deg, var(--color-gold-bright), var(--color-gold-deep)) 1;
   color: var(--color-fg);
 }
 .prose-article h3 {
@@ -344,9 +347,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .prose-article ul {
   margin: 0 0 1.25rem 1.25rem;
-  list-style: disc;
+  list-style: none;
+}
+.prose-article li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-deep));
 }
 .prose-article li {
+  position: relative;
+  padding-left: 1.4rem;
   margin-bottom: 0.5rem;
   line-height: 1.7;
   color: var(--color-fg-muted);

@@ -1,26 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /** Makale paylaşım butonları: WhatsApp, sistem paylaşımı ve link kopyalama */
 export function ShareButtons({ title }: { title: string }) {
   const [copied, setCopied] = useState(false);
+  // URL yalnızca mount sonrası okunur — SSR/istemci href uyuşmazlığını önler
+  const [url, setUrl] = useState("");
 
-  const getUrl = () => (typeof window !== "undefined" ? window.location.href : "");
+  useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(getUrl());
+      await navigator.clipboard.writeText(url || window.location.href);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {}
   };
 
   const nativeShare = async () => {
-    const url = getUrl();
+    const shareUrl = url || window.location.href;
     if (navigator.share) {
       try {
-        await navigator.share({ title, url });
+        await navigator.share({ title, url: shareUrl });
       } catch {}
     } else {
       copy();
@@ -30,12 +34,14 @@ export function ShareButtons({ title }: { title: string }) {
   const base =
     "inline-flex items-center gap-2 px-4 py-2 rounded-full border text-[0.7rem] font-bold uppercase tracking-wider transition-all duration-300";
 
+  const waHref = `https://wa.me/?text=${encodeURIComponent(url ? `${title} — ${url}` : title)}`;
+
   return (
     <div className="flex flex-wrap items-center justify-center gap-2.5">
       <span className="text-[0.62rem] text-fg-muted uppercase tracking-[0.16em] mr-1">Paylaş</span>
 
       <a
-        href={`https://wa.me/?text=${encodeURIComponent(`${title} — ${getUrl()}`)}`}
+        href={waHref}
         target="_blank"
         rel="noopener noreferrer"
         className={`${base} border-[#25D366]/30 text-[#1faa52] hover:border-[#25D366] hover:bg-[#25D366]/10`}

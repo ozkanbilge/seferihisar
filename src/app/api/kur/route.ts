@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Canlı kur kaynağı: altin.doviz.com/harem (Harem Altın).
  * Sayfadaki data-socket-key işaretli değerler ayrıştırılır;
@@ -46,6 +48,9 @@ export async function GET() {
       usdTrend: trend(extract(html, "USD", "c")),
       eurTrend: trend(extract(html, "EUR", "c")),
       goldTrend: trend(extract(html, "23-gram-altin", "c")),
+      usdChange: (extract(html, "USD", "c") || "").trim(),
+      eurChange: (extract(html, "EUR", "c") || "").trim(),
+      goldChange: (extract(html, "23-gram-altin", "c") || "").trim(),
       source: "altin.doviz.com/harem",
       updatedAt: new Date().toISOString(),
     });

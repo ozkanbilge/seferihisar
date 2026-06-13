@@ -53,12 +53,25 @@ export default async function DistrictPage(
       />
 
       {/* Heading */}
-      <div className="mb-10">
-        <p className="eyebrow mb-3">{district.cityName}</p>
-        <h1 className="display text-3xl md:text-4xl text-fg mb-4">
-          {district.name} Emlak İlanları
+      <div className="relative mb-10">
+        <div className="absolute -top-12 right-0 w-[440px] h-[280px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+        <div className="relative flex items-center gap-3 mb-3">
+          <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+          <p className="eyebrow">{district.cityName}</p>
+          <span className="h-px w-14 bg-gradient-to-r from-gold/50 to-transparent" />
+        </div>
+        <h1 className="relative display text-3xl md:text-5xl text-fg mb-2">
+          {district.name}
+          <span className="block text-lg md:text-2xl text-fg-muted font-normal mt-1 font-[family-name:var(--font-sans)]">
+            Emlak İlanları &amp; Bölge Rehberi
+          </span>
         </h1>
-        <div className="max-w-3xl space-y-3">
+        <div className="flex items-center gap-2.5 mb-5">
+          <span className="h-px w-16 bg-gradient-to-r from-gold/60 to-transparent" />
+          <span className="w-1.5 h-1.5 rotate-45 bg-gold/70" />
+          <span className="h-px w-24 bg-gradient-to-r from-gold/30 to-transparent" />
+        </div>
+        <div className="relative max-w-3xl space-y-3">
           {intro.map((p, i) => (
             <p key={i} className="text-sm text-fg-muted leading-relaxed">
               {p}
@@ -67,27 +80,37 @@ export default async function DistrictPage(
         </div>
       </div>
 
-      {/* Type Links */}
-      <div className="flex flex-wrap gap-2 mb-10">
-        {transactions.map((tx) =>
-          propertyTypes.map((type) => (
-            <Link
-              key={`${tx.slug}-${type.slug}`}
-              href={`/izmir/${slug}/${comboSlug(tx.slug, type.slug)}`}
-              className="px-3.5 py-2 rounded-full text-xs font-medium border border-cream-line text-fg-muted hover:border-gold hover:text-gold-bright transition-colors"
-            >
-              {tx.name} {type.name}
-            </Link>
-          ))
-        )}
+      {/* Type Links — işleme göre gruplu hızlı filtreler */}
+      <div className="space-y-3 mb-12">
+        {transactions.map((tx) => (
+          <div key={tx.slug} className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 text-[0.62rem] font-bold text-gold uppercase tracking-[0.16em] mr-1 shrink-0">
+              <span className="w-1 h-1 rotate-45 bg-gold" />
+              {tx.name}
+            </span>
+            {propertyTypes.map((type) => (
+              <Link
+                key={`${tx.slug}-${type.slug}`}
+                href={`/izmir/${slug}/${comboSlug(tx.slug, type.slug)}`}
+                className="px-3.5 py-1.5 rounded-full text-xs font-medium border border-gold/15 bg-surface text-fg-muted hover:border-gold/50 hover:text-gold-bright hover:shadow-[0_0_14px_rgba(192,160,98,0.12)] transition-all duration-300"
+              >
+                {type.name}
+              </Link>
+            ))}
+          </div>
+        ))}
       </div>
 
       {/* Neighborhoods */}
       {district.neighborhoods.length > 0 && (
         <section className="mb-14">
-          <h2 className="display text-2xl md:text-3xl text-fg mb-6">
-            {district.name} Mahalleleri
-          </h2>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="display text-2xl md:text-3xl text-fg flex items-center gap-3 whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+              {district.name} Mahalleleri
+            </h2>
+            <span className="h-px flex-1 bg-gradient-to-r from-gold/40 to-transparent" />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {district.neighborhoods.map((n) => (
               <NeighborhoodCard
@@ -102,11 +125,15 @@ export default async function DistrictPage(
 
       {/* Listings */}
       <section className="mb-14">
-        <div className="flex items-end justify-between mb-6">
-          <h2 className="display text-2xl md:text-3xl text-fg">
+        <div className="flex items-center gap-3 mb-6">
+          <h2 className="display text-2xl md:text-3xl text-fg flex items-center gap-3 whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
             Tüm İlanlar
           </h2>
-          <span className="text-sm text-fg-muted">{listings.length} ilan</span>
+          <span className="h-px flex-1 bg-gradient-to-r from-gold/40 to-transparent" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-gold/30 text-[0.62rem] font-bold text-gold-deep uppercase tracking-[0.14em] shrink-0">
+            {listings.length} İlan
+          </span>
         </div>
         <ListingGrid listings={listings} />
       </section>

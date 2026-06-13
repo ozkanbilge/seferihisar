@@ -11,6 +11,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ImageGallery } from "@/components/ImageGallery";
 import { ListingSidebar } from "@/components/ListingSidebar";
+import { ShareButtons } from "@/components/ShareButtons";
 import { ListingCard } from "@/components/ListingCard";
 import {
   Bed,
@@ -210,6 +211,54 @@ export default async function ListingDetailPage(
               </div>
             </section>
           )}
+
+          {/* Konum — lüks harita kartı (mahalle adıyla) */}
+          <section className="mt-8">
+            <SectionTitle>Konum</SectionTitle>
+            <div className="group relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_16px_44px_rgba(0,0,0,0.18)]">
+              <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-20 pointer-events-none" aria-hidden />
+              <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-20 pointer-events-none" aria-hidden />
+              <span className="absolute bottom-2 left-2 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-20 pointer-events-none" aria-hidden />
+              <span className="absolute bottom-2 right-2 w-5 h-5 border-b border-r border-gold/70 rounded-br z-20 pointer-events-none" aria-hidden />
+              <div className="rounded-2xl overflow-hidden bg-surface">
+                <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-gold/15">
+                  <span className="flex items-center gap-2 text-[0.68rem] font-bold text-fg uppercase tracking-[0.14em]">
+                    <span className="w-6 h-6 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
+                      <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
+                    </span>
+                    {placeName}{district ? ` · ${district.name}` : ""}
+                  </span>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${placeName} ${district?.name ?? ""} İzmir`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.6rem] font-bold uppercase tracking-wider hover:shadow-[0_0_14px_rgba(192,160,98,0.45)] transition-shadow shrink-0"
+                  >
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 11l19-8-8 19-2.5-8.5z" /></svg>
+                    Haritada Aç
+                  </a>
+                </div>
+                <iframe
+                  title={`${placeName} konumu`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(`${placeName}, ${district?.name ?? "Seferihisar"}, İzmir`)}&output=embed`}
+                  width="100%"
+                  height="280"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="grayscale-[85%] contrast-[1.05] transition-all duration-700 group-hover:grayscale-0"
+                />
+                <p className="text-[0.62rem] text-fg-muted/70 px-4 py-2.5 border-t border-gold/10 leading-snug">
+                  Konum mahalle merkezini gösterir; tam adres için danışmanımızla iletişime geçin.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Paylaşım */}
+          <div className="mt-8 pt-6 border-t border-cream-line">
+            <ShareButtons title={listing.title} />
+          </div>
         </div>
 
         {/* Right Sidebar */}

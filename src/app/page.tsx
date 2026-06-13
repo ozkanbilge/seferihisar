@@ -239,20 +239,26 @@ export default async function Home() {
 
       {/* ══════ NEIGHBORHOODS ══════ */}
       {c.sections.neighborhoods && (
-        <section className="container-x py-16 md:py-20" id="neighborhoods">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+        <section className="relative container-x py-16 md:py-20 overflow-hidden" id="neighborhoods">
+          <div className="absolute -top-10 left-0 w-[400px] h-[260px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between mb-10">
             <div>
-              <p className="eyebrow mb-3">{c.neighborhoods.eyebrow}</p>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                <p className="eyebrow">{c.neighborhoods.eyebrow}</p>
+                <span className="h-px w-12 bg-gradient-to-r from-gold/50 to-transparent" />
+              </div>
               <h2 className="display text-3xl md:text-4xl text-fg">
                 {c.neighborhoods.title}
               </h2>
+              <span className="block h-px w-24 mt-4 bg-gradient-to-r from-gold/50 to-transparent" />
             </div>
             <Link
               href={`/izmir/${primaryDistrict.slug}`}
-              className="btn btn-outline mt-6 md:mt-0 self-start md:self-auto"
+              className="btn btn-outline group mt-6 md:mt-0 self-start md:self-auto"
             >
               {t.viewAllNeighborhoods}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
 

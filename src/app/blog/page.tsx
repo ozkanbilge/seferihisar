@@ -23,9 +23,13 @@ export default function BlogPage() {
           <p className="eyebrow">Blog &amp; Rehber</p>
           <span className="h-px w-14 bg-gradient-to-r from-gold/50 to-transparent" />
         </div>
-        <h1 className="relative display text-2xl sm:text-3xl md:text-4xl text-fg mb-3">
+        <h1 className="relative display text-2xl sm:text-3xl md:text-4xl text-fg mb-2.5">
           Güncel Yazılar
         </h1>
+        <div className="flex items-center gap-2.5 mb-3">
+          <span className="h-px w-16 bg-gradient-to-r from-gold/55 to-transparent" />
+          <span className="w-1.5 h-1.5 rotate-45 bg-gold/70" />
+        </div>
         <p className="text-fg-muted text-sm max-w-2xl leading-relaxed">
           Yatırım rehberleri, bölge analizleri ve fiyat trendleriyle doğru
           gayrimenkul kararlarınız için bilgi merkezi.
@@ -35,6 +39,10 @@ export default function BlogPage() {
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-gold/30 text-[0.62rem] font-bold text-gold-deep uppercase tracking-[0.14em]">
             <span className="w-1 h-1 rotate-45 bg-gold" />
             {blogPosts.length} Yazı
+          </span>
+          <span className="hidden min-[420px]:inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-gold/20 text-[0.6rem] font-semibold text-fg-muted uppercase tracking-[0.12em]">
+            <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" /></svg>
+            Uzman İçerik
           </span>
         </div>
       </div>

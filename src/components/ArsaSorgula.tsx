@@ -250,8 +250,8 @@ export function ArsaSorgula() {
             {t.eyebrow}
             <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
           </span>
-          <h2 className="display text-3xl md:text-5xl text-fg-invert mb-4">
-            {t.title}
+          <h2 className="display text-3xl md:text-5xl mb-4">
+            <span className="royal-text">{t.title}</span>
           </h2>
           <div className="flex items-center justify-center gap-2.5 mb-4">
             <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold/55" />

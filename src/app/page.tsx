@@ -217,8 +217,8 @@ export default async function Home() {
               <p className="eyebrow">{c.districts.eyebrow}</p>
               <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
             </div>
-            <h2 className="display text-3xl md:text-4xl text-fg mb-4">
-              {c.districts.title}
+            <h2 className="display text-3xl md:text-4xl mb-4">
+              <span className="royal-text">{c.districts.title}</span>
             </h2>
             <div className="flex items-center justify-center gap-2.5 mb-4">
               <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
@@ -260,12 +260,17 @@ export default async function Home() {
                     </span>
                   )}
                   <div className="absolute bottom-5 left-5 right-5 z-10">
-                    <span className="flex items-center gap-2 mb-1.5">
-                      <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-                      <h3 className="display text-xl text-fg-invert group-hover:text-gold-bright transition-colors">
-                        {d.name}
-                      </h3>
-                    </span>
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className="flex items-center gap-2 min-w-0">
+                        <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                        <h3 className="display text-xl text-fg-invert group-hover:text-gold-bright transition-colors truncate">
+                          {d.name}
+                        </h3>
+                      </span>
+                      <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-ink/60 backdrop-blur border border-gold/25 text-[0.55rem] font-bold text-gold-bright">
+                        {d.neighborhoods.length} Mahalle
+                      </span>
+                    </div>
                     <p className="text-[0.7rem] text-fg-invert-muted/90 line-clamp-2 leading-relaxed">
                       {d.summary}
                     </p>

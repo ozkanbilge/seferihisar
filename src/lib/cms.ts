@@ -1,13 +1,13 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Lang } from "@/lib/i18n";
+import { getRawContent, setRawContent } from "@/lib/site-content";
 
 /**
- * Dosya tabanlı içerik deposu: anasayfa içeriği ve parsel sorgu logları
- * proje kökündeki data/ klasöründe JSON olarak tutulur.
+ * Anasayfa içeriği Neon Postgres'te (content_store) tutulur; parsel logları ve
+ * emsal fiyatları yerel data/ klasöründe JSON olarak tutulur.
  */
 const DATA_DIR = path.join(process.cwd(), "data");
-const HOMEPAGE_FILE = path.join(DATA_DIR, "homepage.json");
 const PARSEL_LOG_FILE = path.join(DATA_DIR, "parsel-logs.json");
 const PARSEL_LOG_LIMIT = 500;
 
@@ -245,17 +245,14 @@ async function writeJson(file: string, data: unknown) {
   await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
 }
 
-type HomepageStore = Partial<Record<Lang, Partial<HomepageContent>>>;
-
 export async function getHomepage(lang: Lang = "tr"): Promise<HomepageContent> {
-  const store = await readJson<HomepageStore>(HOMEPAGE_FILE, {});
-  return mergeContent(store[lang] ?? {}, lang);
+  const saved = (await getRawContent("homepage", lang)) as Partial<HomepageContent> | null;
+  return mergeContent(saved ?? {}, lang);
 }
 
 export async function saveHomepage(lang: Lang, content: Partial<HomepageContent>) {
-  const store = await readJson<HomepageStore>(HOMEPAGE_FILE, {});
-  store[lang] = mergeContent(content, lang);
-  await writeJson(HOMEPAGE_FILE, store);
+  const merged = mergeContent(content, lang);
+  await setRawContent("homepage", lang, merged);
 }
 
 /* ---- Parsel sorgu logları ---- */

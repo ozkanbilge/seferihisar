@@ -187,6 +187,36 @@ function deepMerge<T>(base: T, override: unknown): T {
   return (override === undefined ? base : override) as T;
 }
 
+/* --------- Jenerik content_store erişimi (cms.ts gibi modüller için) --------- */
+
+/** Verilen anahtar+dil için ham JSON döner (yoksa null). */
+export async function getRawContent(key: string, lang: Lang): Promise<unknown | null> {
+  const conn = getConnectionString();
+  if (!conn) return null;
+  try {
+    const sql = neon(conn);
+    await ensureTable(sql);
+    const rows = (await sql`SELECT data FROM content_store WHERE key = ${key} AND lang = ${lang} LIMIT 1`) as { data: unknown }[];
+    return rows.length ? rows[0].data : null;
+  } catch (error) {
+    console.error("getRawContent failed:", error);
+    return null;
+  }
+}
+
+/** Verilen anahtar+dil için ham JSON yazar (upsert). */
+export async function setRawContent(key: string, lang: Lang, data: unknown): Promise<void> {
+  const conn = getConnectionString();
+  if (!conn) throw new Error("Veritabanı bağlantısı yapılandırılmamış.");
+  const sql = neon(conn);
+  await ensureTable(sql);
+  await sql`
+    INSERT INTO content_store (key, lang, data, updated_at)
+    VALUES (${key}, ${lang}, ${JSON.stringify(data)}, now())
+    ON CONFLICT (key, lang) DO UPDATE SET data = EXCLUDED.data, updated_at = now()
+  `;
+}
+
 async function readFromDb(lang: Lang): Promise<SiteContent> {
   const conn = getConnectionString();
   if (!conn) return SITE_CONTENT_DEFAULTS;

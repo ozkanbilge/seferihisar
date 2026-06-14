@@ -9,7 +9,7 @@ import { ListingCard } from "@/components/ListingCard";
 import { BlogCard } from "@/components/BlogCard";
 import { NeighborhoodCard } from "@/components/NeighborhoodCard";
 import { StatsBar } from "@/components/StatsBar";
-import { TypeIcon, ArrowRight, ArrowUpRight, Check, Phone } from "@/components/icons";
+import { TypeIcon, ArrowRight, ArrowUpRight, Phone } from "@/components/icons";
 import { site } from "@/lib/site";
 import { ArsaSorgula } from "@/components/ArsaSorgula";
 import { HeroSearch } from "@/components/HeroSearch";
@@ -20,6 +20,19 @@ import { getDict, isLang, LANG_COOKIE, type Lang } from "@/lib/i18n";
 
 // İçerik admin panelden anlık güncellenebildiği için her istekte taze okunur
 export const dynamic = "force-dynamic";
+
+/** "Neden Biz" kartları için sıraya göre altın ikon */
+function WhyIcon({ index }: { index: number }) {
+  const cls = "w-5 h-5 text-gold";
+  const props = { fill: "none" as const, stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, viewBox: "0 0 24 24" };
+  const icons = [
+    <svg key="0" className={cls} {...props}><path d="M9 20l-5.5-2.7V5.6L9 8m0 12l6-3m-6 3V8m6 9l5.5 2.7V8.3L15 5m0 12V5M9 8l6-3" /></svg>, // yerel uzmanlık — harita
+    <svg key="1" className={cls} {...props}><path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" /></svg>, // doğrulanmış — kalkan tik
+    <svg key="2" className={cls} {...props}><path d="M8 10h8M8 14h5M21 11.5a8.38 8.38 0 0 1-9 8.4 9.4 9.4 0 0 1-4-1L3 20l1.1-3.3A8.38 8.38 0 0 1 3 11.5 8.5 8.5 0 0 1 21 11.5z" /></svg>, // danışmanlık — sohbet
+    <svg key="3" className={cls} {...props}><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>, // şeffaf fiyat — para
+  ];
+  return icons[index % icons.length];
+}
 
 export default async function Home() {
   const cookieLang = (await cookies()).get(LANG_COOKIE)?.value;
@@ -280,30 +293,51 @@ export default async function Home() {
 
       {/* ══════ WHY US ══════ */}
       {c.sections.whyUs && (
-        <section className="bg-cream-soft border-y border-cream-line" id="why-us">
-          <div className="container-x py-16 md:py-20">
+        <section className="relative bg-cream-soft border-y border-cream-line overflow-hidden" id="why-us">
+          {/* Sakin altın ambiyans */}
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[560px] h-[300px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
+          <div className="container-x py-16 md:py-20 relative">
             <div className="text-center mb-12">
-              <p className="eyebrow mb-3">{c.whyUs.eyebrow}</p>
-              <h2 className="display text-3xl md:text-4xl text-fg">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+                <p className="eyebrow">{c.whyUs.eyebrow}</p>
+                <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+              </div>
+              <h2 className="display text-3xl md:text-4xl text-fg mb-4">
                 {c.whyUs.title}
               </h2>
+              <div className="flex items-center justify-center gap-2.5">
+                <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold/50" />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {c.whyUs.items.map((item) => (
+              {c.whyUs.items.map((item, i) => (
                 <div
                   key={item.title}
-                  className="p-6 rounded-2xl card-luxe"
+                  className="group relative p-6 rounded-2xl card-luxe overflow-hidden"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center mb-4 animate-glow">
-                    <Check className="w-5 h-5 text-gold-deep" />
+                  {/* Hover'da köşeden süzülen altın ışıltı */}
+                  <span className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gold/[0.08] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  {/* Filigran numara */}
+                  <span className="absolute top-3 right-4 text-3xl font-[family-name:var(--font-cinzel)] font-bold text-gold/10 select-none pointer-events-none">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  {/* Altın madalyon ikon */}
+                  <div className="relative w-12 h-12 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center mb-4 transition-all duration-300 group-hover:border-gold/40 group-hover:bg-gold/15 animate-glow">
+                    <WhyIcon index={i} />
                   </div>
-                  <h3 className="text-base font-semibold text-fg mb-2">
+                  <h3 className="relative text-base font-bold text-fg mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-fg-muted leading-relaxed">
+                  <p className="relative text-sm text-fg-muted leading-relaxed">
                     {item.desc}
                   </p>
+                  {/* Alt altın aksan çizgisi — hover'da uzar */}
+                  <span className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-gold/50 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
                 </div>
               ))}
             </div>

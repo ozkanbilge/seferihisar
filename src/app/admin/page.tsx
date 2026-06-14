@@ -10,15 +10,17 @@ import { ParselLogs } from "@/components/admin/ParselLogs";
 import { EmsalEditor } from "@/components/admin/EmsalEditor";
 import { ListingsEditor } from "@/components/admin/ListingsEditor";
 import { MessagesPanel } from "@/components/admin/MessagesPanel";
+import { SubscribersPanel } from "@/components/admin/SubscribersPanel";
 import type { ServerAppointment } from "@/lib/appointments-store";
 
 const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY ?? "";
 
-type Panel = "randevular" | "mesajlar" | "ilanlar" | "anasayfa" | "emsal" | "loglar";
+type Panel = "randevular" | "mesajlar" | "bulten" | "ilanlar" | "anasayfa" | "emsal" | "loglar";
 
 const PANELS: { id: Panel; label: string }[] = [
   { id: "randevular", label: "Randevular" },
   { id: "mesajlar", label: "Mesajlar" },
+  { id: "bulten", label: "Bülten" },
   { id: "ilanlar", label: "İlanlar" },
   { id: "anasayfa", label: "Anasayfa İçeriği" },
   { id: "emsal", label: "Emsal Fiyatları" },
@@ -199,6 +201,7 @@ export default function AdminPage() {
         </div>
 
         {panel === "mesajlar" && <MessagesPanel />}
+        {panel === "bulten" && <SubscribersPanel />}
         {panel === "ilanlar" && <ListingsEditor />}
         {panel === "anasayfa" && <HomepageEditor />}
         {panel === "emsal" && <EmsalEditor />}

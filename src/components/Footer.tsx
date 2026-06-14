@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site, nav } from "@/lib/site";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { primaryDistrict } from "@/data/locations";
 import {
   Crown,
@@ -77,46 +78,41 @@ export function Footer() {
 
       {/* CTA Band — davetiye çerçeveli kraliyet paneli */}
       <div className="relative border-b border-ink-line">
-        <div className="container-x py-12 md:py-16">
-          <div className="group relative overflow-hidden rounded-2xl border border-gold/25 bg-ink-soft/40 px-7 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center gap-6 md:gap-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_16px_44px_rgba(0,0,0,0.4)]">
+        <div className="container-x py-9 md:py-11">
+          <div className="group relative overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-r from-ink-soft via-ink to-ink-soft px-6 py-6 md:px-9 md:py-7 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_14px_40px_rgba(0,0,0,0.4)]">
             {/* Köşe süslemeleri */}
-            <span className="absolute top-2.5 left-2.5 w-5 h-5 border-t border-l border-gold/60 rounded-tl z-10" aria-hidden />
-            <span className="absolute top-2.5 right-2.5 w-5 h-5 border-t border-r border-gold/60 rounded-tr z-10" aria-hidden />
-            <span className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b border-l border-gold/60 rounded-bl z-10" aria-hidden />
-            <span className="absolute bottom-2.5 right-2.5 w-5 h-5 border-b border-r border-gold/60 rounded-br z-10" aria-hidden />
-            {/* Dolaşan altın hale + ışık süpürmesi */}
-            <span className="absolute -top-16 left-1/4 w-72 h-44 rounded-full bg-gold/[0.08] blur-3xl animate-ambient pointer-events-none" />
-            <span className="absolute inset-0 bg-gradient-to-r from-gold/0 via-gold/[0.05] to-gold/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none" />
+            <span className="absolute top-2.5 left-2.5 w-5 h-5 border-t border-l border-gold/55 rounded-tl pointer-events-none" aria-hidden />
+            <span className="absolute top-2.5 right-2.5 w-5 h-5 border-t border-r border-gold/55 rounded-tr pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b border-l border-gold/55 rounded-bl pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2.5 right-2.5 w-5 h-5 border-b border-r border-gold/55 rounded-br pointer-events-none" aria-hidden />
+            {/* Üst altın ışık çizgisi + hover süpürmesi */}
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent pointer-events-none" aria-hidden />
+            <span className="absolute inset-0 bg-gradient-to-r from-gold/0 via-gold/[0.06] to-gold/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none" aria-hidden />
 
-          {/* Dekoratif madalyon ikon */}
-          <span className="relative hidden md:flex w-16 h-16 rounded-full bg-gold/10 border border-gold/25 items-center justify-center shrink-0 animate-glow">
-            <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-              <path d="M3 11 12 4l9 7M5 10v10h14V10" /><path d="M10 20v-5h4v5" />
-            </svg>
-          </span>
-
-          <div className="relative flex-1 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2.5 mb-4">
-              <span className="h-px w-10 bg-gradient-to-r from-transparent to-gold/60 md:hidden" />
-              <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-              <p className="eyebrow">Hayalinizdeki Mülkü Bulun</p>
-              <span className="h-px w-10 bg-gradient-to-l from-transparent to-gold/60 md:hidden" />
+            {/* Sol: madalyon + metin */}
+            <div className="relative flex items-center gap-4 text-center md:text-left">
+              <span className="hidden sm:flex w-12 h-12 rounded-full bg-gold/10 border border-gold/25 items-center justify-center shrink-0 animate-glow">
+                <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" /></svg>
+              </span>
+              <div>
+                <p className="eyebrow mb-1.5">Hayalinizdeki Mülkü Bulun</p>
+                <h2 className="font-[family-name:var(--font-cinzel)] uppercase text-lg md:text-2xl text-fg-invert tracking-[0.05em] leading-tight">
+                  Doğru Yatırım İçin{" "}
+                  <span className="royal-text font-semibold">Uzman Desteği Alın</span>
+                </h2>
+              </div>
             </div>
-            <h2 className="font-[family-name:var(--font-cinzel)] uppercase text-2xl md:text-3xl lg:text-4xl text-fg-invert tracking-[0.05em] leading-snug">
-              Doğru Yatırım İçin
-              <br />
-              <span className="royal-text font-semibold">Uzman Desteği Alın</span>
-            </h2>
-          </div>
-          <div className="relative flex flex-col sm:flex-row gap-3 shrink-0">
-            <a href={site.phoneHref} className="btn btn-gold group/btn px-6">
-              <Phone className="w-4 h-4 animate-pulse" />
-              {site.phone}
-            </a>
-            <Link href="/iletisim" className="btn btn-ghost group/btn px-6">
-              İletişime Geçin
-            </Link>
-          </div>
+
+            {/* Sağ: eylemler */}
+            <div className="relative flex flex-col sm:flex-row gap-3 shrink-0">
+              <a href={site.phoneHref} className="btn btn-gold group/btn px-6">
+                <Phone className="w-4 h-4 animate-pulse" />
+                {site.phone}
+              </a>
+              <Link href="/iletisim" className="btn btn-ghost group/btn px-6">
+                İletişime Geçin
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -182,33 +178,48 @@ export function Footer() {
               {site.description.slice(0, 140)}…
             </p>
 
-            {/* Bülten aboneliği */}
-            <div className="mb-6">
-              <p className="flex items-center gap-2 text-[0.62rem] font-bold text-gold uppercase tracking-[0.16em] mb-2.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
-                Yeni İlanlardan Haberdar Olun
+            {/* Bülten aboneliği — altın çerçeveli mini panel */}
+            <div className="relative mb-6 rounded-2xl card-luxe overflow-hidden p-4">
+              <span className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gold/[0.07] blur-2xl pointer-events-none" aria-hidden />
+              <div className="relative flex items-center gap-2.5 mb-1.5">
+                <span className="w-7 h-7 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center shrink-0">
+                  <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
+                </span>
+                <p className="text-[0.62rem] font-bold text-gold uppercase tracking-[0.16em]">
+                  Yeni İlanlardan Haberdar Olun
+                </p>
+              </div>
+              <p className="relative text-[0.7rem] text-fg-invert-muted/70 mb-3 pl-9">
+                Fırsatları ve yeni portföyü ilk siz öğrenin.
               </p>
-              <NewsletterForm />
+              <div className="relative">
+                <NewsletterForm />
+              </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              {[
-                { Icon: Instagram, href: site.social.instagram, label: "Instagram" },
-                { Icon: Facebook, href: site.social.facebook, label: "Facebook" },
-                { Icon: Youtube, href: site.social.youtube, label: "YouTube" },
-                { Icon: Linkedin, href: site.social.linkedin, label: "LinkedIn" },
-              ].map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="w-9 h-9 rounded-full border border-ink-line flex items-center justify-center text-fg-invert-muted hover:border-gold hover:text-gold hover:shadow-[0_0_14px_rgba(192,160,98,0.25)] hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
+            <div>
+              <p className="text-[0.58rem] font-bold text-fg-invert-muted/60 uppercase tracking-[0.18em] mb-3">
+                Bizi Takip Edin
+              </p>
+              <div className="flex items-center gap-3">
+                {[
+                  { Icon: Instagram, href: site.social.instagram, label: "Instagram" },
+                  { Icon: Facebook, href: site.social.facebook, label: "Facebook" },
+                  { Icon: Youtube, href: site.social.youtube, label: "YouTube" },
+                  { Icon: Linkedin, href: site.social.linkedin, label: "LinkedIn" },
+                ].map(({ Icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="group/soc w-9 h-9 rounded-full border border-ink-line flex items-center justify-center text-fg-invert-muted hover:text-ink hover:border-gold hover:bg-gradient-to-br hover:from-gold-deep hover:via-gold hover:to-gold-bright hover:shadow-[0_4px_14px_rgba(192,160,98,0.4)] hover:-translate-y-0.5 transition-all duration-300"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -307,13 +318,12 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="relative border-t border-ink-line">
         {/* Başa dön — ortalanmış kraliyet madalyonu */}
-        <a
-          href="#hero"
-          aria-label="Başa dön"
+        <ScrollTopButton
+          ariaLabel="Başa dön"
           className="group absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-ink border border-gold/40 flex items-center justify-center text-gold shadow-[0_4px_14px_rgba(0,0,0,0.45)] hover:bg-gold hover:text-ink hover:border-gold hover:-translate-y-0.5 hover:shadow-[0_0_18px_rgba(192,160,98,0.4)] transition-all duration-300"
         >
           <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
-        </a>
+        </ScrollTopButton>
         <div className="container-x py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-fg-invert-muted/70">
           <p>
             © {new Date().getFullYear()}{" "}

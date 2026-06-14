@@ -6,7 +6,6 @@ import { site } from "@/lib/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileBottomBar } from "@/components/MobileBottomBar";
-import { BackToTop } from "@/components/BackToTop";
 import { JsonLd } from "@/components/JsonLd";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { AppProvider } from "@/context/AppContext";
@@ -98,7 +97,6 @@ export default async function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <MobileBottomBar />
-          <BackToTop />
           <JsonLd data={[organizationSchema(), websiteSchema()]} />
         </AppProvider>
       </body>

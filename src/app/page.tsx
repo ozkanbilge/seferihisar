@@ -6,7 +6,8 @@ import { primaryDistrict, districts } from "@/data/locations";
 import { blogPosts } from "@/data/blog";
 import { propertyTypes } from "@/data/property-types";
 import { ListingCard } from "@/components/ListingCard";
-import { formatDate } from "@/lib/format";
+import { FeaturedSpotlight } from "@/components/FeaturedSpotlight";
+import { BlogCard } from "@/components/BlogCard";
 import { NeighborhoodCard } from "@/components/NeighborhoodCard";
 import { StatsBar } from "@/components/StatsBar";
 import { TypeIcon, ArrowRight, ArrowUpRight, Phone } from "@/components/icons";
@@ -137,21 +138,25 @@ export default async function Home() {
                 </div>
               </div>
 
-              {/* İlk ilan spotlight + rozet, kalanlar ızgarada */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-                {featuredListings.slice(0, c.featured.count).map((listing, i) => (
-                  <div key={listing.slug} className={`relative ${i === 0 ? "sm:col-span-2" : ""}`}>
-                    {i === 0 && (
-                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.6rem] font-bold uppercase tracking-[0.16em] shadow-[0_4px_14px_rgba(192,160,98,0.45)] whitespace-nowrap">
-                        <span className="w-1 h-1 rotate-45 bg-ink/60" />
-                        Haftanın Seçimi
-                        <span className="w-1 h-1 rotate-45 bg-ink/60" />
-                      </span>
+              {/* Başta büyük spotlight ilan, kalanlar 3'lü ızgarada */}
+              {(() => {
+                const list = featuredListings.slice(0, c.featured.count);
+                const [spotlight, ...rest] = list;
+                return (
+                  <>
+                    {spotlight && (
+                      <div className="mb-5 md:mb-6">
+                        <FeaturedSpotlight listing={spotlight} />
+                      </div>
                     )}
-                    <ListingCard listing={listing} eager />
-                  </div>
-                ))}
-              </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                      {rest.map((listing) => (
+                        <ListingCard key={listing.slug} listing={listing} />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()}
 
               {/* Vitrin çıkışı: ortalanmış eylem */}
               <div className="flex justify-center mt-10">
@@ -401,45 +406,35 @@ export default async function Home() {
                 </div>
               </div>
 
-              {/* ── Sağ: zarif numaralı maddeler ── */}
-              <ol className="lg:col-span-7 relative">
+              {/* ── Sağ: premium bento kartları ── */}
+              <ol className="lg:col-span-7 grid sm:grid-cols-2 gap-4 md:gap-5">
                 {c.whyUs.items.map((item, i) => (
                   <li
                     key={item.title}
-                    className="group relative animate-fade-up"
+                    className="group relative rounded-2xl card-luxe overflow-hidden p-5 md:p-6 hover-lift animate-fade-up"
                     style={{ animationDelay: `${0.1 + i * 0.1}s` }}
                   >
-                    <div className="relative flex items-start gap-5 md:gap-6 rounded-2xl px-4 md:px-6 py-6 transition-colors duration-300 hover:bg-gold/[0.04]">
-                      {/* Hover'da soldan beliren altın aksan rayı */}
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-0 bg-gradient-to-b from-gold-bright to-gold-deep rounded-full group-hover:h-3/5 transition-all duration-400" />
+                    {/* Köşeden süzülen ışıltı */}
+                    <span className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gold/[0.08] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden />
+                    {/* Filigran numara */}
+                    <span className="absolute top-3 right-4 text-3xl font-[family-name:var(--font-cinzel)] font-bold text-gold/10 select-none pointer-events-none">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
 
-                      {/* Altın madalyon ikon */}
-                      <div className="relative shrink-0 w-14 h-14 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/15 group-hover:-translate-y-0.5 group-hover:shadow-[0_8px_22px_rgba(192,160,98,0.18)]">
-                        <WhyIcon index={i} />
-                        {/* Hover'da köşeden süzülen ışıltı */}
-                        <span className="absolute -top-6 -right-6 w-16 h-16 rounded-full bg-gold/[0.12] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                      </div>
-
-                      <div className="min-w-0 pt-0.5">
-                        <div className="flex items-baseline gap-2.5 mb-1.5">
-                          <span className="font-[family-name:var(--font-cinzel)] font-bold text-sm text-gold/70 tabular-nums tracking-wider">
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
-                          <span className="h-px w-5 bg-gold/30" />
-                          <h3 className="text-base md:text-lg font-bold text-fg group-hover:text-gold-deep transition-colors">
-                            {item.title}
-                          </h3>
-                        </div>
-                        <p className="text-sm text-fg-muted leading-relaxed max-w-prose">
-                          {item.desc}
-                        </p>
-                      </div>
+                    {/* Altın madalyon ikon */}
+                    <div className="relative w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4 transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/15 group-hover:-translate-y-0.5">
+                      <WhyIcon index={i} />
                     </div>
 
-                    {/* Maddeler arası ince altın ayraç (sonuncuda gizli) */}
-                    {i < c.whyUs.items.length - 1 && (
-                      <span className="block h-px ml-4 md:ml-6 bg-gradient-to-r from-cream-line via-gold/15 to-transparent" />
-                    )}
+                    <h3 className="relative text-base md:text-lg font-bold text-fg mb-2 group-hover:text-gold-deep transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="relative text-sm text-fg-muted leading-relaxed">
+                      {item.desc}
+                    </p>
+
+                    {/* Alt altın aksan — hover'da uzar */}
+                    <span className="absolute bottom-0 left-5 right-5 md:left-6 md:right-6 h-px bg-gradient-to-r from-gold/55 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" aria-hidden />
                   </li>
                 ))}
               </ol>
@@ -448,146 +443,63 @@ export default async function Home() {
         </section>
       )}
 
-      {/* ══════ BLOG / INSIGHTS — dergi düzeni (öne çıkan + liste) ══════ */}
+      {/* ══════ BLOG / INSIGHTS — çerçeveli kraliyet vitrini ══════ */}
       {c.sections.blog && (
-        <section className="relative container-x py-16 md:py-20 overflow-hidden" id="insights">
-          <div className="absolute -top-10 right-0 w-[400px] h-[260px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
-          <div className="absolute -bottom-12 left-0 w-[360px] h-[240px] rounded-full bg-gold/[0.04] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
-          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between mb-10">
-            <div>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-                <p className="eyebrow">{c.blog.eyebrow}</p>
-                <span className="h-px w-12 bg-gradient-to-r from-gold/50 to-transparent" />
-              </div>
-              <h2 className="display text-3xl md:text-4xl">
-                <span className="royal-text">{c.blog.title}</span>
-              </h2>
-              <span className="block h-px w-24 mt-4 bg-gradient-to-r from-gold/50 to-transparent" />
-            </div>
-            <Link
-              href="/blog"
-              className="btn btn-outline group mt-6 md:mt-0 self-start md:self-auto"
-            >
-              {t.viewAllPosts}
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </div>
+        <section className="container-x pt-16 pb-12 md:pt-20 md:pb-16" id="insights">
+          <div className="relative rounded-3xl border border-gold/20 bg-gradient-to-b from-ink-soft to-ink [.light_&]:from-[#fbf8f2] [.light_&]:to-[#f3eee3] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)] [.light_&]:shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+            {/* Köşebent süslemeleri */}
+            <span className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/60 rounded-tl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/60 rounded-tr z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/60 rounded-bl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/60 rounded-br z-10 pointer-events-none" aria-hidden />
+            {/* Üst altın ışık çizgisi */}
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent pointer-events-none" aria-hidden />
+            {/* Sakin altın ambiyans */}
+            <div className="absolute -top-24 left-1/4 w-[460px] h-[300px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
+            <div className="absolute -bottom-16 right-0 w-[320px] h-[220px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
 
-          {(() => {
-            const [lead, ...rest] = blogPosts.slice(0, 3);
-            return (
-              <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-                {/* ── Öne çıkan yazı (büyük editoryal kart) ── */}
-                <Link
-                  href={`/blog/${lead.slug}`}
-                  id={`blog-${lead.slug}`}
-                  className="group lg:col-span-7 relative block rounded-3xl overflow-hidden card-luxe animate-fade-up"
-                >
-                  <div className="relative aspect-[16/11] lg:aspect-auto lg:h-full lg:min-h-[420px]">
-                    {/* Köşebentler (hover) */}
-                    <span className="absolute top-3 left-3 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
-                    <span className="absolute top-3 right-3 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
-                    <span className="absolute bottom-3 left-3 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
-                    <span className="absolute bottom-3 right-3 w-5 h-5 border-b border-r border-gold/70 rounded-br z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
-
-                    <Image
-                      src={lead.cover}
-                      alt={lead.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 58vw"
-                      unoptimized
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-transparent" />
-
-                    {/* Öne Çıkan rozeti */}
-                    <span className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.58rem] font-bold uppercase tracking-[0.16em] shadow-[0_4px_14px_rgba(192,160,98,0.45)]">
-                      <span className="w-1 h-1 rotate-45 bg-ink/60" />
-                      Öne Çıkan
-                    </span>
-
-                    {/* İçerik */}
-                    <div className="absolute bottom-0 left-0 right-0 z-10 p-6 md:p-8">
-                      <div className="flex items-center gap-3 text-[0.7rem] text-fg-invert-muted mb-3">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-gold-bright font-semibold uppercase tracking-wider">
-                          {lead.category}
-                        </span>
-                        <time dateTime={lead.date}>{formatDate(lead.date)}</time>
-                        <span className="w-1 h-1 rounded-full bg-fg-invert-muted/50" />
-                        <span>{lead.readingMinutes} dk okuma</span>
-                      </div>
-                      <h3 className="display text-2xl md:text-3xl text-fg-invert leading-tight mb-3 group-hover:text-gold-bright transition-colors">
-                        {lead.title}
-                      </h3>
-                      <p className="text-sm text-fg-invert-muted leading-relaxed line-clamp-2 max-w-xl mb-4">
-                        {lead.excerpt}
-                      </p>
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-gold uppercase tracking-[0.12em]">
-                        Devamını Oku
-                        <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* ── Yan liste (kompakt satırlar) ── */}
-                <div className="lg:col-span-5 flex flex-col">
-                  {rest.map((post, i) => (
-                    <div key={post.slug}>
-                      <Link
-                        href={`/blog/${post.slug}`}
-                        id={`blog-${post.slug}`}
-                        className="group flex gap-4 py-5 first:pt-0 animate-fade-up"
-                        style={{ animationDelay: `${0.15 + i * 0.1}s` }}
-                      >
-                        <div className="relative w-28 h-24 md:w-32 md:h-24 shrink-0 rounded-xl overflow-hidden border border-cream-line">
-                          <Image
-                            src={post.cover}
-                            alt={post.title}
-                            fill
-                            sizes="140px"
-                            unoptimized
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                          <span className="absolute inset-0 bg-gradient-to-t from-ink/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                        <div className="min-w-0 flex flex-col">
-                          <div className="flex items-center gap-2 text-[0.65rem] text-fg-muted mb-1.5">
-                            <span className="text-gold-deep font-semibold uppercase tracking-wider">{post.category}</span>
-                            <span className="w-1 h-1 rounded-full bg-cream-line" />
-                            <span>{post.readingMinutes} dk</span>
-                          </div>
-                          <h3 className="text-base font-bold text-fg leading-snug line-clamp-2 mb-2 group-hover:text-gold-deep transition-colors">
-                            {post.title}
-                          </h3>
-                          <span className="inline-flex items-center gap-1 text-[0.7rem] font-semibold text-gold-deep opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-300 mt-auto">
-                            Devamını Oku
-                            <ArrowUpRight className="w-3.5 h-3.5" />
-                          </span>
-                        </div>
-                      </Link>
-                      {i < rest.length - 1 && (
-                        <span className="block h-px bg-gradient-to-r from-cream-line via-gold/15 to-transparent" />
-                      )}
-                    </div>
-                  ))}
-
-                  {/* Tüm yazılar — zarif alt bağlantı */}
-                  <Link
-                    href="/blog"
-                    className="group mt-auto pt-6 inline-flex items-center justify-between gap-2 border-t border-gold/15 text-sm font-semibold text-fg hover:text-gold-deep transition-colors"
-                  >
-                    <span className="inline-flex items-center gap-2.5">
-                      <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-                      {t.viewAllPosts}
-                    </span>
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
+            <div className="relative px-5 py-10 md:px-10 md:py-12">
+              {/* Ortalanmış kraliyet başlığı */}
+              <div className="text-center mb-10">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+                  <p className="eyebrow">{c.blog.eyebrow}</p>
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+                </div>
+                <h2 className="display text-3xl md:text-4xl mb-4">
+                  <span className="royal-text">{c.blog.title}</span>
+                </h2>
+                <div className="flex items-center justify-center gap-2.5">
+                  <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
+                  <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                  <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold/50" />
                 </div>
               </div>
-            );
-          })()}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                {blogPosts.slice(0, 3).map((post, i) => (
+                  <div key={post.slug} className="relative">
+                    {i === 0 && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.58rem] font-bold uppercase tracking-[0.16em] shadow-[0_4px_14px_rgba(192,160,98,0.45)] whitespace-nowrap">
+                        <span className="w-1 h-1 rotate-45 bg-ink/60" />
+                        Öne Çıkan
+                        <span className="w-1 h-1 rotate-45 bg-ink/60" />
+                      </span>
+                    )}
+                    <BlogCard post={post} />
+                  </div>
+                ))}
+              </div>
+
+              {/* Ortalanmış eylem */}
+              <div className="flex justify-center mt-10">
+                <Link href="/blog" className="btn btn-gold group px-8 text-xs font-bold uppercase tracking-[0.16em]">
+                  {t.viewAllPosts}
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+          </div>
         </section>
       )}
 

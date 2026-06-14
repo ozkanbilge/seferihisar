@@ -242,27 +242,21 @@ export function ArsaSorgula() {
       <div className="divider-gold" />
       <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[600px] h-[320px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
       <div className="absolute -bottom-16 right-0 w-[360px] h-[240px] rounded-full bg-emerald-accent/[0.04] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
-      <div className="container-x py-16 md:py-24 relative">
-        <div className="max-w-3xl mx-auto text-center mb-12">
+      <div className="container-x py-11 md:py-14 relative">
+        <div className="max-w-3xl mx-auto text-center mb-8">
           {/* Ücretsiz rozeti */}
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-gold/30 bg-gold/[0.06] text-[0.6rem] font-bold text-gold uppercase tracking-[0.16em] mb-4">
+          <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-gold/30 bg-gold/[0.06] text-[0.58rem] font-bold text-gold uppercase tracking-[0.16em] mb-3">
             <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
             {t.eyebrow}
-            <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
           </span>
-          <h2 className="display text-3xl md:text-5xl mb-4">
+          <h2 className="display text-2xl md:text-3xl mb-3">
             <span className="royal-text">{t.title}</span>
           </h2>
-          <div className="flex items-center justify-center gap-2.5 mb-4">
-            <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold/55" />
-            <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-            <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold/55" />
-          </div>
-          <p className="text-fg-invert-muted text-sm md:text-base leading-relaxed max-w-xl mx-auto">
+          <p className="text-fg-invert-muted text-sm leading-relaxed max-w-xl mx-auto mb-4">
             {t.subtitle}
           </p>
           {/* Güven mikro-rozetleri */}
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-[0.62rem] text-fg-invert-muted/70">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[0.6rem] text-fg-invert-muted/70">
             <span className="flex items-center gap-1.5">
               <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" /></svg>
               TKGM Resmî Verisi
@@ -287,7 +281,7 @@ export function ArsaSorgula() {
               {t.formTitle}
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 arsa-form">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-fg-invert-muted mb-1.5 uppercase tracking-wide">

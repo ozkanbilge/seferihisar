@@ -205,28 +205,52 @@ export default async function BlogPostPage(
         </div>
       </div>
 
-      {/* Diğer Yazılar */}
+      {/* Diğer Yazılar — çerçeveli kraliyet vitrini */}
       {others.length > 0 && (
         <section className="mt-12 md:mt-16">
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <span className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-gold/40" />
-            <h2 className="text-base md:text-lg font-bold text-fg font-[family-name:var(--font-cinzel)] uppercase tracking-[0.14em] flex items-center gap-2.5 whitespace-nowrap">
-              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-              Diğer Yazılar
-              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-            </h2>
-            <span className="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-gold/40" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-            {others.map((b) => (
-              <BlogCard key={b.slug} post={b} />
-            ))}
-          </div>
-          <div className="flex justify-center mt-10">
-            <Link href="/blog" className="btn btn-outline group text-xs px-6">
-              Tüm Yazılar
-              <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-            </Link>
+          <div className="relative rounded-3xl border border-gold/20 bg-gradient-to-b from-ink-soft to-ink [.light_&]:from-[#fbf8f2] [.light_&]:to-[#f3eee3] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)] [.light_&]:shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+            {/* Köşebent süslemeleri */}
+            <span className="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/60 rounded-tl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/60 rounded-tr z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/60 rounded-bl z-10 pointer-events-none" aria-hidden />
+            <span className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/60 rounded-br z-10 pointer-events-none" aria-hidden />
+            {/* Üst altın ışık çizgisi */}
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent pointer-events-none" aria-hidden />
+            {/* Sakin altın ambiyans */}
+            <div className="absolute -top-24 left-1/4 w-[440px] h-[280px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
+            <div className="absolute -bottom-16 right-0 w-[300px] h-[200px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
+
+            <div className="relative px-5 py-10 md:px-10 md:py-12">
+              {/* Ortalanmış kraliyet başlığı */}
+              <div className="text-center mb-10">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+                  <p className="eyebrow">Keşfetmeye Devam Edin</p>
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+                </div>
+                <h2 className="display text-2xl md:text-3xl mb-4">
+                  <span className="royal-text">Diğer Yazılar</span>
+                </h2>
+                <div className="flex items-center justify-center gap-2.5">
+                  <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
+                  <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                  <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold/50" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                {others.map((b) => (
+                  <BlogCard key={b.slug} post={b} />
+                ))}
+              </div>
+
+              <div className="flex justify-center mt-10">
+                <Link href="/blog" className="btn btn-gold group px-8 text-xs font-bold uppercase tracking-[0.16em]">
+                  Tüm Yazılar
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
       )}

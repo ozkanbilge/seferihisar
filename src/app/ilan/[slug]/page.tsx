@@ -198,14 +198,20 @@ export default async function ListingDetailPage(
           {listing.features.length > 0 && (
             <section className="mt-8">
               <SectionTitle>Özellikler</SectionTitle>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3 gap-3">
                 {listing.features.map((f) => (
                   <div
                     key={f}
-                    className="group flex items-center gap-2.5 text-xs sm:text-sm text-fg-muted px-3 py-2 rounded-xl border border-gold/10 bg-surface transition-all duration-300 hover:border-gold/40 hover:text-fg min-w-0"
+                    className="group flex items-center gap-3 px-3.5 py-2.5 rounded-xl border border-gold/15 bg-surface transition-all duration-300 hover:border-gold/45 hover:-translate-y-0.5 hover:shadow-[0_8px_22px_rgba(192,160,98,0.12)] min-w-0"
                   >
-                    <span className="w-1.5 h-1.5 rotate-45 bg-gold/60 group-hover:bg-gold shrink-0 transition-colors" />
-                    {f}
+                    <span className="w-7 h-7 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/45">
+                      <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                    </span>
+                    <span className="text-xs sm:text-sm text-fg-muted group-hover:text-fg transition-colors truncate">
+                      {f}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -300,26 +306,21 @@ export default async function ListingDetailPage(
             <div className="absolute -bottom-16 right-0 w-[300px] h-[200px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
 
             <div className="relative px-5 py-8 md:px-10 md:py-10">
-              {/* Başlık + eylem */}
-              <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center gap-4 min-[480px]:gap-6 mb-8">
-                <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
-                  <span className="hidden sm:block h-px flex-1 max-w-16 bg-gradient-to-r from-transparent to-gold/50" />
-                  <h2 className="text-sm min-[420px]:text-base md:text-lg font-bold text-fg font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em] md:tracking-[0.14em] flex items-center gap-2 md:gap-2.5 whitespace-nowrap">
-                    <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-                    Benzer İlanlar
-                    <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-                  </h2>
-                  <span className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/50" />
+              {/* Ortalanmış kraliyet başlığı */}
+              <div className="text-center mb-8 md:mb-10">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+                  <p className="eyebrow">Size Özel Seçtik</p>
+                  <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
                 </div>
-                <Link
-                  href={`/${listing.transaction}`}
-                  className="btn btn-outline text-[0.65rem] px-5 py-2 self-start min-[480px]:self-auto shrink-0"
-                >
-                  Tümünü Gör
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </Link>
+                <h2 className="display text-2xl md:text-3xl text-fg mb-4">
+                  Benzer İlanlar
+                </h2>
+                <div className="flex items-center justify-center gap-2.5">
+                  <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
+                  <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                  <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold/50" />
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">

@@ -603,3 +603,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .vertex-pop { opacity: 1; }
   .parcel-fill { fill-opacity: 1; }
 }
+
+/* Mobilde herhangi bir alana odaklanınca iOS'un otomatik yakınlaştırmasını
+   engelle: 16px altı input/select/textarea odakta sayfayı zoom'lar.
+   Tüm form alanlarını 16px'e sabitle (Tailwind text-sm/xs'i de geçecek şekilde). */
+@media (max-width: 640px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Stats bar üzerinde periyodik altın ışık süpürmesi */
+@keyframes stats-sweep {
+  0% { transform: translateX(-130%); }
+  55%, 100% { transform: translateX(460%); }
+}
+.animate-stats-sweep {
+  animation: stats-sweep 6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-stats-sweep { animation: none; }
+}

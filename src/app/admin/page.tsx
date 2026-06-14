@@ -85,61 +85,92 @@ export default function AdminPage() {
 
   if (!adminLoggedIn) {
     return (
-      <div className="container-x py-16 md:py-24 min-h-[80vh] flex items-center justify-center relative overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[480px] h-[300px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
-        <div className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-md w-full">
-          <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
-          <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
-          <span className="absolute bottom-2 left-2 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-10 pointer-events-none" aria-hidden />
-          <span className="absolute bottom-2 right-2 w-5 h-5 border-b border-r border-gold/70 rounded-br z-10 pointer-events-none" aria-hidden />
-          <div className="rounded-2xl bg-surface p-8 relative">
+      <div className="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden bg-gradient-to-b from-ink-soft to-ink">
+        {/* Dolaşan altın ambiyans */}
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[560px] h-[360px] rounded-full bg-gold/[0.08] blur-3xl animate-ambient pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[260px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
+        {/* İnce ızgara dokusu */}
+        <div className="absolute inset-0 opacity-[0.025] bg-[linear-gradient(to_right,#c0a062_1px,transparent_1px),linear-gradient(to_bottom,#c0a062_1px,transparent_1px)] bg-[size:36px_36px] pointer-events-none" />
 
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-3">
-              <Logo className="w-16 h-16 text-gold" />
-            </div>
-            <h1 className="text-xl font-bold text-fg mb-1 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.12em]">Yönetim Paneli</h1>
-            <p className="text-xs text-fg-muted">
-              Lütfen yönetici giriş bilgilerini yazın.
-            </p>
-          </div>
+        <div className="relative rounded-[20px] p-[1.5px] bg-gradient-to-br from-gold/60 via-gold/12 to-gold/50 shadow-[0_30px_70px_rgba(0,0,0,0.5)] max-w-md w-full">
+          <span className="absolute top-2.5 left-2.5 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
+          <span className="absolute top-2.5 right-2.5 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
+          <span className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b border-l border-gold/70 rounded-bl z-10 pointer-events-none" aria-hidden />
+          <span className="absolute bottom-2.5 right-2.5 w-5 h-5 border-b border-r border-gold/70 rounded-br z-10 pointer-events-none" aria-hidden />
+          <div className="rounded-[19px] bg-ink-card relative overflow-hidden p-8 md:p-10">
+            {/* Üst altın şerit */}
+            <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-gold-deep via-gold-bright to-gold-deep" />
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-fg-muted uppercase tracking-wider mb-1.5">
-                E-posta Adresi
-              </label>
-              <input
-                type="email"
-                placeholder="admin@ornek.com"
-                value={emailInput}
-                onChange={(e) => setEmailInput(e.target.value)}
-                className="w-full bg-cream-soft border border-cream-line rounded-xl px-4 py-3 text-xs text-fg placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-fg-muted uppercase tracking-wider mb-1.5">
-                Şifre
-              </label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full bg-cream-soft border border-cream-line rounded-xl px-4 py-3 text-xs text-fg placeholder-fg-muted/40 focus:border-gold focus:outline-none transition-colors"
-              />
+            <div className="text-center mb-8">
+              {/* Halkalı logo */}
+              <div className="relative inline-flex mb-4">
+                <span className="absolute inset-0 rounded-full bg-gold/15 blur-xl animate-glow" />
+                <Logo className="relative w-20 h-20 text-gold" />
+              </div>
+              <div className="flex items-center justify-center gap-2.5 mb-3">
+                <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/60" />
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/60" />
+              </div>
+              <h1 className="text-2xl font-bold mb-1.5 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.12em] royal-text">Yönetim Paneli</h1>
+              <p className="text-xs text-fg-invert-muted/70">
+                Lütfen yönetici giriş bilgilerini yazın.
+              </p>
             </div>
 
-            {error && <p className="text-red-500 text-xs font-medium">{error}</p>}
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label className="block text-[0.62rem] font-bold text-gold/80 uppercase tracking-[0.16em] mb-1.5">
+                  E-posta Adresi
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gold/70">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
+                  </span>
+                  <input
+                    type="email"
+                    placeholder="admin@ornek.com"
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                    className="w-full bg-ink/60 border border-ink-line rounded-xl pl-11 pr-4 py-3 text-xs text-fg-invert placeholder-fg-invert-muted/30 focus:border-gold/60 focus:outline-none transition-colors"
+                  />
+                </div>
+              </div>
 
-            <button
-              type="submit"
-              className="w-full btn btn-gold justify-center py-3.5 text-xs font-bold uppercase tracking-wider mt-4"
-            >
-              Giriş Yap
-            </button>
-          </form>
+              <div>
+                <label className="block text-[0.62rem] font-bold text-gold/80 uppercase tracking-[0.16em] mb-1.5">
+                  Şifre
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gold/70">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+                  </span>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={passwordInput}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    className="w-full bg-ink/60 border border-ink-line rounded-xl pl-11 pr-4 py-3 text-xs text-fg-invert placeholder-fg-invert-muted/30 focus:border-gold/60 focus:outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              {error && <p className="text-red-400 text-xs font-medium">{error}</p>}
+
+              <button
+                type="submit"
+                className="w-full btn btn-gold justify-center py-3.5 text-xs font-bold uppercase tracking-[0.14em] mt-4"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" /></svg>
+                Giriş Yap
+              </button>
+            </form>
+
+            {/* Güvenli erişim rozeti */}
+            <div className="flex items-center justify-center gap-1.5 mt-5 text-[0.6rem] text-fg-invert-muted/50 uppercase tracking-[0.14em]">
+              <svg className="w-3 h-3 text-gold/70" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" /><path d="M9 12l2 2 4-4" /></svg>
+              Güvenli Yönetici Erişimi
+            </div>
           </div>
         </div>
       </div>

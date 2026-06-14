@@ -1,11 +1,10 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { getRawContent, setRawContent } from "@/lib/site-content";
 
 /**
  * Sunucu tarafı randevu deposu: müşteri hangi cihazdan randevu alırsa
- * alsın admin panelinde görünür. data/appointments.json'da tutulur.
+ * alsın admin panelinde görünür. Neon Postgres içerik deposunda tutulur.
  */
-const FILE = path.join(process.cwd(), "data", "appointments.json");
+const KEY = "appointments";
 const LIMIT = 1000;
 
 export interface ServerAppointment {
@@ -20,16 +19,11 @@ export interface ServerAppointment {
 }
 
 async function read(): Promise<ServerAppointment[]> {
-  try {
-    return JSON.parse(await fs.readFile(FILE, "utf8")) as ServerAppointment[];
-  } catch {
-    return [];
-  }
+  return ((await getRawContent(KEY, "tr")) as ServerAppointment[] | null) ?? [];
 }
 
 async function write(list: ServerAppointment[]) {
-  await fs.mkdir(path.dirname(FILE), { recursive: true });
-  await fs.writeFile(FILE, JSON.stringify(list.slice(0, LIMIT), null, 2), "utf8");
+  await setRawContent(KEY, "tr", list.slice(0, LIMIT));
 }
 
 export async function getAppointments(): Promise<ServerAppointment[]> {

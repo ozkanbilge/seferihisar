@@ -1,14 +1,10 @@
-import { promises as fs } from "fs";
-import path from "path";
 import type { Lang } from "@/lib/i18n";
 import { getRawContent, setRawContent } from "@/lib/site-content";
 
 /**
- * Anasayfa içeriği Neon Postgres'te (content_store) tutulur; parsel logları ve
- * emsal fiyatları yerel data/ klasöründe JSON olarak tutulur.
+ * Tüm içerik (anasayfa, parsel logları, emsal fiyatları) Neon Postgres
+ * content_store tablosunda tutulur.
  */
-const DATA_DIR = path.join(process.cwd(), "data");
-const PARSEL_LOG_FILE = path.join(DATA_DIR, "parsel-logs.json");
 const PARSEL_LOG_LIMIT = 500;
 
 export interface HomepageContent {
@@ -232,19 +228,6 @@ function mergeContent(saved: Partial<HomepageContent>, lang: Lang): HomepageCont
   };
 }
 
-async function readJson<T>(file: string, fallback: T): Promise<T> {
-  try {
-    return JSON.parse(await fs.readFile(file, "utf8")) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-async function writeJson(file: string, data: unknown) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
-}
-
 export async function getHomepage(lang: Lang = "tr"): Promise<HomepageContent> {
   const saved = (await getRawContent("homepage", lang)) as Partial<HomepageContent> | null;
   return mergeContent(saved ?? {}, lang);
@@ -274,22 +257,20 @@ export interface ParselLogEntry {
 }
 
 export async function appendParselLog(entry: ParselLogEntry) {
-  const logs = await readJson<ParselLogEntry[]>(PARSEL_LOG_FILE, []);
+  const logs = ((await getRawContent("parsel-logs", "tr")) as ParselLogEntry[] | null) ?? [];
   logs.unshift(entry);
-  await writeJson(PARSEL_LOG_FILE, logs.slice(0, PARSEL_LOG_LIMIT));
+  await setRawContent("parsel-logs", "tr", logs.slice(0, PARSEL_LOG_LIMIT));
 }
 
 export async function getParselLogs(): Promise<ParselLogEntry[]> {
-  return readJson<ParselLogEntry[]>(PARSEL_LOG_FILE, []);
+  return ((await getRawContent("parsel-logs", "tr")) as ParselLogEntry[] | null) ?? [];
 }
 
 export async function clearParselLogs() {
-  await writeJson(PARSEL_LOG_FILE, []);
+  await setRawContent("parsel-logs", "tr", []);
 }
 
 /* ---- Emsal arsa fiyatları (admin panelden yönetilir) ---- */
-
-const EMSAL_FILE = path.join(DATA_DIR, "emsal.json");
 
 export interface EmsalEntry {
   ilce: string;
@@ -299,14 +280,14 @@ export interface EmsalEntry {
 }
 
 export async function getEmsalList(): Promise<EmsalEntry[]> {
-  return readJson<EmsalEntry[]>(EMSAL_FILE, []);
+  return ((await getRawContent("emsal", "tr")) as EmsalEntry[] | null) ?? [];
 }
 
 export async function saveEmsalList(list: EmsalEntry[]) {
   const clean = list
     .filter((e) => e.ilce?.trim() && e.mahalle?.trim() && Number(e.fiyat) > 0)
     .map((e) => ({ ilce: e.ilce.trim(), mahalle: e.mahalle.trim(), fiyat: Math.round(Number(e.fiyat)) }));
-  await writeJson(EMSAL_FILE, clean);
+  await setRawContent("emsal", "tr", clean);
 }
 
 /** İlçe+mahalle için admin'in girdiği gerçek emsal TL/m² fiyatı (yoksa null) */

@@ -1,8 +1,7 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { getRawContent, setRawContent } from "@/lib/site-content";
 
-/** Bülten aboneleri — sunucu deposu (data/subscribers.json) */
-const FILE = path.join(process.cwd(), "data", "subscribers.json");
+/** Bülten aboneleri — Neon Postgres içerik deposu */
+const KEY = "subscribers";
 
 export interface Subscriber {
   email: string;
@@ -10,16 +9,11 @@ export interface Subscriber {
 }
 
 async function read(): Promise<Subscriber[]> {
-  try {
-    return JSON.parse(await fs.readFile(FILE, "utf8")) as Subscriber[];
-  } catch {
-    return [];
-  }
+  return ((await getRawContent(KEY, "tr")) as Subscriber[] | null) ?? [];
 }
 
 async function write(list: Subscriber[]) {
-  await fs.mkdir(path.dirname(FILE), { recursive: true });
-  await fs.writeFile(FILE, JSON.stringify(list, null, 2), "utf8");
+  await setRawContent(KEY, "tr", list);
 }
 
 export async function getSubscribers(): Promise<Subscriber[]> {

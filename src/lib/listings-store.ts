@@ -1,30 +1,34 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { listings as seedListings, type Listing } from "@/data/listings";
+import { getRawContent, setRawContent } from "@/lib/site-content";
 
 /**
  * İlan deposu: koddaki örnek ilanlar (seed) + admin panelden yapılan
- * ekleme/düzenleme/silmelerin tutulduğu data/listings-admin.json birleşimi.
+ * ekleme/düzenleme/silmelerin tutulduğu içerik (Neon Postgres) birleşimi.
  * Düzenlenen seed ilanları slug bazında ezilir; silinenler gizlenir.
  */
-const FILE = path.join(process.cwd(), "data", "listings-admin.json");
+const KEY = "listings";
 
 interface AdminListingsFile {
   upserts: Record<string, Listing>;
   deleted: string[];
 }
 
+// Build sırasında (statik sayfalar) tekrar tekrar çağrılır; kısa TTL'li memo.
+let memo: { data: AdminListingsFile; exp: number } | null = null;
+const TTL_MS = 30_000;
+
 async function readFile(): Promise<AdminListingsFile> {
-  try {
-    return JSON.parse(await fs.readFile(FILE, "utf8")) as AdminListingsFile;
-  } catch {
-    return { upserts: {}, deleted: [] };
-  }
+  const now = Date.now();
+  if (memo && memo.exp > now) return memo.data;
+  const raw = (await getRawContent(KEY, "tr")) as AdminListingsFile | null;
+  const data = raw ?? { upserts: {}, deleted: [] };
+  memo = { data, exp: now + TTL_MS };
+  return data;
 }
 
 async function writeFile(data: AdminListingsFile) {
-  await fs.mkdir(path.dirname(FILE), { recursive: true });
-  await fs.writeFile(FILE, JSON.stringify(data, null, 2), "utf8");
+  await setRawContent(KEY, "tr", data);
+  memo = null;
 }
 
 /** Seed + admin birleşimi; en yeni ilan önde */

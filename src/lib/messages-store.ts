@@ -1,8 +1,7 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { getRawContent, setRawContent } from "@/lib/site-content";
 
-/** İletişim formu mesajları — sunucu deposu (data/messages.json) */
-const FILE = path.join(process.cwd(), "data", "messages.json");
+/** İletişim formu mesajları — Neon Postgres içerik deposu */
+const KEY = "messages";
 const LIMIT = 1000;
 
 export interface ContactMessage {
@@ -17,16 +16,11 @@ export interface ContactMessage {
 }
 
 async function readAll(): Promise<ContactMessage[]> {
-  try {
-    return JSON.parse(await fs.readFile(FILE, "utf8")) as ContactMessage[];
-  } catch {
-    return [];
-  }
+  return ((await getRawContent(KEY, "tr")) as ContactMessage[] | null) ?? [];
 }
 
 async function writeAll(list: ContactMessage[]) {
-  await fs.mkdir(path.dirname(FILE), { recursive: true });
-  await fs.writeFile(FILE, JSON.stringify(list.slice(0, LIMIT), null, 2), "utf8");
+  await setRawContent(KEY, "tr", list.slice(0, LIMIT));
 }
 
 export async function getMessages(): Promise<ContactMessage[]> {

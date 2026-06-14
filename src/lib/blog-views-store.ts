@@ -1,8 +1,7 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { getRawContent, setRawContent } from "@/lib/site-content";
 
-/** Blog okunma sayaçları — sunucu deposu (data/blog-views.json) */
-const FILE = path.join(process.cwd(), "data", "blog-views.json");
+/** Blog okunma sayaçları — Neon Postgres içerik deposu */
+const KEY = "blog-views";
 
 /** Yazıya özgü deterministik başlangıç (yeni içerik "0" görünmesin) */
 function baseFor(slug: string): number {
@@ -11,17 +10,21 @@ function baseFor(slug: string): number {
   return 180 + (h % 540); // 180–720 arası sabit taban
 }
 
+// Build sırasında blog sayfalarınca çağrılır; kısa TTL'li memo.
+let memo: { data: Record<string, number>; exp: number } | null = null;
+const TTL_MS = 30_000;
+
 async function read(): Promise<Record<string, number>> {
-  try {
-    return JSON.parse(await fs.readFile(FILE, "utf8")) as Record<string, number>;
-  } catch {
-    return {};
-  }
+  const now = Date.now();
+  if (memo && memo.exp > now) return memo.data;
+  const data = ((await getRawContent(KEY, "tr")) as Record<string, number> | null) ?? {};
+  memo = { data, exp: now + TTL_MS };
+  return data;
 }
 
 async function write(data: Record<string, number>) {
-  await fs.mkdir(path.dirname(FILE), { recursive: true });
-  await fs.writeFile(FILE, JSON.stringify(data, null, 2), "utf8");
+  await setRawContent(KEY, "tr", data);
+  memo = null;
 }
 
 /** Görüntülenen toplam (taban + gerçek artış) */

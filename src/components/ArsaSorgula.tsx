@@ -238,23 +238,52 @@ export function ArsaSorgula() {
     : { points: "", vertices: [] };
 
   return (
-    <section className="bg-ink-soft border-y border-ink-line scroll-mt-20" id="arsa-sorgulama">
-      <div className="container-x py-16 md:py-24">
+    <section className="relative bg-ink-soft border-y border-ink-line scroll-mt-20 overflow-hidden" id="arsa-sorgulama">
+      <div className="divider-gold" />
+      <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[600px] h-[320px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
+      <div className="absolute -bottom-16 right-0 w-[360px] h-[240px] rounded-full bg-emerald-accent/[0.04] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
+      <div className="container-x py-16 md:py-24 relative">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <p className="eyebrow mb-3">{t.eyebrow}</p>
+          {/* Ücretsiz rozeti */}
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-gold/30 bg-gold/[0.06] text-[0.6rem] font-bold text-gold uppercase tracking-[0.16em] mb-4">
+            <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+            {t.eyebrow}
+            <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+          </span>
           <h2 className="display text-3xl md:text-5xl text-fg-invert mb-4">
             {t.title}
           </h2>
+          <div className="flex items-center justify-center gap-2.5 mb-4">
+            <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold/55" />
+            <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+            <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold/55" />
+          </div>
           <p className="text-fg-invert-muted text-sm md:text-base leading-relaxed max-w-xl mx-auto">
             {t.subtitle}
           </p>
+          {/* Güven mikro-rozetleri */}
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-[0.62rem] text-fg-invert-muted/70">
+            <span className="flex items-center gap-1.5">
+              <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" /></svg>
+              TKGM Resmî Verisi
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>
+              Anında Sonuç
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+              %100 Ücretsiz
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Sorgu Formu */}
           <div className="lg:col-span-5 bg-ink-card border border-ink-line rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gold via-gold-bright to-gold-deep" />
-            <h3 className="text-lg font-semibold text-fg-invert mb-6 font-[family-name:var(--font-display)]">
+            <div className="absolute top-0 left-0 w-full h-[3px] rounded-t-2xl bg-gradient-to-r from-gold-deep via-gold-bright to-gold" />
+            <h3 className="flex items-center gap-2.5 text-base font-bold text-fg-invert mb-6 font-[family-name:var(--font-cinzel)] uppercase tracking-[0.1em]">
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
               {t.formTitle}
             </h3>
 

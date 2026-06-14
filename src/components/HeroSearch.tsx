@@ -190,8 +190,9 @@ export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) 
 
   return (
     <div className="group/hs w-full max-w-3xl">
-      {/* Satılık / Kiralık — kayan altın göstergeli sekme grubu */}
-      <div className="flex justify-center mb-6">
+      {/* Satılık / Kiralık — kayan altın göstergeli sekme grubu, flörürle çerçeveli */}
+      <div className="flex items-center justify-center gap-3 mb-6">
+        <span className="h-px w-8 md:w-12 bg-gradient-to-r from-transparent to-gold/45" aria-hidden />
         <div className="relative grid grid-cols-2 p-1 rounded-full border border-gold/25 bg-ink/70 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_4px_14px_rgba(0,0,0,0.35)]">
           <span
             className={`absolute inset-y-1 w-[calc(50%-0.25rem)] rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright shadow-[0_2px_14px_rgba(192,160,98,0.4)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -219,6 +220,7 @@ export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) 
             );
           })}
         </div>
+        <span className="h-px w-8 md:w-12 bg-gradient-to-l from-transparent to-gold/45" aria-hidden />
       </div>
 
       {/* Tek parça lüks arama barı — dönen altın ışık çerçevesi */}
@@ -273,9 +275,13 @@ export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) 
 
       {/* Hızlı arama çipleri — liste açıkken solar */}
       <div className="mt-5 transition-opacity duration-300 group-has-[[role=listbox]]/hs:opacity-0 group-has-[[role=listbox]]/hs:pointer-events-none">
-        <span className="block text-center text-[0.6rem] text-fg-invert-muted/60 uppercase tracking-[0.16em] mb-2.5">
-          Popüler Aramalar
-        </span>
+        <div className="flex items-center justify-center gap-2.5 mb-2.5">
+          <span className="h-px w-6 bg-gradient-to-r from-transparent to-gold/40" aria-hidden />
+          <span className="text-[0.6rem] text-fg-invert-muted/60 uppercase tracking-[0.16em]">
+            Popüler Aramalar
+          </span>
+          <span className="h-px w-6 bg-gradient-to-l from-transparent to-gold/40" aria-hidden />
+        </div>
         <div className="relative">
           {/* Mobilde kenarlarda yumuşak kaybolma */}
           <div className="md:hidden absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
@@ -286,8 +292,9 @@ export function HeroSearch({ chips = DEFAULT_CHIPS }: { chips?: SearchChip[] }) 
                 key={chip.href}
                 type="button"
                 onClick={() => router.push(chip.href)}
-                className="shrink-0 px-3.5 py-2 md:py-1.5 rounded-full border border-gold/20 bg-ink/40 text-[0.65rem] font-semibold text-fg-invert-muted hover:text-gold-bright hover:border-gold/50 hover:shadow-[0_0_14px_rgba(192,160,98,0.15)] transition-all duration-300 whitespace-nowrap"
+                className="group/chip shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 md:py-1.5 rounded-full border border-gold/20 bg-ink/40 text-[0.65rem] font-semibold text-fg-invert-muted hover:text-gold-bright hover:border-gold/50 hover:bg-gold/[0.06] hover:shadow-[0_0_14px_rgba(192,160,98,0.15)] hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap"
               >
+                <span className="w-1 h-1 rotate-45 bg-gold/50 group-hover/chip:bg-gold transition-colors" aria-hidden />
                 {chip.label}
               </button>
             ))}

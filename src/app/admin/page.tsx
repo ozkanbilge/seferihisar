@@ -85,7 +85,8 @@ export default function AdminPage() {
 
   if (!adminLoggedIn) {
     return (
-      <div className="container-x py-16 md:py-24 min-h-[80vh] flex items-center justify-center">
+      <div className="container-x py-16 md:py-24 min-h-[80vh] flex items-center justify-center relative overflow-hidden">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[480px] h-[300px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
         <div className="relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-md w-full">
           <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-10 pointer-events-none" aria-hidden />
           <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-10 pointer-events-none" aria-hidden />
@@ -146,7 +147,8 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="container-x py-10 md:py-16 min-h-[85vh]">
+    <div className="container-x py-10 md:py-16 min-h-[85vh] relative overflow-hidden">
+      <div className="absolute -top-10 right-0 w-[420px] h-[260px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="card-luxe flex flex-col sm:flex-row justify-between sm:items-center gap-4 rounded-2xl p-6">
@@ -210,20 +212,31 @@ export default function AdminPage() {
         {panel === "randevular" && (
         <>
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative">
           {[
-            { label: "Toplam Randevu", val: totalApps, color: "text-fg bg-cream-soft" },
-            { label: "Onay Bekleyenler", val: pendingApps, color: "text-amber-600 bg-amber-500/5" },
-            { label: "Onaylananlar", val: approvedApps, color: "text-emerald-600 bg-emerald-500/5" },
-            { label: "Toplam Portföy", val: listings.length, color: "text-gold-deep bg-gold/5" },
-          ].map((stat) => (
-            <div key={stat.label} className="card-luxe rounded-2xl p-5 space-y-1">
-              <span className="text-[0.65rem] text-fg-muted uppercase tracking-wider font-semibold block">
+            { label: "Toplam Randevu", val: totalApps, color: "text-fg",
+              icon: <path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /> },
+            { label: "Onay Bekleyenler", val: pendingApps, color: "text-amber-600",
+              icon: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></> },
+            { label: "Onaylananlar", val: approvedApps, color: "text-emerald-600",
+              icon: <path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" /> },
+            { label: "Toplam Portföy", val: listings.length, color: "text-gold-deep",
+              icon: <path d="M3 11 12 4l9 7M5 10v10h14V10M10 20v-6h4v6" /> },
+          ].map((stat, i) => (
+            <div key={stat.label} className="group card-luxe rounded-2xl p-5 relative overflow-hidden">
+              <span className="absolute top-2 right-3 text-3xl font-[family-name:var(--font-cinzel)] font-bold text-gold/10 select-none pointer-events-none">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center mb-3 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/40">
+                <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">{stat.icon}</svg>
+              </div>
+              <span className="text-[0.62rem] text-fg-muted uppercase tracking-[0.12em] font-semibold block mb-0.5">
                 {stat.label}
               </span>
-              <span className={`text-2xl md:text-3xl font-extrabold block ${stat.color.split(" ")[0]}`}>
+              <span className={`text-2xl md:text-3xl font-bold block font-[family-name:var(--font-cinzel)] ${stat.color}`}>
                 {stat.val}
               </span>
+              <span className="absolute bottom-0 left-5 right-5 h-px bg-gradient-to-r from-gold/50 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
             </div>
           ))}
         </div>

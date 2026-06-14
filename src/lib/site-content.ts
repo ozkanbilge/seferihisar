@@ -1,4 +1,4 @@
-import { neon } from "@neondatabase/serverless";
+import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 import type { Lang } from "@/lib/i18n";
 
 /**
@@ -98,7 +98,7 @@ function getConnectionString(): string | null {
 
 let tableReady = false;
 
-async function ensureTable(sql: ReturnType<typeof neon>) {
+async function ensureTable(sql: NeonQueryFunction<false, false>) {
   if (tableReady) return;
   await sql`CREATE TABLE IF NOT EXISTS content_store (
     key text NOT NULL,

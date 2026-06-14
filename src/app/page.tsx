@@ -496,29 +496,40 @@ export default async function Home() {
 
       {/* ══════ BOTTOM CTA ══════ */}
       {c.sections.cta && (
-        <section className="bg-ink relative overflow-hidden" id="bottom-cta">
+        <section className="bg-gradient-to-b from-ink-soft to-ink relative overflow-hidden" id="bottom-cta">
           <div className="divider-gold" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[320px] rounded-full bg-gold/5 blur-3xl animate-ambient pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[320px] rounded-full bg-gold/[0.07] blur-3xl animate-ambient pointer-events-none" />
+          <div className="absolute bottom-0 right-0 w-[360px] h-[220px] rounded-full bg-gold/[0.04] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
           <div className="container-x py-16 md:py-24 text-center relative z-10">
+            {/* Taçlı flörür */}
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+              <svg className="w-5 h-5 text-gold animate-glow rounded-full" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" /></svg>
+              <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+            </div>
             <p className="eyebrow mb-4">{c.cta.eyebrow}</p>
             <h2 className="display text-3xl md:text-4xl lg:text-5xl text-fg-invert mb-6 max-w-2xl mx-auto">
               {c.cta.title}
               <br />
-              <span className="text-gold">{c.cta.titleGold}</span>
+              <span className="royal-text font-semibold">{c.cta.titleGold}</span>
             </h2>
             <p className="text-fg-invert-muted text-base max-w-lg mx-auto mb-8 leading-relaxed">
               {c.cta.subtitle}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <a href={site.phoneHref} className="btn btn-gold">
-                <Phone className="w-4 h-4" />
+              <a href={site.phoneHref} className="btn btn-gold group/btn px-7">
+                <Phone className="w-4 h-4 animate-pulse" />
                 {site.phone}
               </a>
-              <Link href="/iletisim" className="btn btn-ghost">
+              <Link href="/iletisim" className="btn btn-ghost group/btn px-7">
                 {t.contactForm}
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </Link>
             </div>
+            {/* Alt güven satırı */}
+            <p className="text-[0.62rem] text-fg-invert-muted/50 tracking-[0.14em] uppercase mt-8">
+              15+ Yıllık Deneyim · Ücretsiz Danışmanlık · Gizli Komisyon Yok
+            </p>
           </div>
         </section>
       )}

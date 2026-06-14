@@ -3,7 +3,7 @@ import { site, nav } from "@/lib/site";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { primaryDistrict } from "@/data/locations";
 import {
-  Logo,
+  Crown,
   Phone,
   Mail,
   MapPin,
@@ -72,7 +72,7 @@ export function Footer() {
       <div className="absolute bottom-0 right-0 w-[380px] h-[280px] rounded-full bg-gold/[0.04] blur-3xl animate-ambient pointer-events-none" style={{ animationDelay: "-6s" }} />
       {/* Dev filigran arma */}
       <div className="absolute -right-24 -bottom-24 w-[420px] h-[420px] opacity-[0.035] pointer-events-none select-none" aria-hidden>
-        <Logo className="w-full h-full text-gold" />
+        <Crown className="w-full h-full text-gold" />
       </div>
 
       {/* CTA Band — davetiye çerçeveli kraliyet paneli */}
@@ -121,15 +121,61 @@ export function Footer() {
         </div>
       </div>
 
+      {/* Güven Şeridi — kraliyet güven sinyalleri */}
+      <div className="relative border-b border-ink-line">
+        <div className="container-x py-7 md:py-8">
+          <ul className="grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-4">
+            {[
+              {
+                title: "15+ Yıl",
+                sub: "Bölge Deneyimi",
+                icon: <><path d="M12 2l2.4 6.9H22l-6 4.4 2.3 7-6.3-4.4L5.7 20l2.3-7-6-4.4h7.6z" /></>,
+              },
+              {
+                title: "Tapu & İmar",
+                sub: "Kontrollü Portföy",
+                icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></>,
+              },
+              {
+                title: "Cittaslow",
+                sub: "Seferihisar Uzmanı",
+                icon: <><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" /><path d="M2 21c0-3 1.85-5.36 5.08-6" /></>,
+              },
+              {
+                title: "Ücretsiz",
+                sub: "Ön Danışmanlık",
+                icon: <><path d="M21 11.5a8.38 8.38 0 0 1-9 8.4 9.4 9.4 0 0 1-4-1L3 20l1.1-3.3A8.38 8.38 0 0 1 3 11.5 8.5 8.5 0 0 1 21 11.5z" /></>,
+              },
+            ].map((it, i) => (
+              <li
+                key={it.title}
+                className={`group flex items-center gap-3.5 justify-center lg:justify-start lg:px-5 ${i > 0 ? "lg:border-l lg:border-ink-line" : ""}`}
+              >
+                <span className="relative shrink-0 w-11 h-11 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/15">
+                  <svg className="w-[19px] h-[19px] text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">{it.icon}</svg>
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-fg-invert leading-tight">{it.title}</p>
+                  <p className="text-[0.7rem] text-fg-invert-muted/70 tracking-wide">{it.sub}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
       {/* Main Grid */}
       <div className="container-x py-14 md:py-16 relative">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-5 group">
-              <Logo className="w-12 h-12 text-gold transition-transform duration-500 group-hover:scale-105" />
-              <span className="text-fg-invert font-semibold text-sm tracking-[0.08em] uppercase font-[family-name:var(--font-cinzel)]">
-                {site.shortName}
+            <Link href="/" className="inline-flex items-center gap-1.5 mb-4 group">
+              <Crown className="w-16 h-16 -ml-2 text-gold transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-6" />
+              <span className="inline-flex flex-col">
+                <span className="text-fg-invert font-semibold text-sm tracking-[0.08em] uppercase font-[family-name:var(--font-cinzel)] royal-text whitespace-nowrap">
+                  {site.shortName}
+                </span>
+                <span className="mt-1.5 h-px w-full bg-gradient-to-r from-gold/60 to-transparent" />
               </span>
             </Link>
             <p className="text-sm leading-relaxed mb-5 max-w-xs text-fg-invert-muted/80">
@@ -260,12 +306,14 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="relative border-t border-ink-line">
-        {/* Ortalanmış mini flörür */}
-        <div className="absolute -top-[5px] left-1/2 -translate-x-1/2 flex items-center gap-2">
-          <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/50" />
-          <span className="w-2 h-2 rotate-45 bg-gold/80" />
-          <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/50" />
-        </div>
+        {/* Başa dön — ortalanmış kraliyet madalyonu */}
+        <a
+          href="#hero"
+          aria-label="Başa dön"
+          className="group absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-ink border border-gold/40 flex items-center justify-center text-gold shadow-[0_4px_14px_rgba(0,0,0,0.45)] hover:bg-gold hover:text-ink hover:border-gold hover:-translate-y-0.5 hover:shadow-[0_0_18px_rgba(192,160,98,0.4)] transition-all duration-300"
+        >
+          <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
+        </a>
         <div className="container-x py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-fg-invert-muted/70">
           <p>
             © {new Date().getFullYear()}{" "}

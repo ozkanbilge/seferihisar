@@ -165,13 +165,24 @@ export default async function Home() {
 
       {/* ══════ PROPERTY TYPES ══════ */}
       {c.sections.propertyTypes && (
-        <section className="bg-ink" id="property-types">
-          <div className="container-x py-16 md:py-20">
+        <section className="relative bg-ink overflow-hidden" id="property-types">
+          <div className="divider-gold" />
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[560px] h-[300px] rounded-full bg-gold/[0.06] blur-3xl animate-ambient pointer-events-none" />
+          <div className="container-x py-16 md:py-20 relative">
             <div className="text-center mb-12">
-              <p className="eyebrow mb-3">{c.propertyTypes.eyebrow}</p>
-              <h2 className="display text-3xl md:text-4xl text-fg-invert">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+                <p className="eyebrow">{c.propertyTypes.eyebrow}</p>
+                <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+              </div>
+              <h2 className="display text-3xl md:text-4xl text-fg-invert mb-4">
                 {c.propertyTypes.title}
               </h2>
+              <div className="flex items-center justify-center gap-2.5">
+                <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+                <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold/50" />
+              </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
@@ -179,14 +190,16 @@ export default async function Home() {
                 <Link
                   key={type.slug}
                   href={`/izmir/seferihisar/satilik-${type.slug}`}
-                  className="group flex flex-col items-center gap-3 p-5 rounded-2xl border border-ink-line hover:border-gold/40 hover:bg-ink-card transition-all duration-300"
+                  className="group relative flex flex-col items-center gap-3 p-5 rounded-2xl border border-ink-line bg-ink-card/40 hover:border-gold/40 hover:bg-ink-card hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.4),0_0_20px_rgba(192,160,98,0.1)] transition-all duration-300 overflow-hidden"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                  <span className="absolute -top-8 -right-8 w-20 h-20 rounded-full bg-gold/[0.1] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="relative w-12 h-12 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/45 group-hover:scale-110">
                     <TypeIcon name={type.icon} className="w-6 h-6 text-gold" />
                   </div>
-                  <span className="text-sm font-medium text-fg-invert-muted group-hover:text-gold-bright transition-colors text-center">
+                  <span className="relative text-sm font-semibold text-fg-invert-muted group-hover:text-gold-bright transition-colors text-center">
                     {type.name}
                   </span>
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent group-hover:w-3/4 transition-all duration-500" />
                 </Link>
               ))}
             </div>

@@ -209,40 +209,71 @@ export default async function Home() {
 
       {/* ══════ DISTRICTS (EGE BÖLGELERİ) ══════ */}
       {c.sections.districts && (
-        <section className="container-x py-16 md:py-24" id="districts-showcase">
-          <div className="text-center mb-12">
-            <p className="eyebrow mb-3">{c.districts.eyebrow}</p>
-            <h2 className="display text-3xl md:text-4xl text-fg">
+        <section className="relative container-x py-16 md:py-24 overflow-hidden" id="districts-showcase">
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-[600px] h-[320px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+          <div className="relative text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
+              <p className="eyebrow">{c.districts.eyebrow}</p>
+              <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
+            </div>
+            <h2 className="display text-3xl md:text-4xl text-fg mb-4">
               {c.districts.title}
             </h2>
-            <p className="text-fg-muted text-sm max-w-lg mx-auto mt-2 leading-relaxed">
+            <div className="flex items-center justify-center gap-2.5 mb-4">
+              <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
+              <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold/50" />
+            </div>
+            <p className="text-fg-muted text-sm max-w-lg mx-auto leading-relaxed">
               {c.districts.subtitle}
             </p>
           </div>
 
           {/* Premium districts with images */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 md:gap-6">
             {districts.filter((d) => d.priority <= 2).map((d) => (
               <Link
                 key={d.slug}
                 href={`/izmir/${d.slug}`}
-                className="group block relative rounded-2xl overflow-hidden aspect-[4/5] bg-ink border border-cream-line shadow-md hover:shadow-xl transition-all duration-300"
+                className="group block relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/40 via-gold/10 to-gold/30 hover:from-gold/70 hover:via-gold/20 hover:to-gold/50 shadow-md hover:shadow-[0_18px_40px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300"
               >
-                <Image
-                  src={`/images/${d.slug}.jpg`}
-                  alt={`${d.name} bölge manzarası`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                  className="object-cover opacity-70 transition-transform duration-500 group-hover:scale-105 group-hover:opacity-60"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5 z-10">
-                  <h3 className="display text-xl text-fg-invert mb-1 group-hover:text-gold-bright transition-colors">
-                    {d.name}
-                  </h3>
-                  <p className="text-[0.7rem] text-fg-invert-muted/90 line-clamp-2 leading-relaxed">
-                    {d.summary}
-                  </p>
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-ink">
+                  {/* Köşebentler */}
+                  <span className="absolute top-2 left-2 w-4 h-4 border-t border-l border-gold/60 rounded-tl z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
+                  <span className="absolute top-2 right-2 w-4 h-4 border-t border-r border-gold/60 rounded-tr z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
+                  <span className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-gold/60 rounded-bl z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
+                  <span className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-gold/60 rounded-br z-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" aria-hidden />
+                  <Image
+                    src={`/images/${d.slug}.jpg`}
+                    alt={`${d.name} bölge manzarası`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    className="object-cover opacity-70 transition-transform duration-500 group-hover:scale-105 group-hover:opacity-65"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-transparent" />
+                  {/* Yatırım önceliği rozeti */}
+                  {d.priority === 1 && (
+                    <span className="absolute top-3 left-3 z-20 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.5rem] font-bold uppercase tracking-[0.12em] shadow-[0_2px_8px_rgba(192,160,98,0.4)]">
+                      <svg className="w-2 h-2" fill="currentColor" viewBox="0 0 24 24"><path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" /></svg>
+                      Vitrin
+                    </span>
+                  )}
+                  <div className="absolute bottom-5 left-5 right-5 z-10">
+                    <span className="flex items-center gap-2 mb-1.5">
+                      <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                      <h3 className="display text-xl text-fg-invert group-hover:text-gold-bright transition-colors">
+                        {d.name}
+                      </h3>
+                    </span>
+                    <p className="text-[0.7rem] text-fg-invert-muted/90 line-clamp-2 leading-relaxed">
+                      {d.summary}
+                    </p>
+                    <span className="inline-flex items-center gap-1 mt-2 text-[0.6rem] font-bold text-gold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-1 group-hover:translate-x-0">
+                      Keşfet
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    </span>
+                  </div>
                 </div>
               </Link>
             ))}

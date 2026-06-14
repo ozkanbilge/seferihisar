@@ -122,17 +122,15 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
         </div>
       </div>
 
-      {/* Güven Şeridi — kraliyet güven sinyalleri */}
+      {/* Güven Şeridi — solda güven sinyalleri, sağda bülten */}
       <div className="relative border-b border-ink-line">
-        <div className="container-x py-7 md:py-8">
-          <ul className="grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-4">
+        <div className="container-x py-6 md:py-7 flex flex-col lg:flex-row lg:items-center gap-7 lg:gap-8">
+          {/* Sol: güven sinyalleri */}
+          <ul className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-5 lg:flex-1">
             {fc.trust.map((it, i) => (
-              <li
-                key={i}
-                className={`group flex items-center gap-3.5 justify-center lg:justify-start lg:px-5 ${i > 0 ? "lg:border-l lg:border-ink-line" : ""}`}
-              >
-                <span className="relative shrink-0 w-11 h-11 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/15">
-                  <svg className="w-[19px] h-[19px] text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <li key={i} className="group flex items-center gap-3">
+                <span className="relative shrink-0 w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/15">
+                  <svg className="w-[18px] h-[18px] text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     {[
                       <path key="0" d="M12 2l2.4 6.9H22l-6 4.4 2.3 7-6.3-4.4L5.7 20l2.3-7-6-4.4h7.6z" />,
                       <g key="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></g>,
@@ -148,25 +146,15 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
               </li>
             ))}
           </ul>
-        </div>
-      </div>
 
-      {/* Bülten Şeridi — sade ince şerit (güven şeridi gibi) */}
-      <div className="relative border-b border-ink-line">
-        <div className="container-x py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {/* Sol: ikon + başlık */}
-          <div className="flex items-center gap-3 min-w-0">
-            <span className="w-9 h-9 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
-              <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
-            </span>
-            <div className="min-w-0">
+          {/* Sağ: bülten */}
+          <div className="lg:shrink-0 lg:w-[24rem] lg:border-l lg:border-ink-line lg:pl-8">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-7 h-7 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
+                <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
+              </span>
               <p className="text-xs font-bold text-fg-invert leading-tight">{fc.newsletter.title}</p>
-              <p className="text-[0.7rem] text-fg-invert-muted/70 truncate">{fc.newsletter.subtitle}</p>
             </div>
-          </div>
-
-          {/* Sağ: kompakt form (input + buton yan yana) */}
-          <div className="w-full sm:w-auto sm:min-w-[20rem] shrink-0">
             <NewsletterForm />
           </div>
         </div>

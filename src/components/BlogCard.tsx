@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { BlogPost } from "@/data/blog";
 import { formatDate } from "@/lib/format";
 import { ArrowUpRight } from "@/components/icons";
+import { ViewCounter } from "@/components/ViewCounter";
 
 export function BlogCard({ post, eager = false }: { post: BlogPost; eager?: boolean }) {
   return (
@@ -31,7 +32,7 @@ export function BlogCard({ post, eager = false }: { post: BlogPost; eager?: bool
         <div className="flex items-center gap-3 text-xs text-fg-muted mb-3">
           <time dateTime={post.date}>{formatDate(post.date)}</time>
           <span className="w-1 h-1 rounded-full bg-cream-line" />
-          <span>{post.readingMinutes} dk okuma</span>
+          <span><ViewCounter slug={post.slug} /></span>
         </div>
 
         <h3 className="text-base font-semibold text-fg leading-snug line-clamp-2 mb-3 group-hover:text-gold-bright transition-colors">

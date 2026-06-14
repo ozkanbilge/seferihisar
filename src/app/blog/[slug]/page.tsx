@@ -12,6 +12,7 @@ import { BlogCard } from "@/components/BlogCard";
 import Link from "next/link";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ViewCounter } from "@/components/ViewCounter";
 import { site } from "@/lib/site";
 import type { Metadata } from "next";
 
@@ -72,7 +73,7 @@ export default async function BlogPostPage(
           <span className="w-1 h-1 rotate-45 bg-gold/40" />
           <span className="flex items-center gap-1.5">
             <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>
-            {post.readingMinutes} dk okuma
+<ViewCounter slug={post.slug} count />
           </span>
         </div>
 

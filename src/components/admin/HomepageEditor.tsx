@@ -3,47 +3,34 @@
 import { useEffect, useState } from "react";
 import type { HomepageContent } from "@/lib/cms";
 import { LANGS, type Lang } from "@/lib/i18n";
+import { ContentTreeEditor, setByPath, type Json } from "@/components/admin/ContentTreeEditor";
 
 const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY ?? "";
 
-const SECTION_LABELS: Record<keyof HomepageContent["sections"], string> = {
-  stats: "İstatistik Barı",
+/** Anahtar → kullanıcı dostu Türkçe etiket */
+const LABELS: Record<string, string> = {
+  hero: "Hero (Üst Bölüm)",
+  sections: "Bölüm Görünürlüğü",
   featured: "Öne Çıkan İlanlar",
   propertyTypes: "Gayrimenkul Türleri",
   districts: "Bölgeler",
-  arsaSorgula: "Arsa Değeri Sorgulama",
   neighborhoods: "Mahalleler",
   whyUs: "Neden Biz",
   blog: "Blog",
   cta: "Alt İletişim Çağrısı",
+  popularSearches: "Popüler Aramalar",
+  stats: "İstatistik Barı",
+  arsaSorgula: "Arsa Değeri Sorgulama",
+  eyebrow: "Üst Etiket",
+  title: "Başlık",
+  titleGold: "Altın Başlık",
+  subtitle: "Açıklama",
+  count: "İlan Adedi",
+  items: "Maddeler",
+  desc: "Açıklama",
+  label: "Etiket",
+  href: "Bağlantı",
 };
-
-function Field({
-  label,
-  value,
-  onChange,
-  textarea = false,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  textarea?: boolean;
-}) {
-  const cls =
-    "w-full bg-cream-soft border border-cream-line rounded-xl px-3.5 py-2.5 text-xs text-fg focus:border-gold focus:outline-none transition-colors";
-  return (
-    <label className="block">
-      <span className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
-        {label}
-      </span>
-      {textarea ? (
-        <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3} className={`${cls} resize-none`} />
-      ) : (
-        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} className={cls} />
-      )}
-    </label>
-  );
-}
 
 export function HomepageEditor() {
   const [lang, setLang] = useState<Lang>("tr");
@@ -59,6 +46,9 @@ export function HomepageEditor() {
       .then(setContent)
       .catch(() => setMsg("İçerik yüklenemedi."));
   }, [lang]);
+
+  const onSet = (path: (string | number)[], v: Json) =>
+    setContent((c) => (c ? (setByPath(c as unknown as Json, path, v) as unknown as HomepageContent) : c));
 
   const save = async () => {
     if (!content) return;
@@ -79,13 +69,8 @@ export function HomepageEditor() {
     }
   };
 
-  // İç içe alan güncelleme yardımcısı
-  const set = (updater: (c: HomepageContent) => HomepageContent) =>
-    setContent((c) => (c ? updater(structuredClone(c)) : c));
-
   return (
     <div className="space-y-6">
-      {/* Dil sekmeleri */}
       <div className="flex items-center gap-2">
         {LANGS.map((l) => (
           <button
@@ -102,153 +87,24 @@ export function HomepageEditor() {
         ))}
       </div>
 
-      {!content ? (
-        <p className="text-xs text-fg-muted py-8 text-center">{msg || "Yükleniyor..."}</p>
+      <p className="text-xs text-fg-muted leading-relaxed">
+        Hero, bölüm başlıkları, Neden Biz maddeleri, alt çağrı ve popüler aramaları
+        düzenleyin; bölümlerin görünürlüğünü açıp kapatın. Kaydedince anasayfa anında
+        güncellenir.
+      </p>
+
+      {content === null ? (
+        <div className="text-sm text-fg-muted">Yükleniyor…</div>
       ) : (
-        <div className="space-y-8">
-          {/* Bölüm görünürlükleri */}
-          <section className="bg-surface border border-cream-line rounded-2xl p-5">
-            <h3 className="text-sm font-bold text-fg mb-4">Bölüm Görünürlüğü</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {(Object.keys(SECTION_LABELS) as (keyof HomepageContent["sections"])[]).map((key) => (
-                <label key={key} className="flex items-center gap-2 text-xs text-fg-muted cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={content.sections[key]}
-                    onChange={(e) =>
-                      set((c) => {
-                        c.sections[key] = e.target.checked;
-                        return c;
-                      })
-                    }
-                    className="accent-[#c0a062] w-4 h-4"
-                  />
-                  {SECTION_LABELS[key]}
-                </label>
-              ))}
-            </div>
-          </section>
-
-          {/* Hero */}
-          <section className="bg-surface border border-cream-line rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-bold text-fg">Hero (Giriş)</h3>
-            <Field label="Üst Etiket" value={content.hero.eyebrow} onChange={(v) => set((c) => ((c.hero.eyebrow = v), c))} />
-            <div className="grid md:grid-cols-2 gap-3">
-              <Field label="Başlık" value={content.hero.title} onChange={(v) => set((c) => ((c.hero.title = v), c))} />
-              <Field label="Altın Başlık" value={content.hero.titleGold} onChange={(v) => set((c) => ((c.hero.titleGold = v), c))} />
-            </div>
-            <Field label="Açıklama" textarea value={content.hero.subtitle} onChange={(v) => set((c) => ((c.hero.subtitle = v), c))} />
-          </section>
-
-          {/* Öne çıkanlar + diğer bölüm başlıkları */}
-          <section className="bg-surface border border-cream-line rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-bold text-fg">Bölüm Başlıkları</h3>
-            <div className="grid md:grid-cols-2 gap-3">
-              <Field label="Öne Çıkanlar — Etiket" value={content.featured.eyebrow} onChange={(v) => set((c) => ((c.featured.eyebrow = v), c))} />
-              <Field label="Öne Çıkanlar — Başlık" value={content.featured.title} onChange={(v) => set((c) => ((c.featured.title = v), c))} />
-              <label className="block">
-                <span className="block text-[0.65rem] font-semibold text-fg-muted uppercase tracking-wider mb-1">
-                  Öne Çıkan İlan Adedi
-                </span>
-                <input
-                  type="number"
-                  min={3}
-                  max={12}
-                  value={content.featured.count}
-                  onChange={(e) => set((c) => ((c.featured.count = parseInt(e.target.value, 10) || 6), c))}
-                  className="w-full bg-cream-soft border border-cream-line rounded-xl px-3.5 py-2.5 text-xs text-fg focus:border-gold focus:outline-none"
-                />
-              </label>
-              <Field label="Türler — Etiket" value={content.propertyTypes.eyebrow} onChange={(v) => set((c) => ((c.propertyTypes.eyebrow = v), c))} />
-              <Field label="Türler — Başlık" value={content.propertyTypes.title} onChange={(v) => set((c) => ((c.propertyTypes.title = v), c))} />
-              <Field label="Bölgeler — Etiket" value={content.districts.eyebrow} onChange={(v) => set((c) => ((c.districts.eyebrow = v), c))} />
-              <Field label="Bölgeler — Başlık" value={content.districts.title} onChange={(v) => set((c) => ((c.districts.title = v), c))} />
-              <Field label="Mahalleler — Etiket" value={content.neighborhoods.eyebrow} onChange={(v) => set((c) => ((c.neighborhoods.eyebrow = v), c))} />
-              <Field label="Mahalleler — Başlık" value={content.neighborhoods.title} onChange={(v) => set((c) => ((c.neighborhoods.title = v), c))} />
-              <Field label="Blog — Etiket" value={content.blog.eyebrow} onChange={(v) => set((c) => ((c.blog.eyebrow = v), c))} />
-              <Field label="Blog — Başlık" value={content.blog.title} onChange={(v) => set((c) => ((c.blog.title = v), c))} />
-            </div>
-            <Field label="Bölgeler — Açıklama" textarea value={content.districts.subtitle} onChange={(v) => set((c) => ((c.districts.subtitle = v), c))} />
-          </section>
-
-          {/* Neden Biz */}
-          <section className="bg-surface border border-cream-line rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-bold text-fg">Neden Biz</h3>
-            <div className="grid md:grid-cols-2 gap-3">
-              <Field label="Etiket" value={content.whyUs.eyebrow} onChange={(v) => set((c) => ((c.whyUs.eyebrow = v), c))} />
-              <Field label="Başlık" value={content.whyUs.title} onChange={(v) => set((c) => ((c.whyUs.title = v), c))} />
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              {content.whyUs.items.map((item, i) => (
-                <div key={i} className="border border-cream-line rounded-xl p-3 space-y-2">
-                  <Field label={`Kart ${i + 1} — Başlık`} value={item.title} onChange={(v) => set((c) => ((c.whyUs.items[i].title = v), c))} />
-                  <Field label={`Kart ${i + 1} — Açıklama`} textarea value={item.desc} onChange={(v) => set((c) => ((c.whyUs.items[i].desc = v), c))} />
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Popüler Aramalar */}
-          <section className="bg-surface border border-cream-line rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-bold text-fg">Popüler Aramalar (arama barı altı çipler)</h3>
-            <div className="space-y-2">
-              {content.popularSearches.map((chip, i) => (
-                <div key={i} className="grid grid-cols-[1fr_1.4fr_auto] gap-2 items-center">
-                  <input
-                    value={chip.label}
-                    onChange={(e) => set((c) => ((c.popularSearches[i].label = e.target.value), c))}
-                    placeholder="Villa · Seferihisar"
-                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3.5 py-2.5 text-xs text-fg focus:border-gold focus:outline-none"
-                  />
-                  <input
-                    value={chip.href}
-                    onChange={(e) => set((c) => ((c.popularSearches[i].href = e.target.value), c))}
-                    placeholder="/izmir/seferihisar/satilik-villa"
-                    className="w-full bg-cream-soft border border-cream-line rounded-xl px-3.5 py-2.5 text-xs text-fg font-mono focus:border-gold focus:outline-none"
-                  />
-                  <button
-                    onClick={() => set((c) => ((c.popularSearches.splice(i, 1)), c))}
-                    className="p-2 text-red-400 hover:text-red-500 transition-colors"
-                    aria-label="Çipi sil"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={() => set((c) => ((c.popularSearches.push({ label: "", href: "" })), c))}
-              className="btn btn-outline text-[0.65rem] px-4 py-2"
-            >
-              + Çip Ekle
-            </button>
-          </section>
-
-          {/* Alt CTA */}
-          <section className="bg-surface border border-cream-line rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-bold text-fg">Alt İletişim Çağrısı</h3>
-            <div className="grid md:grid-cols-2 gap-3">
-              <Field label="Etiket" value={content.cta.eyebrow} onChange={(v) => set((c) => ((c.cta.eyebrow = v), c))} />
-              <Field label="Başlık" value={content.cta.title} onChange={(v) => set((c) => ((c.cta.title = v), c))} />
-              <Field label="Altın Başlık" value={content.cta.titleGold} onChange={(v) => set((c) => ((c.cta.titleGold = v), c))} />
-            </div>
-            <Field label="Açıklama" textarea value={content.cta.subtitle} onChange={(v) => set((c) => ((c.cta.subtitle = v), c))} />
-          </section>
-
-          <div className="flex items-center gap-4">
-            <button
-              onClick={save}
-              disabled={saving}
-              className="btn btn-gold text-xs px-8 py-3 font-bold uppercase tracking-wider"
-            >
-              {saving ? "Kaydediliyor..." : "Kaydet & Yayınla"}
-            </button>
-            {msg && <span className="text-xs font-semibold text-fg-muted">{msg}</span>}
-          </div>
-        </div>
+        <ContentTreeEditor value={content as unknown as Record<string, Json>} onSet={onSet} labels={LABELS} />
       )}
+
+      <div className="flex items-center gap-3 sticky bottom-0 bg-surface/95 backdrop-blur py-3 -mx-1 px-1 border-t border-cream-line">
+        <button onClick={save} disabled={saving || !content} className="btn btn-gold px-6 text-xs disabled:opacity-60">
+          {saving ? "Kaydediliyor…" : "Kaydet"}
+        </button>
+        {msg && <span className="text-xs text-fg-muted">{msg}</span>}
+      </div>
     </div>
   );
 }

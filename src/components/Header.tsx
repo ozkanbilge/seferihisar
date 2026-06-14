@@ -7,7 +7,15 @@ import { site, nav } from "@/lib/site";
 import { MobileMenu } from "./MobileMenu";
 import { getDict, setClientLang, LANGS, type Lang } from "@/lib/i18n";
 
-export function Header({ lang = "tr" }: { lang?: Lang }) {
+export function Header({
+  lang = "tr",
+  phoneHref = site.phoneHref,
+  whatsappHref = `https://wa.me/${site.phoneHref.replace(/\D/g, "")}`,
+}: {
+  lang?: Lang;
+  phoneHref?: string;
+  whatsappHref?: string;
+}) {
   const t = getDict(lang);
 
   return (
@@ -41,14 +49,14 @@ export function Header({ lang = "tr" }: { lang?: Lang }) {
             <ThemeToggle />
           </span>
           <a
-            href={site.phoneHref}
+            href={phoneHref}
             className="hidden lg:inline-flex btn btn-gold text-xs py-2.5 px-5 shadow-[0_0_15px_rgba(192,160,98,0.15)] hover:shadow-[0_0_25px_rgba(192,160,98,0.3)]"
             id="header-cta"
           >
             <Phone className="w-3.5 h-3.5 animate-pulse" />
             {t.callUs}
           </a>
-          <MobileMenuToggle />
+          <MobileMenuToggle phoneHref={phoneHref} whatsappHref={whatsappHref} />
 
         </div>
       </div>
@@ -215,7 +223,13 @@ function ThemeToggle() {
   );
 }
 
-function MobileMenuToggle() {
+function MobileMenuToggle({
+  phoneHref,
+  whatsappHref,
+}: {
+  phoneHref: string;
+  whatsappHref: string;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -227,7 +241,7 @@ function MobileMenuToggle() {
       >
         <Menu className="w-6 h-6" />
       </button>
-      {open && <MobileMenu onClose={() => setOpen(false)} />}
+      {open && <MobileMenu onClose={() => setOpen(false)} phoneHref={phoneHref} whatsappHref={whatsappHref} />}
     </>
   );
 }

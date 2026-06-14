@@ -17,7 +17,11 @@ interface LastParsel {
   ts: number;
 }
 
-export function MobileBottomBar() {
+export function MobileBottomBar({
+  whatsappHref = "https://wa.me/905323994291",
+}: {
+  whatsappHref?: string;
+}) {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("");
   const [lastParsel, setLastParsel] = useState<LastParsel | null>(null);
@@ -142,7 +146,7 @@ export function MobileBottomBar() {
 
         {/* WhatsApp */}
         <a
-          href="https://wa.me/905323994291"
+          href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center justify-center flex-1 h-full gap-1.5 text-[#25D366] hover:text-[#20ba56] transition-colors relative"

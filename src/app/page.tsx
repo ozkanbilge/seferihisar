@@ -11,13 +11,13 @@ import { BlogCard } from "@/components/BlogCard";
 import { NeighborhoodCard } from "@/components/NeighborhoodCard";
 import { StatsBar } from "@/components/StatsBar";
 import { TypeIcon, ArrowRight, ArrowUpRight, Phone } from "@/components/icons";
-import { site } from "@/lib/site";
 import { ArsaSorgula } from "@/components/ArsaSorgula";
 import { HeroSearch } from "@/components/HeroSearch";
 import { MiniBanner } from "@/components/MiniBanner";
 import { OtherDistricts } from "@/components/OtherDistricts";
 import { getHomepage } from "@/lib/cms";
 import { getSiteContent } from "@/lib/site-content";
+import { getSiteSettings } from "@/lib/site-settings";
 import { getDict, isLang, LANG_COOKIE, type Lang } from "@/lib/i18n";
 
 // İçerik admin panelden anlık güncellenebildiği için her istekte taze okunur
@@ -41,6 +41,7 @@ export default async function Home() {
   const lang: Lang = isLang(cookieLang) ? cookieLang : "tr";
   const c = await getHomepage(lang);
   const sc = await getSiteContent(lang);
+  const settings = await getSiteSettings();
   const featuredListings = await getFeaturedListings();
   const t = getDict(lang);
 
@@ -383,20 +384,20 @@ export default async function Home() {
                 {/* Güven imzası: danışman madalyonu */}
                 <div className="flex items-center gap-4 p-4 rounded-2xl card-luxe mb-8 max-w-md">
                   <div className="relative w-12 h-12 shrink-0 rounded-full bg-gradient-to-br from-gold-deep via-gold to-gold-bright flex items-center justify-center text-ink font-[family-name:var(--font-cinzel)] font-bold text-sm shadow-[0_4px_14px_rgba(192,160,98,0.35)]">
-                    {site.agent.initials}
+                    {settings.agent.initials}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-bold text-fg truncate">{site.agent.name}</p>
+                    <p className="text-sm font-bold text-fg truncate">{settings.agent.name}</p>
                     <p className="text-[0.7rem] text-fg-muted truncate">
-                      {site.agent.title} · {site.agent.memberSince}
+                      {settings.agent.title} · {settings.agent.memberSince}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 max-w-md">
-                  <a href={site.phoneHref} className="btn btn-gold group/btn px-6">
+                  <a href={settings.phoneHref} className="btn btn-gold group/btn px-6">
                     <Phone className="w-4 h-4 animate-pulse" />
-                    {site.phone}
+                    {settings.phone}
                   </a>
                   <Link href="/iletisim" className="btn btn-outline group/btn px-6">
                     {t.contactForm}
@@ -686,9 +687,9 @@ export default async function Home() {
               {c.cta.subtitle}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <a href={site.phoneHref} className="btn btn-gold group/btn px-7">
+              <a href={settings.phoneHref} className="btn btn-gold group/btn px-7">
                 <Phone className="w-4 h-4 animate-pulse" />
-                {site.phone}
+                {settings.phone}
               </a>
               <Link href="/iletisim" className="btn btn-ghost group/btn px-7">
                 {t.contactForm}

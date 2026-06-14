@@ -25,7 +25,15 @@ function NavIcon({ href, className = "w-[18px] h-[18px]" }: { href: string; clas
   );
 }
 
-export function MobileMenu({ onClose }: { onClose: () => void }) {
+export function MobileMenu({
+  onClose,
+  phoneHref = site.phoneHref,
+  whatsappHref = `https://wa.me/${site.phoneHref.replace(/\D/g, "")}`,
+}: {
+  onClose: () => void;
+  phoneHref?: string;
+  whatsappHref?: string;
+}) {
   const [lang, setLang] = useState<Lang>("tr");
   const [mounted, setMounted] = useState(false);
   const [light, setLight] = useState(false);
@@ -153,12 +161,12 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
 
         {/* İletişim CTA'ları */}
         <div className="p-4 pt-1 grid grid-cols-2 gap-2.5 shrink-0 pb-[max(1rem,env(safe-area-inset-bottom))]">
-          <a href={site.phoneHref} className="btn btn-gold justify-center text-xs py-3 gap-1.5">
+          <a href={phoneHref} className="btn btn-gold justify-center text-xs py-3 gap-1.5">
             <Phone className="w-3.5 h-3.5" />
             {t.callUs}
           </a>
           <a
-            href="https://wa.me/905323994291"
+            href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="btn justify-center text-xs py-3 gap-1.5 bg-[#25D366]/15 text-[#4ade80] border border-[#25D366]/30 hover:bg-[#25D366]/25 transition-colors"

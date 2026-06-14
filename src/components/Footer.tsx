@@ -3,6 +3,7 @@ import { site, nav } from "@/lib/site";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { getSiteContent } from "@/lib/site-content";
+import { getSiteSettings } from "@/lib/site-settings";
 import type { Lang } from "@/lib/i18n";
 import { primaryDistrict } from "@/data/locations";
 import {
@@ -67,6 +68,7 @@ function FooterLink({
 export async function Footer({ lang = "tr" }: { lang?: Lang }) {
   const topNeighborhoods = primaryDistrict.neighborhoods.slice(0, 6);
   const fc = (await getSiteContent(lang)).footer;
+  const s = await getSiteSettings();
 
   return (
     <footer className="relative bg-gradient-to-b from-ink to-[#08090c] text-fg-invert-muted overflow-hidden" id="site-footer">
@@ -108,9 +110,9 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
 
             {/* Sağ: eylemler */}
             <div className="relative flex flex-col sm:flex-row gap-3 shrink-0">
-              <a href={site.phoneHref} className="btn btn-gold group/btn px-6">
+              <a href={s.phoneHref} className="btn btn-gold group/btn px-6">
                 <Phone className="w-4 h-4 animate-pulse" />
-                {site.phone}
+                {s.phone}
               </a>
               <Link href="/iletisim" className="btn btn-ghost group/btn px-6">
                 İletişime Geçin
@@ -192,10 +194,10 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
               </p>
               <div className="flex items-center gap-3">
                 {[
-                  { Icon: Instagram, href: site.social.instagram, label: "Instagram" },
-                  { Icon: Facebook, href: site.social.facebook, label: "Facebook" },
-                  { Icon: Youtube, href: site.social.youtube, label: "YouTube" },
-                  { Icon: Linkedin, href: site.social.linkedin, label: "LinkedIn" },
+                  { Icon: Instagram, href: s.social.instagram, label: "Instagram" },
+                  { Icon: Facebook, href: s.social.facebook, label: "Facebook" },
+                  { Icon: Youtube, href: s.social.youtube, label: "YouTube" },
+                  { Icon: Linkedin, href: s.social.linkedin, label: "LinkedIn" },
                 ].map(({ Icon, href, label }) => (
                   <a
                     key={label}
@@ -258,8 +260,8 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
                 <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
                   <Phone className="w-3.5 h-3.5 text-gold" />
                 </span>
-                <a href={site.phoneHref} className="hover:text-gold-bright transition-colors font-semibold pt-1.5">
-                  {site.phone}
+                <a href={s.phoneHref} className="hover:text-gold-bright transition-colors font-semibold pt-1.5">
+                  {s.phone}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
@@ -267,7 +269,7 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
                   <WhatsApp className="w-3.5 h-3.5 text-gold" />
                 </span>
                 <a
-                  href="https://wa.me/905323994291"
+                  href={s.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-gold-bright transition-colors pt-1.5"
@@ -279,8 +281,8 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
                 <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
                   <Mail className="w-3.5 h-3.5 text-gold" />
                 </span>
-                <a href={`mailto:${site.email}`} className="hover:text-gold-bright transition-colors pt-1.5">
-                  {site.email}
+                <a href={`mailto:${s.email}`} className="hover:text-gold-bright transition-colors pt-1.5">
+                  {s.email}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
@@ -288,9 +290,9 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
                   <MapPin className="w-3.5 h-3.5 text-gold" />
                 </span>
                 <span className="text-fg-invert-muted/80 pt-1">
-                  {site.address.street}
+                  {s.address.street}
                   <br />
-                  {site.address.locality}, {site.address.region}
+                  {s.address.locality}, {s.address.region}
                 </span>
               </li>
             </ul>

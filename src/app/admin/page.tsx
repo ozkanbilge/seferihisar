@@ -7,6 +7,7 @@ import { listings } from "@/data/listings";
 import { Phone, Crown } from "@/components/icons";
 import { HomepageEditor } from "@/components/admin/HomepageEditor";
 import { SiteContentEditor } from "@/components/admin/SiteContentEditor";
+import { SiteSettingsEditor } from "@/components/admin/SiteSettingsEditor";
 import { ParselLogs } from "@/components/admin/ParselLogs";
 import { EmsalEditor } from "@/components/admin/EmsalEditor";
 import { ListingsEditor } from "@/components/admin/ListingsEditor";
@@ -16,7 +17,7 @@ import type { ServerAppointment } from "@/lib/appointments-store";
 
 const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY ?? "";
 
-type Panel = "randevular" | "mesajlar" | "bulten" | "ilanlar" | "anasayfa" | "site" | "emsal" | "loglar";
+type Panel = "randevular" | "mesajlar" | "bulten" | "ilanlar" | "anasayfa" | "site" | "iletisim" | "emsal" | "loglar";
 
 const PANELS: { id: Panel; label: string }[] = [
   { id: "randevular", label: "Randevular" },
@@ -25,6 +26,7 @@ const PANELS: { id: Panel; label: string }[] = [
   { id: "ilanlar", label: "İlanlar" },
   { id: "anasayfa", label: "Anasayfa İçeriği" },
   { id: "site", label: "Site Metinleri" },
+  { id: "iletisim", label: "İletişim Bilgileri" },
   { id: "emsal", label: "Emsal Fiyatları" },
   { id: "loglar", label: "Parsel Sorguları" },
 ];
@@ -240,6 +242,7 @@ export default function AdminPage() {
         {panel === "ilanlar" && <ListingsEditor />}
         {panel === "anasayfa" && <HomepageEditor />}
         {panel === "site" && <SiteContentEditor />}
+        {panel === "iletisim" && <SiteSettingsEditor />}
         {panel === "emsal" && <EmsalEditor />}
         {panel === "loglar" && <ParselLogs />}
 

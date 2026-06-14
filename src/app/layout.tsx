@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { AppProvider } from "@/context/AppContext";
 import { TickerBanner } from "@/components/TickerBanner";
+import { getSiteSettings } from "@/lib/site-settings";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -72,6 +73,7 @@ export default async function RootLayout({
 }>) {
   const cookieLang = (await cookies()).get(LANG_COOKIE)?.value;
   const lang: Lang = isLang(cookieLang) ? cookieLang : "tr";
+  const settings = await getSiteSettings();
 
   return (
     <html
@@ -93,10 +95,10 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col pb-16 md:pb-0" suppressHydrationWarning>
         <AppProvider>
           <TickerBanner />
-          <Header lang={lang} />
+          <Header lang={lang} phoneHref={settings.phoneHref} whatsappHref={settings.whatsappHref} />
           <main className="flex-1">{children}</main>
           <Footer lang={lang} />
-          <MobileBottomBar />
+          <MobileBottomBar whatsappHref={settings.whatsappHref} />
           <JsonLd data={[organizationSchema(), websiteSchema()]} />
         </AppProvider>
       </body>

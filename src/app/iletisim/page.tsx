@@ -1,4 +1,5 @@
 import { site } from "@/lib/site";
+import { getSiteSettings } from "@/lib/site-settings";
 import { buildMetadata } from "@/lib/seo";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Phone, Mail, MapPin } from "@/components/icons";
@@ -11,7 +12,8 @@ export const metadata = buildMetadata({
   path: "/iletisim",
 });
 
-export default function IletisimPage() {
+export default async function IletisimPage() {
+  const s = await getSiteSettings();
   return (
     <div className="container-x py-8 md:py-12">
       <Breadcrumb items={[{ label: "İletişim" }]} />
@@ -53,7 +55,7 @@ export default function IletisimPage() {
               {/* Tıklanabilir eylem satırları */}
               <div className="space-y-2.5">
                 <a
-                  href={site.phoneHref}
+                  href={s.phoneHref}
                   className="group flex items-center gap-3.5 p-3 rounded-xl border border-gold/10 transition-all duration-300 hover:border-gold/40 hover:bg-gold/[0.04]"
                 >
                   <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/45">
@@ -61,13 +63,13 @@ export default function IletisimPage() {
                   </span>
                   <span className="flex-1 min-w-0">
                     <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em]">Telefon</span>
-                    <span className="block text-sm font-semibold text-fg">{site.phone}</span>
+                    <span className="block text-sm font-semibold text-fg">{s.phone}</span>
                   </span>
                   <span className="text-gold/40 group-hover:text-gold group-hover:translate-x-0.5 transition-all">›</span>
                 </a>
 
                 <a
-                  href="https://wa.me/905323994291"
+                  href={s.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-3.5 p-3 rounded-xl border border-gold/10 transition-all duration-300 hover:border-gold/40 hover:bg-gold/[0.04]"
@@ -83,7 +85,7 @@ export default function IletisimPage() {
                 </a>
 
                 <a
-                  href={`mailto:${site.email}`}
+                  href={`mailto:${s.email}`}
                   className="group flex items-center gap-3.5 p-3 rounded-xl border border-gold/10 transition-all duration-300 hover:border-gold/40 hover:bg-gold/[0.04]"
                 >
                   <span className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-gold/15 group-hover:border-gold/45">
@@ -91,7 +93,7 @@ export default function IletisimPage() {
                   </span>
                   <span className="flex-1 min-w-0">
                     <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em]">E-posta</span>
-                    <span className="block text-sm font-semibold text-fg truncate">{site.email}</span>
+                    <span className="block text-sm font-semibold text-fg truncate">{s.email}</span>
                   </span>
                   <span className="text-gold/40 group-hover:text-gold group-hover:translate-x-0.5 transition-all">›</span>
                 </a>
@@ -103,9 +105,9 @@ export default function IletisimPage() {
                   <span className="flex-1 min-w-0">
                     <span className="block text-[0.6rem] text-gold/80 font-bold uppercase tracking-[0.16em]">Adres</span>
                     <span className="block text-sm font-medium text-fg leading-snug">
-                      {site.address.street}
+                      {s.address.street}
                       <span className="block text-fg-muted text-xs mt-0.5">
-                        {site.address.locality}, {site.address.region} {site.address.postalCode}
+                        {s.address.locality}, {s.address.region} {s.address.postalCode}
                       </span>
                     </span>
                   </span>
@@ -190,8 +192,8 @@ export default function IletisimPage() {
                     </svg>
                   </span>
                   <span className="text-[0.62rem] font-semibold text-fg-invert leading-snug">
-                    {site.address.street}
-                    <span className="block text-fg-invert-muted font-normal">{site.address.locality}, {site.address.region}</span>
+                    {s.address.street}
+                    <span className="block text-fg-invert-muted font-normal">{s.address.locality}, {s.address.region}</span>
                   </span>
                 </div>
               </div>

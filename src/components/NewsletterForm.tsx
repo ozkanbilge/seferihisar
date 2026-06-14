@@ -42,9 +42,9 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={submit} noValidate className="w-full max-w-xs">
-      {/* Dar ekranda alt alta, geniş ekranda gömülü buton */}
-      <div className="flex flex-col min-[400px]:flex-row min-[400px]:items-stretch gap-2 min-[400px]:gap-0 min-[400px]:relative">
+    <form onSubmit={submit} noValidate className="w-full">
+      {/* Tam genişlik: e-posta üstte, buton altta — dar sütunda da okunaklı */}
+      <div className="flex flex-col gap-2">
         <input
           type="email"
           required
@@ -54,21 +54,21 @@ export function NewsletterForm() {
             if (state === "error") setState("idle");
           }}
           placeholder="E-posta adresiniz"
-          className="w-full bg-ink/60 border border-ink-line rounded-full pl-4 pr-4 min-[400px]:pr-28 py-2.5 text-xs text-fg-invert placeholder-fg-invert-muted/40 focus:border-gold/50 focus:outline-none transition-colors"
+          className="w-full bg-ink/60 border border-ink-line rounded-full px-4 py-3 text-sm text-fg-invert placeholder-fg-invert-muted/40 focus:border-gold/50 focus:outline-none transition-colors"
         />
         <button
           type="submit"
           disabled={state === "sending"}
-          className="shrink-0 px-5 py-2.5 min-[400px]:py-0 min-[400px]:absolute min-[400px]:right-1 min-[400px]:top-1 min-[400px]:bottom-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.62rem] font-bold uppercase tracking-wider hover:shadow-[0_0_14px_rgba(192,160,98,0.4)] transition-shadow whitespace-nowrap"
+          className="w-full px-5 py-3 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-xs font-bold uppercase tracking-[0.14em] hover:shadow-[0_0_16px_rgba(192,160,98,0.45)] transition-shadow whitespace-nowrap disabled:opacity-60"
         >
           {state === "sending" ? "Gönderiliyor..." : "Abone Ol"}
         </button>
       </div>
       {state === "invalid" && (
-        <span className="block mt-1.5 text-[0.62rem] text-red-400">Lütfen geçerli bir e-posta adresi girin.</span>
+        <span className="block mt-2 text-xs text-red-400">Lütfen geçerli bir e-posta adresi girin.</span>
       )}
       {state === "error" && (
-        <span className="block mt-1.5 text-[0.62rem] text-red-400">Gönderilemedi, lütfen tekrar deneyin.</span>
+        <span className="block mt-2 text-xs text-red-400">Gönderilemedi, lütfen tekrar deneyin.</span>
       )}
     </form>
   );

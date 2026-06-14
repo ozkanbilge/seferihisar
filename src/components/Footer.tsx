@@ -78,15 +78,27 @@ export function Footer() {
       {/* CTA Band — davetiye çerçeveli kraliyet paneli */}
       <div className="relative border-b border-ink-line">
         <div className="container-x py-12 md:py-16">
-          <div className="relative rounded-2xl border border-gold/25 bg-ink-soft/40 px-7 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center gap-8 md:gap-12 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_16px_44px_rgba(0,0,0,0.4)]">
+          <div className="group relative overflow-hidden rounded-2xl border border-gold/25 bg-ink-soft/40 px-7 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center gap-6 md:gap-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_16px_44px_rgba(0,0,0,0.4)]">
             {/* Köşe süslemeleri */}
-            <span className="absolute top-2.5 left-2.5 w-5 h-5 border-t border-l border-gold/60 rounded-tl" aria-hidden />
-            <span className="absolute top-2.5 right-2.5 w-5 h-5 border-t border-r border-gold/60 rounded-tr" aria-hidden />
-            <span className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b border-l border-gold/60 rounded-bl" aria-hidden />
-            <span className="absolute bottom-2.5 right-2.5 w-5 h-5 border-b border-r border-gold/60 rounded-br" aria-hidden />
-          <div className="flex-1 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+            <span className="absolute top-2.5 left-2.5 w-5 h-5 border-t border-l border-gold/60 rounded-tl z-10" aria-hidden />
+            <span className="absolute top-2.5 right-2.5 w-5 h-5 border-t border-r border-gold/60 rounded-tr z-10" aria-hidden />
+            <span className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b border-l border-gold/60 rounded-bl z-10" aria-hidden />
+            <span className="absolute bottom-2.5 right-2.5 w-5 h-5 border-b border-r border-gold/60 rounded-br z-10" aria-hidden />
+            {/* Dolaşan altın hale + ışık süpürmesi */}
+            <span className="absolute -top-16 left-1/4 w-72 h-44 rounded-full bg-gold/[0.08] blur-3xl animate-ambient pointer-events-none" />
+            <span className="absolute inset-0 bg-gradient-to-r from-gold/0 via-gold/[0.05] to-gold/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none" />
+
+          {/* Dekoratif madalyon ikon */}
+          <span className="relative hidden md:flex w-16 h-16 rounded-full bg-gold/10 border border-gold/25 items-center justify-center shrink-0 animate-glow">
+            <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <path d="M3 11 12 4l9 7M5 10v10h14V10" /><path d="M10 20v-5h4v5" />
+            </svg>
+          </span>
+
+          <div className="relative flex-1 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-2.5 mb-4">
               <span className="h-px w-10 bg-gradient-to-r from-transparent to-gold/60 md:hidden" />
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
               <p className="eyebrow">Hayalinizdeki Mülkü Bulun</p>
               <span className="h-px w-10 bg-gradient-to-l from-transparent to-gold/60 md:hidden" />
             </div>
@@ -96,12 +108,12 @@ export function Footer() {
               <span className="royal-text font-semibold">Uzman Desteği Alın</span>
             </h2>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <a href={site.phoneHref} className="btn btn-gold">
-              <Phone className="w-4 h-4" />
+          <div className="relative flex flex-col sm:flex-row gap-3 shrink-0">
+            <a href={site.phoneHref} className="btn btn-gold group/btn px-6">
+              <Phone className="w-4 h-4 animate-pulse" />
               {site.phone}
             </a>
-            <Link href="/iletisim" className="btn btn-ghost">
+            <Link href="/iletisim" className="btn btn-ghost group/btn px-6">
               İletişime Geçin
             </Link>
           </div>

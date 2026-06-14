@@ -164,7 +164,7 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
               </span>
             </Link>
             <p className="text-sm leading-relaxed mb-5 max-w-xs text-fg-invert-muted/80">
-              {site.description.slice(0, 140)}…
+              {fc.brandDescription}
             </p>
 
             {/* Bülten aboneliği — altın çerçeveli mini panel */}
@@ -240,13 +240,7 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
           <div>
             <ColumnTitle>{fc.columns.deed}</ColumnTitle>
             <ul className="space-y-3">
-              {[
-                { label: "Web Tapu İşlemleri", href: "https://webtapu.tkgm.gov.tr/" },
-                { label: "TKGM Parsel Sorgulama", href: "https://parselsorgu.tkgm.gov.tr/" },
-                { label: "E-Devlet Tapu Bilgileri", href: "https://www.turkiye.gov.tr/tapu-ve-kadastro-genel-mudurlugu" },
-                { label: "Seferihisar İmar Sorgu", href: "https://www.seferihisar.bel.tr/" },
-                { label: "E-Devlet İmar Durumu", href: "https://www.turkiye.gov.tr/cevre-ve-sehircilik-imar-durumu-sorgulama" },
-              ].map((link) => (
+              {fc.deedLinks.map((link) => (
                 <li key={link.label}>
                   <FooterLink href={link.href} external>
                     {link.label}
@@ -278,7 +272,7 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
                   rel="noopener noreferrer"
                   className="hover:text-gold-bright transition-colors pt-1.5"
                 >
-                  WhatsApp Destek Hattı
+                  {fc.whatsappLabel}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">

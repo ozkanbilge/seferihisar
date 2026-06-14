@@ -11,11 +11,14 @@ import type { Lang } from "@/lib/i18n";
 
 export interface SiteContent {
   footer: {
+    brandDescription: string;
     cta: { eyebrow: string; title: string; titleGold: string };
     trust: { title: string; sub: string }[];
     newsletter: { title: string; subtitle: string };
     followLabel: string;
     columns: { quickLinks: string; locations: string; deed: string; contact: string };
+    deedLinks: { label: string; href: string }[];
+    whatsappLabel: string;
     bottom: { rights: string; privacy: string; terms: string };
   };
   stats: { labels: string[] };
@@ -50,6 +53,8 @@ export interface SiteContent {
 
 export const SITE_CONTENT_DEFAULTS: SiteContent = {
   footer: {
+    brandDescription:
+      "İzmir Seferihisar ve çevresindeki satılık & kiralık villa, arsa, daire ve yazlık ilanları. Güncel fiyatlar, bölge rehberleri ve yatırım fırsatları tek platformda.",
     cta: {
       eyebrow: "Hayalinizdeki Mülkü Bulun",
       title: "Doğru Yatırım İçin",
@@ -72,6 +77,14 @@ export const SITE_CONTENT_DEFAULTS: SiteContent = {
       deed: "Emlak & Tapu",
       contact: "İletişim",
     },
+    deedLinks: [
+      { label: "Web Tapu İşlemleri", href: "https://webtapu.tkgm.gov.tr/" },
+      { label: "TKGM Parsel Sorgulama", href: "https://parselsorgu.tkgm.gov.tr/" },
+      { label: "E-Devlet Tapu Bilgileri", href: "https://www.turkiye.gov.tr/tapu-ve-kadastro-genel-mudurlugu" },
+      { label: "Seferihisar İmar Sorgu", href: "https://www.seferihisar.bel.tr/" },
+      { label: "E-Devlet İmar Durumu", href: "https://www.turkiye.gov.tr/cevre-ve-sehircilik-imar-durumu-sorgulama" },
+    ],
+    whatsappLabel: "WhatsApp Destek Hattı",
     bottom: {
       rights: "Tüm hakları saklıdır.",
       privacy: "Gizlilik Politikası",

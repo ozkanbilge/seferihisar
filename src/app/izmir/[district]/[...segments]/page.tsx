@@ -27,6 +27,7 @@ import {
   listingTitleTemplate,
   metaDescriptionTemplate,
 } from "@/lib/seo";
+import { getSiteContent } from "@/lib/site-content";
 import type { Metadata } from "next";
 
 /**
@@ -164,6 +165,7 @@ export default async function SegmentsPage(
     combo?.type,
     combo?.transaction
   );
+  const faqC = (await getSiteContent("tr")).faq;
 
   const place = neighborhood?.name ?? district.name;
   const h1Parts: string[] = [place];
@@ -248,7 +250,7 @@ export default async function SegmentsPage(
       </section>
 
       {/* FAQ */}
-      <FaqSection faqs={faqs} />
+      <FaqSection faqs={faqs} eyebrow={faqC.eyebrow} title={faqC.title} />
 
       <JsonLd
         data={[

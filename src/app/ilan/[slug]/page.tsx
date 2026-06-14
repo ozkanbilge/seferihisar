@@ -24,6 +24,7 @@ import {
   Star,
   
 } from "@/components/icons";
+import { getSiteContent } from "@/lib/site-content";
 import type { Metadata } from "next";
 
 // Admin panelden eklenen/düzenlenen ilanlar anında yayında olsun
@@ -54,6 +55,8 @@ export default async function ListingDetailPage(
   const { slug } = await props.params;
   const listing = await getListing(slug);
   if (!listing) notFound();
+
+  const ld = (await getSiteContent("tr")).listingDetail;
 
   const district = districtBySlug(listing.districtSlug);
   const neighborhood = neighborhoodBySlug(
@@ -197,7 +200,7 @@ export default async function ListingDetailPage(
           {/* Features */}
           {listing.features.length > 0 && (
             <section className="mt-8">
-              <SectionTitle>Özellikler</SectionTitle>
+              <SectionTitle>{ld.featuresTitle}</SectionTitle>
               <div className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3 gap-3">
                 {listing.features.map((f) => (
                   <div
@@ -220,7 +223,7 @@ export default async function ListingDetailPage(
 
           {/* Konum — lüks harita kartı (mahalle adıyla) */}
           <section className="mt-8">
-            <SectionTitle>Konum</SectionTitle>
+            <SectionTitle>{ld.locationTitle}</SectionTitle>
             <div className="group relative rounded-[18px] p-[1.5px] bg-gradient-to-br from-gold/50 via-gold/10 to-gold/40 shadow-[0_16px_44px_rgba(0,0,0,0.18)]">
               <span className="absolute top-2 left-2 w-5 h-5 border-t border-l border-gold/70 rounded-tl z-20 pointer-events-none" aria-hidden />
               <span className="absolute top-2 right-2 w-5 h-5 border-t border-r border-gold/70 rounded-tr z-20 pointer-events-none" aria-hidden />
@@ -241,7 +244,7 @@ export default async function ListingDetailPage(
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.6rem] font-bold uppercase tracking-wider hover:shadow-[0_0_14px_rgba(192,160,98,0.45)] transition-shadow shrink-0"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 11l19-8-8 19-2.5-8.5z" /></svg>
-                    Haritada Aç
+                    {ld.mapButton}
                   </a>
                 </div>
                 <iframe
@@ -255,7 +258,7 @@ export default async function ListingDetailPage(
                   className="grayscale-[85%] contrast-[1.05] transition-all duration-700 group-hover:grayscale-0"
                 />
                 <p className="text-[0.62rem] text-fg-muted/70 px-4 py-2.5 border-t border-gold/10 leading-snug">
-                  Konum mahalle merkezini gösterir; tam adres için danışmanımızla iletişime geçin.
+                  {ld.locationNote}
                 </p>
               </div>
             </div>
@@ -310,11 +313,11 @@ export default async function ListingDetailPage(
               <div className="text-center mb-8 md:mb-10">
                 <div className="flex items-center justify-center gap-3 mb-3">
                   <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
-                  <p className="eyebrow">Size Özel Seçtik</p>
+                  <p className="eyebrow">{ld.similarEyebrow}</p>
                   <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
                 </div>
                 <h2 className="display text-2xl md:text-3xl text-fg mb-4">
-                  Benzer İlanlar
+                  {ld.similarTitle}
                 </h2>
                 <div className="flex items-center justify-center gap-2.5">
                   <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />

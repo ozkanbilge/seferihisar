@@ -12,6 +12,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema, faqSchema, itemListSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 import { ArrowRight } from "@/components/icons";
+import { getSiteContent } from "@/lib/site-content";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -42,6 +43,7 @@ export default async function DistrictPage(
   const listings = filterListings({ districtSlug: slug });
   const intro = regionIntro(district);
   const faqs = regionFaq(district);
+  const faqC = (await getSiteContent("tr")).faq;
 
   return (
     <div className="container-x py-8 md:py-12">
@@ -139,7 +141,7 @@ export default async function DistrictPage(
       </section>
 
       {/* FAQ */}
-      <FaqSection faqs={faqs} />
+      <FaqSection faqs={faqs} eyebrow={faqC.eyebrow} title={faqC.title} />
 
       <JsonLd
         data={[

@@ -14,6 +14,7 @@ import { ReadingProgress } from "@/components/ReadingProgress";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ViewCounter } from "@/components/ViewCounter";
 import { site } from "@/lib/site";
+import { getSiteContent } from "@/lib/site-content";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -42,6 +43,8 @@ export default async function BlogPostPage(
   const { slug } = await props.params;
   const post = blogBySlug(slug);
   if (!post) notFound();
+
+  const bd = (await getSiteContent("tr")).blogDetail;
 
   // Diğer yazılar: aynı kategori öncelikli
   const others = [
@@ -225,11 +228,11 @@ export default async function BlogPostPage(
               <div className="text-center mb-10">
                 <div className="flex items-center justify-center gap-3 mb-3">
                   <span className="h-px w-10 md:w-16 bg-gradient-to-r from-transparent to-gold/60" />
-                  <p className="eyebrow">Keşfetmeye Devam Edin</p>
+                  <p className="eyebrow">{bd.othersEyebrow}</p>
                   <span className="h-px w-10 md:w-16 bg-gradient-to-l from-transparent to-gold/60" />
                 </div>
                 <h2 className="display text-2xl md:text-3xl mb-4">
-                  <span className="royal-text">Diğer Yazılar</span>
+                  <span className="royal-text">{bd.othersTitle}</span>
                 </h2>
                 <div className="flex items-center justify-center gap-2.5">
                   <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold/50" />
@@ -246,7 +249,7 @@ export default async function BlogPostPage(
 
               <div className="flex justify-center mt-10">
                 <Link href="/blog" className="btn btn-gold group px-8 text-xs font-bold uppercase tracking-[0.16em]">
-                  Tüm Yazılar
+                  {bd.allPosts}
                   <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
                 </Link>
               </div>

@@ -23,6 +23,16 @@ export interface SiteContent {
   arsa: { eyebrow: string; title: string; subtitle: string; badges: string[] };
   featured: { weekPick: string; listingBadge: string; viewListing: string };
   blogSection: { featuredBadge: string };
+  faq: { eyebrow: string; title: string };
+  listingDetail: {
+    featuresTitle: string;
+    locationTitle: string;
+    locationNote: string;
+    mapButton: string;
+    similarEyebrow: string;
+    similarTitle: string;
+  };
+  blogDetail: { othersEyebrow: string; othersTitle: string; allPosts: string };
 }
 
 /* --------------------------- Varsayılan --------------------------- */
@@ -78,6 +88,24 @@ export const SITE_CONTENT_DEFAULTS: SiteContent = {
   blogSection: {
     featuredBadge: "Öne Çıkan",
   },
+  faq: {
+    eyebrow: "Merak Edilenler",
+    title: "Sık Sorulan Sorular",
+  },
+  listingDetail: {
+    featuresTitle: "Özellikler",
+    locationTitle: "Konum",
+    locationNote:
+      "Konum mahalle merkezini gösterir; tam adres için danışmanımızla iletişime geçin.",
+    mapButton: "Haritada Aç",
+    similarEyebrow: "Size Özel Seçtik",
+    similarTitle: "Benzer İlanlar",
+  },
+  blogDetail: {
+    othersEyebrow: "Keşfetmeye Devam Edin",
+    othersTitle: "Diğer Yazılar",
+    allPosts: "Tüm Yazılar",
+  },
 };
 
 /* --------------------------- Depolama --------------------------- */
@@ -127,7 +155,7 @@ function deepMerge<T>(base: T, override: unknown): T {
   return (override === undefined ? base : override) as T;
 }
 
-export async function getSiteContent(lang: Lang = "tr"): Promise<SiteContent> {
+async function readFromDb(lang: Lang): Promise<SiteContent> {
   const conn = getConnectionString();
   if (!conn) return SITE_CONTENT_DEFAULTS;
   try {
@@ -142,6 +170,23 @@ export async function getSiteContent(lang: Lang = "tr"): Promise<SiteContent> {
   }
 }
 
+/**
+ * Modül seviyesi TTL'li önbellek: tek DB çağrısı aynı süreçteki (build dahil)
+ * tüm sayfalarca paylaşılır; TTL dolunca tazelenir. Admin kaydı önbelleği temizler.
+ */
+type CacheEntry = { data: SiteContent; expires: number };
+const memo = new Map<Lang, CacheEntry>();
+const TTL_MS = 30_000;
+
+export async function getSiteContent(lang: Lang = "tr"): Promise<SiteContent> {
+  const now = Date.now();
+  const hit = memo.get(lang);
+  if (hit && hit.expires > now) return hit.data;
+  const data = await readFromDb(lang);
+  memo.set(lang, { data, expires: now + TTL_MS });
+  return data;
+}
+
 export async function saveSiteContent(lang: Lang, content: SiteContent): Promise<void> {
   const conn = getConnectionString();
   if (!conn) throw new Error("Veritabanı bağlantısı yapılandırılmamış.");
@@ -153,4 +198,5 @@ export async function saveSiteContent(lang: Lang, content: SiteContent): Promise
     VALUES (${KEY}, ${lang}, ${JSON.stringify(merged)}, now())
     ON CONFLICT (key, lang) DO UPDATE SET data = EXCLUDED.data, updated_at = now()
   `;
+  memo.delete(lang);
 }

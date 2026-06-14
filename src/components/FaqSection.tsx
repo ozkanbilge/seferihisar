@@ -11,16 +11,18 @@ interface FaqItem {
 export function FaqSection({
   faqs,
   title = "Sık Sorulan Sorular",
+  eyebrow = "Merak Edilenler",
 }: {
   faqs: FaqItem[];
   title?: string;
+  eyebrow?: string;
 }) {
   return (
     <section className="py-12 md:py-16" id="faq">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
           <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-          <p className="eyebrow">Merak Edilenler</p>
+          <p className="eyebrow">{eyebrow}</p>
           <span className="h-px flex-1 max-w-[7rem] bg-gradient-to-r from-gold/50 to-transparent" />
         </div>
         <h2 className="display text-2xl md:text-3xl">

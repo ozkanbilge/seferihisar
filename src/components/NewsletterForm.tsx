@@ -5,16 +5,22 @@ import { useState } from "react";
 /** Footer bülten aboneliği — yeni ilanlardan haberdar olma */
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "done" | "invalid" | "error">("idle");
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const value = email.trim();
+    // İstemci doğrulaması: gerçekten geçersizse net mesaj
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) {
+      setState("invalid");
+      return;
+    }
     setState("sending");
     try {
       const res = await fetch("/api/bulten", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: value }),
       });
       if (!res.ok) throw new Error();
       setState("done");
@@ -36,7 +42,7 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={submit} className="w-full max-w-xs">
+    <form onSubmit={submit} noValidate className="w-full max-w-xs">
       {/* Dar ekranda alt alta, geniş ekranda gömülü buton */}
       <div className="flex flex-col min-[400px]:flex-row min-[400px]:items-stretch gap-2 min-[400px]:gap-0 min-[400px]:relative">
         <input
@@ -58,8 +64,11 @@ export function NewsletterForm() {
           {state === "sending" ? "Gönderiliyor..." : "Abone Ol"}
         </button>
       </div>
+      {state === "invalid" && (
+        <span className="block mt-1.5 text-[0.62rem] text-red-400">Lütfen geçerli bir e-posta adresi girin.</span>
+      )}
       {state === "error" && (
-        <span className="block mt-1.5 text-[0.62rem] text-red-400">Geçerli bir e-posta girin.</span>
+        <span className="block mt-1.5 text-[0.62rem] text-red-400">Gönderilemedi, lütfen tekrar deneyin.</span>
       )}
     </form>
   );

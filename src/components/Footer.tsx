@@ -151,6 +151,36 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
         </div>
       </div>
 
+      {/* Bülten Şeridi — tam genişlik kraliyet bandı */}
+      <div className="relative border-b border-ink-line">
+        <div className="container-x py-8 md:py-10">
+          <div className="group relative overflow-hidden rounded-2xl border border-gold/25 bg-gradient-to-r from-ink-soft via-ink to-ink-soft px-6 py-6 md:px-9 md:py-7 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_14px_40px_rgba(0,0,0,0.35)]">
+            {/* Köşe süslemeleri + üst altın çizgi */}
+            <span className="absolute top-2.5 left-2.5 w-5 h-5 border-t border-l border-gold/55 rounded-tl pointer-events-none" aria-hidden />
+            <span className="absolute top-2.5 right-2.5 w-5 h-5 border-t border-r border-gold/55 rounded-tr pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b border-l border-gold/55 rounded-bl pointer-events-none" aria-hidden />
+            <span className="absolute bottom-2.5 right-2.5 w-5 h-5 border-b border-r border-gold/55 rounded-br pointer-events-none" aria-hidden />
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent pointer-events-none" aria-hidden />
+
+            {/* Sol: madalyon + başlık */}
+            <div className="relative flex items-center gap-4 text-center md:text-left">
+              <span className="hidden sm:flex w-12 h-12 rounded-full bg-gold/10 border border-gold/25 items-center justify-center shrink-0 animate-glow">
+                <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
+              </span>
+              <div>
+                <p className="eyebrow mb-1">{fc.newsletter.title}</p>
+                <p className="text-sm text-fg-invert-muted/80 max-w-md">{fc.newsletter.subtitle}</p>
+              </div>
+            </div>
+
+            {/* Sağ: form */}
+            <div className="relative w-full md:w-auto md:min-w-[20rem]">
+              <NewsletterForm />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Grid */}
       <div className="container-x py-14 md:py-16 relative">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
@@ -165,28 +195,9 @@ export async function Footer({ lang = "tr" }: { lang?: Lang }) {
                 <span className="mt-1.5 h-px w-full bg-gradient-to-r from-gold/60 to-transparent" />
               </span>
             </Link>
-            <p className="text-sm leading-relaxed mb-5 max-w-xs text-fg-invert-muted/80">
+            <p className="text-sm leading-relaxed mb-6 max-w-xs text-fg-invert-muted/80">
               {fc.brandDescription}
             </p>
-
-            {/* Bülten aboneliği — altın çerçeveli mini panel */}
-            <div className="relative mb-6 rounded-2xl card-luxe overflow-hidden p-4">
-              <span className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gold/[0.07] blur-2xl pointer-events-none" aria-hidden />
-              <div className="relative flex items-center gap-2.5 mb-1.5">
-                <span className="w-7 h-7 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center shrink-0">
-                  <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
-                </span>
-                <p className="text-[0.62rem] font-bold text-gold uppercase tracking-[0.16em]">
-                  {fc.newsletter.title}
-                </p>
-              </div>
-              <p className="relative text-[0.7rem] text-fg-invert-muted/70 mb-3 pl-9">
-                {fc.newsletter.subtitle}
-              </p>
-              <div className="relative">
-                <NewsletterForm />
-              </div>
-            </div>
 
             <div>
               <p className="text-[0.58rem] font-bold text-fg-invert-muted/60 uppercase tracking-[0.18em] mb-3">

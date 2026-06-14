@@ -4,8 +4,21 @@ import type { Listing } from "@/data/listings";
 import { formatPriceShort, formatArea } from "@/lib/format";
 import { Bed, Bath, AreaIcon, MapPin, Star, ArrowRight } from "@/components/icons";
 
+type SpotlightContent = { weekPick: string; listingBadge: string; viewListing: string };
+const SPOTLIGHT_DEFAULTS: SpotlightContent = {
+  weekPick: "Haftanın Seçimi",
+  listingBadge: "Vitrin İlanı",
+  viewListing: "İlanı İncele",
+};
+
 /** Vitrinin başındaki büyük "Haftanın Seçimi" ilanı — yatay editoryal kart */
-export function FeaturedSpotlight({ listing }: { listing: Listing }) {
+export function FeaturedSpotlight({
+  listing,
+  content = SPOTLIGHT_DEFAULTS,
+}: {
+  listing: Listing;
+  content?: SpotlightContent;
+}) {
   const isPremium = listing.tier === "premium";
   const isVitrin = listing.tier === "vitrin";
 
@@ -40,7 +53,7 @@ export function FeaturedSpotlight({ listing }: { listing: Listing }) {
         {/* Haftanın Seçimi şeridi */}
         <span className="absolute top-5 left-5 z-10 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.6rem] font-bold uppercase tracking-[0.16em] shadow-[0_4px_14px_rgba(192,160,98,0.45)]">
           <span className="w-1 h-1 rotate-45 bg-ink/60" />
-          Haftanın Seçimi
+          {content.weekPick}
         </span>
 
         {/* Fotoğraf sayısı */}
@@ -85,7 +98,7 @@ export function FeaturedSpotlight({ listing }: { listing: Listing }) {
         {/* Eyebrow */}
         <div className="flex items-center gap-2.5 mb-4">
           <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-          <p className="eyebrow">Vitrin İlanı</p>
+          <p className="eyebrow">{content.listingBadge}</p>
           <span className="h-px flex-1 max-w-[5rem] bg-gradient-to-r from-gold/50 to-transparent" />
         </div>
 
@@ -131,7 +144,7 @@ export function FeaturedSpotlight({ listing }: { listing: Listing }) {
         </div>
 
         <span className="btn btn-gold self-start px-7 text-xs font-bold uppercase tracking-[0.14em]">
-          İlanı İncele
+          {content.viewListing}
           <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </div>

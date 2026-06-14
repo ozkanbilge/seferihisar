@@ -95,7 +95,7 @@ export default async function RootLayout({
           <TickerBanner />
           <Header lang={lang} />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <Footer lang={lang} />
           <MobileBottomBar />
           <JsonLd data={[organizationSchema(), websiteSchema()]} />
         </AppProvider>

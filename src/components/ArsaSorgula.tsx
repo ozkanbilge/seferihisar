@@ -69,10 +69,18 @@ function CountUp({ value, format }: { value: number; format: (n: number) => stri
   return <>{format(display)}</>;
 }
 
-export function ArsaSorgula() {
+type ArsaContent = { eyebrow: string; title: string; subtitle: string; badges: string[] };
+
+export function ArsaSorgula({ content }: { content?: ArsaContent } = {}) {
   const [lang, setLang] = useState<Lang>("tr");
   useEffect(() => setLang(getClientLang()), []);
   const t = getDict(lang).arsa;
+  const head = {
+    eyebrow: content?.eyebrow ?? t.eyebrow,
+    title: content?.title ?? t.title,
+    subtitle: content?.subtitle ?? t.subtitle,
+    badges: content?.badges ?? ["TKGM Resmî Verisi", "Anında Sonuç", "%100 Ücretsiz"],
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -247,28 +255,28 @@ export function ArsaSorgula() {
           {/* Ücretsiz rozeti */}
           <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-gold/30 bg-gold/[0.06] text-[0.58rem] font-bold text-gold uppercase tracking-[0.16em] mb-3">
             <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-            {t.eyebrow}
+            {head.eyebrow}
           </span>
           <h2 className="display text-2xl md:text-3xl mb-3">
-            <span className="royal-text">{t.title}</span>
+            <span className="royal-text">{head.title}</span>
           </h2>
           <p className="text-fg-invert-muted text-sm leading-relaxed max-w-xl mx-auto mb-4">
-            {t.subtitle}
+            {head.subtitle}
           </p>
           {/* Güven mikro-rozetleri */}
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[0.6rem] text-fg-invert-muted/70">
-            <span className="flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" /></svg>
-              TKGM Resmî Verisi
-            </span>
-            <span className="flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>
-              Anında Sonuç
-            </span>
-            <span className="flex items-center gap-1.5">
-              <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
-              %100 Ücretsiz
-            </span>
+            {head.badges.map((b, i) => (
+              <span key={i} className="flex items-center gap-1.5">
+                <svg className="w-3 h-3 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  {[
+                    <path key="0" d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z" />,
+                    <g key="1"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></g>,
+                    <path key="2" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />,
+                  ][i % 3]}
+                </svg>
+                {b}
+              </span>
+            ))}
           </div>
         </div>
 

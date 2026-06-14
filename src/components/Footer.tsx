@@ -2,6 +2,8 @@ import Link from "next/link";
 import { site, nav } from "@/lib/site";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
+import { getSiteContent } from "@/lib/site-content";
+import type { Lang } from "@/lib/i18n";
 import { primaryDistrict } from "@/data/locations";
 import {
   Crown,
@@ -62,8 +64,9 @@ function FooterLink({
   );
 }
 
-export function Footer() {
+export async function Footer({ lang = "tr" }: { lang?: Lang }) {
   const topNeighborhoods = primaryDistrict.neighborhoods.slice(0, 6);
+  const fc = (await getSiteContent(lang)).footer;
 
   return (
     <footer className="relative bg-gradient-to-b from-ink to-[#08090c] text-fg-invert-muted overflow-hidden" id="site-footer">
@@ -95,10 +98,10 @@ export function Footer() {
                 <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" /></svg>
               </span>
               <div>
-                <p className="eyebrow mb-1.5">Hayalinizdeki Mülkü Bulun</p>
+                <p className="eyebrow mb-1.5">{fc.cta.eyebrow}</p>
                 <h2 className="font-[family-name:var(--font-cinzel)] uppercase text-lg md:text-2xl text-fg-invert tracking-[0.05em] leading-tight">
-                  Doğru Yatırım İçin{" "}
-                  <span className="royal-text font-semibold">Uzman Desteği Alın</span>
+                  {fc.cta.title}{" "}
+                  <span className="royal-text font-semibold">{fc.cta.titleGold}</span>
                 </h2>
               </div>
             </div>
@@ -121,34 +124,20 @@ export function Footer() {
       <div className="relative border-b border-ink-line">
         <div className="container-x py-7 md:py-8">
           <ul className="grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-4">
-            {[
-              {
-                title: "15+ Yıl",
-                sub: "Bölge Deneyimi",
-                icon: <><path d="M12 2l2.4 6.9H22l-6 4.4 2.3 7-6.3-4.4L5.7 20l2.3-7-6-4.4h7.6z" /></>,
-              },
-              {
-                title: "Tapu & İmar",
-                sub: "Kontrollü Portföy",
-                icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></>,
-              },
-              {
-                title: "Cittaslow",
-                sub: "Seferihisar Uzmanı",
-                icon: <><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" /><path d="M2 21c0-3 1.85-5.36 5.08-6" /></>,
-              },
-              {
-                title: "Ücretsiz",
-                sub: "Ön Danışmanlık",
-                icon: <><path d="M21 11.5a8.38 8.38 0 0 1-9 8.4 9.4 9.4 0 0 1-4-1L3 20l1.1-3.3A8.38 8.38 0 0 1 3 11.5 8.5 8.5 0 0 1 21 11.5z" /></>,
-              },
-            ].map((it, i) => (
+            {fc.trust.map((it, i) => (
               <li
-                key={it.title}
+                key={i}
                 className={`group flex items-center gap-3.5 justify-center lg:justify-start lg:px-5 ${i > 0 ? "lg:border-l lg:border-ink-line" : ""}`}
               >
                 <span className="relative shrink-0 w-11 h-11 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/15">
-                  <svg className="w-[19px] h-[19px] text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">{it.icon}</svg>
+                  <svg className="w-[19px] h-[19px] text-gold" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    {[
+                      <path key="0" d="M12 2l2.4 6.9H22l-6 4.4 2.3 7-6.3-4.4L5.7 20l2.3-7-6-4.4h7.6z" />,
+                      <g key="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></g>,
+                      <g key="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" /><path d="M2 21c0-3 1.85-5.36 5.08-6" /></g>,
+                      <path key="3" d="M21 11.5a8.38 8.38 0 0 1-9 8.4 9.4 9.4 0 0 1-4-1L3 20l1.1-3.3A8.38 8.38 0 0 1 3 11.5 8.5 8.5 0 0 1 21 11.5z" />,
+                    ][i % 4]}
+                  </svg>
                 </span>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-fg-invert leading-tight">{it.title}</p>
@@ -186,11 +175,11 @@ export function Footer() {
                   <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
                 </span>
                 <p className="text-[0.62rem] font-bold text-gold uppercase tracking-[0.16em]">
-                  Yeni İlanlardan Haberdar Olun
+                  {fc.newsletter.title}
                 </p>
               </div>
               <p className="relative text-[0.7rem] text-fg-invert-muted/70 mb-3 pl-9">
-                Fırsatları ve yeni portföyü ilk siz öğrenin.
+                {fc.newsletter.subtitle}
               </p>
               <div className="relative">
                 <NewsletterForm />
@@ -199,7 +188,7 @@ export function Footer() {
 
             <div>
               <p className="text-[0.58rem] font-bold text-fg-invert-muted/60 uppercase tracking-[0.18em] mb-3">
-                Bizi Takip Edin
+                {fc.followLabel}
               </p>
               <div className="flex items-center gap-3">
                 {[
@@ -225,7 +214,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <ColumnTitle>Hızlı Linkler</ColumnTitle>
+            <ColumnTitle>{fc.columns.quickLinks}</ColumnTitle>
             <ul className="space-y-3">
               {nav.map((item) => (
                 <li key={item.href}>
@@ -237,7 +226,7 @@ export function Footer() {
 
           {/* Popular Locations */}
           <div>
-            <ColumnTitle>Popüler Bölgeler</ColumnTitle>
+            <ColumnTitle>{fc.columns.locations}</ColumnTitle>
             <ul className="space-y-3">
               {topNeighborhoods.map((n) => (
                 <li key={n.slug}>
@@ -249,7 +238,7 @@ export function Footer() {
 
           {/* Real Estate & Deed Links */}
           <div>
-            <ColumnTitle>Emlak &amp; Tapu</ColumnTitle>
+            <ColumnTitle>{fc.columns.deed}</ColumnTitle>
             <ul className="space-y-3">
               {[
                 { label: "Web Tapu İşlemleri", href: "https://webtapu.tkgm.gov.tr/" },
@@ -269,7 +258,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <ColumnTitle>İletişim</ColumnTitle>
+            <ColumnTitle>{fc.columns.contact}</ColumnTitle>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm">
                 <span className="w-8 h-8 rounded-full bg-gold/10 border border-gold/15 flex items-center justify-center shrink-0">
@@ -328,15 +317,15 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()}{" "}
             <span className="font-[family-name:var(--font-cinzel)] tracking-wider text-gold/80 uppercase">{site.name}</span>
-            . Tüm hakları saklıdır.
+            . {fc.bottom.rights}
           </p>
           <div className="flex items-center gap-4">
             <Link href="/gizlilik" className="hover:text-gold-bright transition-colors">
-              Gizlilik Politikası
+              {fc.bottom.privacy}
             </Link>
             <span className="w-1 h-1 rotate-45 bg-gold/40" />
             <Link href="/kullanim-sartlari" className="hover:text-gold-bright transition-colors">
-              Kullanım Şartları
+              {fc.bottom.terms}
             </Link>
           </div>
         </div>

@@ -17,6 +17,7 @@ import { HeroSearch } from "@/components/HeroSearch";
 import { MiniBanner } from "@/components/MiniBanner";
 import { OtherDistricts } from "@/components/OtherDistricts";
 import { getHomepage } from "@/lib/cms";
+import { getSiteContent } from "@/lib/site-content";
 import { getDict, isLang, LANG_COOKIE, type Lang } from "@/lib/i18n";
 
 // İçerik admin panelden anlık güncellenebildiği için her istekte taze okunur
@@ -39,14 +40,12 @@ export default async function Home() {
   const cookieLang = (await cookies()).get(LANG_COOKIE)?.value;
   const lang: Lang = isLang(cookieLang) ? cookieLang : "tr";
   const c = await getHomepage(lang);
+  const sc = await getSiteContent(lang);
   const featuredListings = await getFeaturedListings();
   const t = getDict(lang);
 
-  // "Neden Biz" tanıtım metni — CMS'te ayrı alan yok, dile göre türetilir
-  const whyLead =
-    lang === "en"
-      ? "For more than 15 years we have guided buyers and investors along the Seferihisar coast — every listing checked against its title deed, every value shared transparently, every step advised by people who actually live the region."
-      : "Seferihisar kıyısında 15 yılı aşkın süredir alıcı ve yatırımcılara rehberlik ediyoruz — her ilan tapudan kontrollü, her değer şeffaf, her adım bölgeyi bizzat yaşayan uzmanların danışmanlığıyla.";
+  // "Neden Biz" tanıtım metni — admin panelden (Site Metinleri) düzenlenir
+  const whyLead = sc.whyUs.lead;
 
   return (
     <>
@@ -103,7 +102,7 @@ export default async function Home() {
       </section>
 
       {/* ══════ STATS BAR ══════ */}
-      {c.sections.stats && <StatsBar />}
+      {c.sections.stats && <StatsBar labels={sc.stats.labels} />}
 
       {/* ══════ FEATURED LISTINGS — kraliyet vitrini ══════ */}
       {c.sections.featured && (
@@ -146,7 +145,7 @@ export default async function Home() {
                   <>
                     {spotlight && (
                       <div className="mb-5 md:mb-6">
-                        <FeaturedSpotlight listing={spotlight} />
+                        <FeaturedSpotlight listing={spotlight} content={sc.featured} />
                       </div>
                     )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
@@ -308,7 +307,7 @@ export default async function Home() {
       )}
 
       {/* ══════ ARSA DEĞERİ SORGULAMA (ADA/PARSEL) ══════ */}
-      {c.sections.arsaSorgula && <ArsaSorgula />}
+      {c.sections.arsaSorgula && <ArsaSorgula content={sc.arsa} />}
 
       {/* ══════ NEIGHBORHOODS ══════ */}
       {c.sections.neighborhoods && (
@@ -482,7 +481,7 @@ export default async function Home() {
                     {i === 0 && (
                       <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.58rem] font-bold uppercase tracking-[0.16em] shadow-[0_4px_14px_rgba(192,160,98,0.45)] whitespace-nowrap">
                         <span className="w-1 h-1 rotate-45 bg-ink/60" />
-                        Öne Çıkan
+                        {sc.blogSection.featuredBadge}
                         <span className="w-1 h-1 rotate-45 bg-ink/60" />
                       </span>
                     )}

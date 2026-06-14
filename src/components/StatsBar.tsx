@@ -83,7 +83,7 @@ function StatItem({
   );
 }
 
-export function StatsBar() {
+export function StatsBar({ labels }: { labels?: string[] } = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -125,7 +125,12 @@ export function StatsBar() {
             aria-hidden
           />
           {stats.map((stat, i) => (
-            <StatItem key={stat.label} stat={stat} index={i} active={inView} />
+            <StatItem
+              key={stat.label}
+              stat={{ ...stat, label: labels?.[i] ?? stat.label }}
+              index={i}
+              active={inView}
+            />
           ))}
         </div>
       </div>

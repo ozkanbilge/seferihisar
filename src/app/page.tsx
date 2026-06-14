@@ -433,11 +433,21 @@ export default async function Home() {
 
       {/* ══════ SEO METNİ — Seferihisar Emlak ══════ */}
       {lang === "tr" && (
-        <section className="bg-cream-soft border-t border-cream-line" id="seferihisar-emlak-rehberi">
-          <div className="container-x py-14 md:py-16">
-            <h2 className="display text-2xl md:text-3xl text-fg mb-6">
+        <section className="relative bg-cream-soft border-t border-cream-line overflow-hidden" id="seferihisar-emlak-rehberi">
+          <div className="absolute -bottom-16 left-1/4 w-[480px] h-[280px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+          <div className="container-x py-14 md:py-16 relative">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+              <p className="eyebrow">Yatırım Rehberi</p>
+              <span className="h-px flex-1 max-w-[7rem] bg-gradient-to-r from-gold/50 to-transparent" />
+            </div>
+            <h2 className="display text-2xl md:text-3xl text-fg mb-3">
               Seferihisar Emlak Piyasası ve Yatırım Rehberi
             </h2>
+            <div className="flex items-center gap-2.5 mb-6">
+              <span className="h-px w-16 bg-gradient-to-r from-gold/55 to-transparent" />
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold/70" />
+            </div>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 text-sm leading-relaxed text-fg-muted">
               <div className="space-y-4">
                 <p>

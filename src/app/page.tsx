@@ -266,7 +266,7 @@ export default async function Home() {
                   {d.priority === 1 && (
                     <span className="absolute top-3 left-3 z-20 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.5rem] font-bold uppercase tracking-[0.12em] shadow-[0_2px_8px_rgba(192,160,98,0.4)]">
                       <svg className="w-2 h-2" fill="currentColor" viewBox="0 0 24 24"><path d="M4 17h16M5 15l1.5-8L11 12l1-7 1 7 4.5-5L19 15z" /></svg>
-                      Vitrin
+                      {sc.districts.vitrinBadge}
                     </span>
                   )}
                   <div className="absolute bottom-5 left-5 right-5 z-10">
@@ -278,14 +278,14 @@ export default async function Home() {
                         </h3>
                       </span>
                       <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-ink/60 backdrop-blur border border-gold/25 text-[0.55rem] font-bold text-gold-bright">
-                        {d.neighborhoods.length} Mahalle
+                        {d.neighborhoods.length} {sc.districts.neighborhoodWord}
                       </span>
                     </div>
                     <p className="text-[0.7rem] text-fg-invert-muted/90 line-clamp-2 leading-relaxed">
                       {d.summary}
                     </p>
                     <span className="inline-flex items-center gap-1 mt-2 text-[0.6rem] font-bold text-gold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-1 group-hover:translate-x-0">
-                      Keşfet
+                      {sc.districts.explore}
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
                     </span>
                   </div>
@@ -525,12 +525,12 @@ export default async function Home() {
                 {/* Başlık */}
                 <div className="flex items-center gap-3 mb-3">
                   <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
-                  <p className="eyebrow">Yatırım Rehberi</p>
+                  <p className="eyebrow">{sc.guide.eyebrow}</p>
                   <span className="h-px flex-1 max-w-[7rem] bg-gradient-to-r from-gold/50 to-transparent" />
                 </div>
                 <h2 className="display text-2xl md:text-[2.1rem] text-fg leading-tight mb-3">
-                  Seferihisar Emlak Piyasası ve{" "}
-                  <span className="royal-text">Yatırım Rehberi</span>
+                  {sc.guide.titleLead}{" "}
+                  <span className="royal-text">{sc.guide.titleGold}</span>
                 </h2>
                 <div className="flex items-center gap-2.5 mb-9">
                   <span className="h-px w-16 bg-gradient-to-r from-gold/55 to-transparent" />
@@ -560,48 +560,34 @@ export default async function Home() {
                       {/* Cittaslow rozeti */}
                       <span className="absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-ink/55 backdrop-blur border border-gold/30 text-gold-bright text-[0.58rem] font-bold uppercase tracking-[0.14em]">
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" /><path d="M2 21c0-3 1.85-5.36 5.08-6" /></svg>
-                        Cittaslow · Sakin Şehir
+                        {sc.guide.cittaslow}
                       </span>
 
                       {/* Alt başlık */}
                       <div className="absolute bottom-4 left-4 right-4 z-10">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="w-1.5 h-1.5 rotate-45 bg-gold" />
-                          <p className="display text-xl text-fg-invert">Seferihisar</p>
+                          <p className="display text-xl text-fg-invert">{sc.guide.place}</p>
                         </div>
                         <p className="text-[0.7rem] text-fg-invert-muted/90 tracking-wide">
-                          İzmir&apos;in sakin kıyısı · Ege
+                          {sc.guide.caption}
                         </p>
                       </div>
                     </div>
 
                     {/* Yatırım avantajları */}
                     <ul className="mt-6 space-y-3.5">
-                      {[
-                        {
-                          title: "Sınırlı Yapılaşma",
-                          desc: "Sakin şehir imar planları arzı kısıtlar, stoğu kıymetlendirir.",
-                          icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
-                        },
-                        {
-                          title: "Sahil Şeridi",
-                          desc: "Sığacık, Akarca ve Akkum koyları çevresinde değer odağı.",
-                          icon: <><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1" /><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1" /><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1" /></>,
-                        },
-                        {
-                          title: "Doğrulanmış Portföy",
-                          desc: "Tapu ve imar kontrolünden geçmiş ilanlar.",
-                          icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></>,
-                        },
-                        {
-                          title: "Uzun Vadeli Değer",
-                          desc: "Reel fiyat koruması ve yaz aylarında kira getirisi.",
-                          icon: <><path d="M23 6l-9.5 9.5-5-5L1 18" /><path d="M17 6h6v6" /></>,
-                        },
-                      ].map((h) => (
+                      {sc.guide.highlights.map((h, hi) => (
                         <li key={h.title} className="group/h flex items-start gap-3.5">
                           <span className="relative shrink-0 w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center transition-all duration-300 group-hover/h:border-gold/45 group-hover/h:bg-gold/15">
-                            <svg className="w-[18px] h-[18px] text-gold" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">{h.icon}</svg>
+                            <svg className="w-[18px] h-[18px] text-gold" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                              {[
+                                <path key="0" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
+                                <g key="1"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1" /><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1" /><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1" /></g>,
+                                <g key="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></g>,
+                                <g key="3"><path d="M23 6l-9.5 9.5-5-5L1 18" /><path d="M17 6h6v6" /></g>,
+                              ][hi % 4]}
+                            </svg>
                           </span>
                           <div className="min-w-0 pt-0.5">
                             <p className="text-sm font-bold text-fg leading-snug">{h.title}</p>
@@ -648,7 +634,7 @@ export default async function Home() {
                     <blockquote className="relative my-6 pl-5 py-1 border-l-2 border-gold/50">
                       <span className="absolute -left-px top-0 h-6 w-0.5 bg-gradient-to-b from-gold-bright to-transparent" />
                       <p className="display text-lg md:text-xl text-fg leading-snug italic">
-                        “Sınırlı imar ve artan talep, deniz manzaralı arsalarda değeri reel olarak korur.”
+                        “{sc.guide.quote}”
                       </p>
                     </blockquote>
                     <p>

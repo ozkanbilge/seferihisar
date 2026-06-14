@@ -23,6 +23,7 @@ export interface SiteContent {
   arsa: { eyebrow: string; title: string; subtitle: string; badges: string[] };
   featured: { weekPick: string; listingBadge: string; viewListing: string };
   blogSection: { featuredBadge: string };
+  districts: { vitrinBadge: string; neighborhoodWord: string; explore: string };
   faq: { eyebrow: string; title: string };
   listingDetail: {
     featuresTitle: string;
@@ -33,6 +34,16 @@ export interface SiteContent {
     similarTitle: string;
   };
   blogDetail: { othersEyebrow: string; othersTitle: string; allPosts: string };
+  guide: {
+    eyebrow: string;
+    titleLead: string;
+    titleGold: string;
+    cittaslow: string;
+    place: string;
+    caption: string;
+    quote: string;
+    highlights: { title: string; desc: string }[];
+  };
 }
 
 /* --------------------------- Varsayılan --------------------------- */
@@ -88,6 +99,11 @@ export const SITE_CONTENT_DEFAULTS: SiteContent = {
   blogSection: {
     featuredBadge: "Öne Çıkan",
   },
+  districts: {
+    vitrinBadge: "Vitrin",
+    neighborhoodWord: "Mahalle",
+    explore: "Keşfet",
+  },
   faq: {
     eyebrow: "Merak Edilenler",
     title: "Sık Sorulan Sorular",
@@ -105,6 +121,22 @@ export const SITE_CONTENT_DEFAULTS: SiteContent = {
     othersEyebrow: "Keşfetmeye Devam Edin",
     othersTitle: "Diğer Yazılar",
     allPosts: "Tüm Yazılar",
+  },
+  guide: {
+    eyebrow: "Yatırım Rehberi",
+    titleLead: "Seferihisar Emlak Piyasası ve",
+    titleGold: "Yatırım Rehberi",
+    cittaslow: "Cittaslow · Sakin Şehir",
+    place: "Seferihisar",
+    caption: "İzmir'in sakin kıyısı · Ege",
+    quote:
+      "Sınırlı imar ve artan talep, deniz manzaralı arsalarda değeri reel olarak korur.",
+    highlights: [
+      { title: "Sınırlı Yapılaşma", desc: "Sakin şehir imar planları arzı kısıtlar, stoğu kıymetlendirir." },
+      { title: "Sahil Şeridi", desc: "Sığacık, Akarca ve Akkum koyları çevresinde değer odağı." },
+      { title: "Doğrulanmış Portföy", desc: "Tapu ve imar kontrolünden geçmiş ilanlar." },
+      { title: "Uzun Vadeli Değer", desc: "Reel fiyat koruması ve yaz aylarında kira getirisi." },
+    ],
   },
 };
 

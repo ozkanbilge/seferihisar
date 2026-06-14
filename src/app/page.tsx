@@ -310,8 +310,8 @@ export default async function Home() {
                 <p className="eyebrow">{c.neighborhoods.eyebrow}</p>
                 <span className="h-px w-12 bg-gradient-to-r from-gold/50 to-transparent" />
               </div>
-              <h2 className="display text-3xl md:text-4xl text-fg">
-                {c.neighborhoods.title}
+              <h2 className="display text-3xl md:text-4xl">
+                <span className="royal-text">{c.neighborhoods.title}</span>
               </h2>
               <span className="block h-px w-24 mt-4 bg-gradient-to-r from-gold/50 to-transparent" />
             </div>

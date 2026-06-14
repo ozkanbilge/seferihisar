@@ -242,10 +242,13 @@ export default function AdminPage() {
         </div>
 
         {/* Appointments Section */}
-        <div className="bg-surface border border-cream-line rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-surface border border-gold/15 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden relative">
           {/* Table Toolbar */}
-          <div className="p-6 border-b border-cream-line flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <h2 className="display text-xl text-fg">Randevu İstekleri</h2>
+          <div className="p-6 border-b border-gold/15 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <h2 className="display text-xl text-fg flex items-center gap-2.5">
+              <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+              Randevu İstekleri
+            </h2>
 
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-1.5 bg-cream-soft border border-cream-line p-1 rounded-xl">
@@ -260,8 +263,8 @@ export default function AdminPage() {
                   onClick={() => setFilter(tab.id as "all" | "pending" | "approved" | "cancelled")}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     filter === tab.id
-                      ? "bg-surface text-gold-deep shadow-sm"
-                      : "text-fg-muted hover:text-fg"
+                      ? "bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink shadow-[0_2px_10px_rgba(192,160,98,0.35)]"
+                      : "text-fg-muted hover:text-gold-bright"
                   }`}
                 >
                   {tab.label}
@@ -280,7 +283,7 @@ export default function AdminPage() {
               {filteredApps.map((app) => (
                 <div
                   key={app.id}
-                  className="p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 hover:bg-cream-soft/30 transition-colors"
+                  className="p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6 hover:bg-gold/[0.04] transition-colors border-l-2 border-transparent hover:border-gold/40"
                 >
                   <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-3">

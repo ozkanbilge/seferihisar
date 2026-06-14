@@ -347,26 +347,41 @@ export default async function Home() {
 
       {/* ══════ BLOG / INSIGHTS ══════ */}
       {c.sections.blog && (
-        <section className="container-x py-16 md:py-20" id="insights">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+        <section className="relative container-x py-16 md:py-20 overflow-hidden" id="insights">
+          <div className="absolute -top-10 right-0 w-[400px] h-[260px] rounded-full bg-gold/[0.05] blur-3xl animate-ambient pointer-events-none" />
+          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between mb-10">
             <div>
-              <p className="eyebrow mb-3">{c.blog.eyebrow}</p>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-1.5 h-1.5 rotate-45 bg-gold shrink-0" />
+                <p className="eyebrow">{c.blog.eyebrow}</p>
+                <span className="h-px w-12 bg-gradient-to-r from-gold/50 to-transparent" />
+              </div>
               <h2 className="display text-3xl md:text-4xl text-fg">
                 {c.blog.title}
               </h2>
+              <span className="block h-px w-24 mt-4 bg-gradient-to-r from-gold/50 to-transparent" />
             </div>
             <Link
               href="/blog"
-              className="btn btn-outline mt-6 md:mt-0 self-start md:self-auto"
+              className="btn btn-outline group mt-6 md:mt-0 self-start md:self-auto"
             >
               {t.viewAllPosts}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogPosts.slice(0, 3).map((post) => (
-              <BlogCard key={post.slug} post={post} />
+          <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {blogPosts.slice(0, 3).map((post, i) => (
+              <div key={post.slug} className={`relative ${i === 0 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
+                {i === 0 && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright text-ink text-[0.58rem] font-bold uppercase tracking-[0.16em] shadow-[0_4px_14px_rgba(192,160,98,0.45)] whitespace-nowrap">
+                    <span className="w-1 h-1 rotate-45 bg-ink/60" />
+                    Öne Çıkan
+                    <span className="w-1 h-1 rotate-45 bg-ink/60" />
+                  </span>
+                )}
+                <BlogCard post={post} />
+              </div>
             ))}
           </div>
         </section>

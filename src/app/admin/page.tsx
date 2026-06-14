@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { site } from "@/lib/site";
 import { listings } from "@/data/listings";
-import { Phone, Logo } from "@/components/icons";
+import { Phone, Crown } from "@/components/icons";
 import { HomepageEditor } from "@/components/admin/HomepageEditor";
 import { ParselLogs } from "@/components/admin/ParselLogs";
 import { EmsalEditor } from "@/components/admin/EmsalEditor";
@@ -105,7 +105,7 @@ export default function AdminPage() {
               {/* Halkalı logo */}
               <div className="relative inline-flex mb-4">
                 <span className="absolute inset-0 rounded-full bg-gold/15 blur-xl animate-glow" />
-                <Logo className="relative w-20 h-20 text-gold" />
+                <Crown className="relative w-24 h-24 text-gold" />
               </div>
               <div className="flex items-center justify-center gap-2.5 mb-3">
                 <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/60" />
